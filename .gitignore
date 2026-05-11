@@ -1,0 +1,86 @@
+test.txt
+.opencode/plugins
+.opencode/opencode.json
+
+# ==============================
+# Hệ điều hành (OS Files)
+# ==============================
+.DS_Store
+Thumbs.db
+
+# ==============================
+# IDEs / Editors
+# ==============================
+.idea/
+.vscode/
+*.swp
+*.iml
+
+# ==============================
+# Node.js / React (Admin Dashboard)
+# ==============================
+node_modules/
+dist/
+build/
+out/
+npm-debug.log
+yarn-error.log
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ==============================
+# Java / Spring Boot (Backend)
+# ==============================
+target/
+.gradle/
+build/
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# ==============================
+# Python / FastAPI (AI Service)
+# ==============================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+ENV/
+.pytest_cache/
+
+# ==============================
+# Flutter / Dart (Frontend Mobile)
+# ==============================
+.dart_tool/
+.packages
+.pub-cache/
+.pub/
+build/
+flutter_*.png
+
+# ==============================
+# Miscellaneous
+# ==============================
+*.log
+
+# ==============================
+# IDEs / Editors
+# ==============================
+.idea/
+.vscode/
+
+
+# ==============================
+# Env
+# ==============================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
