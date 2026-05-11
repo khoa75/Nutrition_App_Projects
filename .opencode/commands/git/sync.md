@@ -1,23 +1,23 @@
 # Git Sync & Remote
 
-Các lệnh để đồng bộ mã nguồn với server (GitHub/GitLab).
+Commands to synchronize source code with the server (GitHub/GitLab).
 
-## 1. Đẩy code lên server
+## 1. Push code to server
 ```bash
 git push origin <branch-name>
 ```
 
-## 2. Tải code mới về
+## 2. Pull latest code
 ```bash
 git pull origin main
 ```
 
-## 3. Cập nhật thông tin từ remote
+## 3. Update information from remote
 ```bash
 git fetch origin
 ```
 
-## 4. Kiểm tra remote URL
+## 4. Check remote URL
 ```bash
 git remote -v
 ```

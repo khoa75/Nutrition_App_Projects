@@ -1,72 +1,65 @@
 # Nutrition App - Development Guidelines (Index)
 
-**Nutrition App** là ứng dụng quản lý sức khỏe, chế độ ăn uống, theo dõi cân nặng và phân tích calo bằng AI.
+**Nutrition App** is a health management, diet, weight tracking, and AI-powered calorie analysis application.
 
-> **Lưu ý quan trọng**: File `OPENCODE.md` này hiện đóng vai trò là "Mục lục" (Index) điều hướng cho hệ thống tài liệu. Đừng cố gắng tìm mọi chi tiết kỹ thuật ở đây. Hãy đọc các tài liệu chuyên sâu được liên kết bên dưới trước khi bắt đầu code.
+> **Important Note**: This `AGENTS.md` file currently serves as the "Index" (Table of Contents) for the documentation system. Do not look for every technical detail here. Please read the in-depth documentation linked below before starting to code.
 
 ---
 
-## 1. Cấu Trúc Tài Liệu (Documentation Structure)
-Toàn bộ tài liệu quy chuẩn được phân bổ rõ ràng vào các thư mục:
+## 1. Documentation Structure
+All standard documentation is clearly distributed into folders:
 
-### Yêu Cầu Sản Phẩm
+### Product Requirements
 - **[PRD.md](PRD.md)**: Product Requirements Document (User Stories, Metrics, Personas).
 
-### Kiến Thức & Bối Cảnh (`.opencode/context/`)
-- `project_overview.md`: Mục tiêu cốt lõi và lộ trình chi tiết.
-- `domain_knowledge.md`: Kiến thức y tế (Công thức BMI, BMR, TDEE, Macros).
-- `tech_stack.md`: Cấu trúc kỹ thuật và hệ thống Backend/Frontend/AI.
+### Knowledge & Context (`.opencode/context/`)
+- `project_overview.md`: Core objectives and detailed roadmap.
+- `domain_knowledge.md`: Medical knowledge (BMI, BMR, TDEE, Macros formulas).
+- `tech_stack.md`: Technical structure and Backend/Frontend/AI systems.
 
-### Quy Trình Chuẩn (`.opencode/workflows/`)
-- `build_feature.md`: Quy trình xây dựng tính năng mới.
-- `refactor.md`: Quy trình tái cấu trúc code an toàn.
-- `debug.md`: Các bước cô lập và sửa lỗi.
-- `write_tests.md`: Tiêu chuẩn viết Unit & Integration Tests.
+### Standard Workflows (`.opencode/workflows/`)
+- `build_feature.md`: Workflow for building new features.
+- `refactor.md`: Workflow for safe code refactoring.
+- `debug.md`: Steps for isolating and fixing bugs.
+- `write_tests.md`: Standards for writing Unit & Integration Tests.
+- `ci_cd.md`: Automated testing and deployment workflow (CI/CD).
 
-### Quy Tắc Bắt Buộc (`.opencode/rules/`)
-- `code_standards.md`: Tiêu chuẩn viết code (Naming, Package-by-feature).
-- `security_and_error_handling.md`: Tiêu chuẩn bảo mật (JWT, BCrypt) và xử lý lỗi.
-- `git_workflow.md`: Quy trình chia nhánh và tạo PR.
-- `testing_guidelines.md`: Quy định về độ phủ code (>80%).
+### Mandatory Rules (`.opencode/rules/`)
+- `code_standards.md`: Coding standards (Naming, Package-by-feature).
+- `security_and_error_handling.md`: Security standards (JWT, BCrypt) and error handling.
+- `git_workflow.md`: Branching and PR process.
+- `testing_guidelines.md`: Code coverage regulations (>80%).
 
-### Prompts Lập Trình (`.opencode/prompts/`)
-Sử dụng các prompt nguyên tử (atomic prompts) trong thư mục này để giao việc cho AI:
-- `bmi_calculation.md`
-- `nutrition_recommendation.md`
-- `food_recognition.md`
-- `dashboard_tracking.md`
-- `admin_management.md`
-
-### Lưu Trữ & Kỹ Năng
-- `.opencode/memory/`: Theo dõi tiến độ và trạng thái.
-- `.opencode/skills/`: Kỹ năng code chuyên biệt cho Spring Boot, Flutter, FastAPI, React.
+### Storage & Skills
+- `.opencode/memory/`: Progress and status tracking.
+- `.opencode/skills/`: Specialized coding skills for Spring Boot, Flutter, FastAPI, React.
 
 ---
 
-## 2. Kiến Trúc Cốt Lõi (Architecture Strategy)
-**Kiến trúc: Modular Monolith**
-- Dự án tuyệt đối **KHÔNG sử dụng Microservices**.
-- Backend (Spring Boot) tổ chức theo **Package-by-Feature**, các module (user, meals, nutrition, admin) chạy trong cùng một codebase.
-- **Ranh giới module**: Giao tiếp giữa các module phải thông qua **Internal Service Interfaces**, nghiêm cấm truy cập chéo Database hoặc Repository của nhau.
-- Phân tích AI được xử lý tách biệt qua **FastAPI + PyTorch**.
+## 2. Architecture Strategy
+**Architecture: Modular Monolith**
+- The project absolutely **DOES NOT use Microservices**.
+- Backend (Spring Boot) is organized by **Package-by-Feature**, modules (user, meals, nutrition, admin) run in the same codebase.
+- **Module Boundaries**: Communication between modules must be through **Internal Service Interfaces**; cross-accessing each other's Database or Repository is strictly prohibited.
+- AI analysis is handled separately via **FastAPI + PyTorch**.
 
 ---
 
-## 3. Lộ Trình Phát Triển Tóm Tắt (Roadmap)
-- **Phase 1 (MVP)**: Auth, tính toán BMI, nhập liệu thủ công, UI Dashboard cơ bản.
-- **Phase 2 (AI)**: Nhận diện ảnh món ăn (FastAPI), hệ thống gợi ý TDEE/Macro.
-- **Phase 3 (Admin & Scale)**: Dashboard Admin (React), Audit Logs, tối ưu hiệu năng.
-- **Phase 4 (Advanced)**: Tích hợp smartwatch, tính năng cộng đồng.
+## 3. Development Roadmap Summary
+- **Phase 1 (MVP)**: Auth, BMI calculation, manual data entry, basic Dashboard UI.
+- **Phase 2 (AI)**: Food image recognition (FastAPI), TDEE/Macro recommendation system.
+- **Phase 3 (Admin & Scale)**: Admin Dashboard (React), Audit Logs, performance optimization.
+- **Phase 4 (Advanced)**: Smartwatch integration, community features.
 
 ---
 
-## 4. Ràng Buộc (Constraints)
-- **Hiệu năng (Performance)**: Thời gian phản hồi của mọi API (API response) phải nhỏ hơn 2 giây (< 2s).
-- **Khả năng mở rộng (Scalability)**: Hệ thống phải thiết kế để có thể chịu tải và mở rộng lên đến 100.000 người dùng (Scalable to 100K users).
-- **Trí tuệ nhân tạo (AI)**: Độ chính xác của mô hình nhận diện món ăn (Food Recognition) phải đạt mức lớn hơn 80%.
-- **Toàn vẹn kiến trúc (Architecture)**: Tuyệt đối không viết Business Logic bên trong Controller. Phải tuân thủ kiến trúc đã định (Modular Monolith / Clean Architecture).
+## 4. Constraints
+- **Performance**: Response time for all APIs must be less than 2 seconds (< 2s).
+- **Scalability**: The system must be designed to handle and scale up to 100,000 users (Scalable to 100K users).
+- **Artificial Intelligence (AI)**: Accuracy of the Food Recognition model must reach over 80%.
+- **Architectural Integrity**: Absolutely no Business Logic inside Controllers. Must adhere to the defined architecture (Modular Monolith / Clean Architecture).
 
-## 5. Các Lệnh Thường Dùng (Useful Commands)
+## 5. Useful Commands
 ```bash
 # Backend (Spring Boot)
 ./mvnw spring-boot:run
@@ -82,11 +75,11 @@ npm install
 npm run dev
 ```
 
-## 6. Lưu ý Quan trọng (Important)
-Luôn luôn:
-- Tuân thủ kiến trúc phân lớp (layered architecture).
-- Viết mã nguồn dễ bảo trì và dễ kiểm thử (maintainable, testable code).
-- Giải thích rõ ràng tư duy/lý do khi tạo ra các đoạn logic phức tạp.
+## 6. Important Notes
+Always:
+- Adhere to layered architecture.
+- Write maintainable and testable code.
+- Clearly explain the reasoning/logic when creating complex segments.
 
 ---
 **Last Updated:** May 2026

@@ -1,31 +1,31 @@
-# Ngăn Xếp Công Nghệ (Tech Stack)
+# Technology Stack (Tech Stack)
 
-Dự án **Nutrition App** được xây dựng hoàn toàn với kiến trúc **Modular Monolith**.
+The **Nutrition App** project is built entirely with a **Modular Monolith** architecture.
 
 ## 1. Backend Core (Business Logic & API)
-- **Framework:** Spring Boot (Java 17)
-- **Database:** MongoDB (Sử dụng Spring Data MongoDB)
+- **Framework:** Spring Boot (Java 21)
+- **Database:** MongoDB (Using Spring Data MongoDB)
 - **Authentication:** JWT (JSON Web Tokens)
-- **Security:** Spring Security, BCrypt (Mã hóa mật khẩu)
-- **File Storage:** Cloudinary hoặc Amazon S3
+- **Security:** Spring Security, BCrypt (Password encryption)
+- **File Storage:** Cloudinary or Amazon S3
 
-## 2. AI / ML Service (Phân Tích & Nhận Diện)
+## 2. AI / ML Service (Analysis & Recognition)
 - **Framework:** FastAPI (Python)
-- **Package Manager:** `uv` (Nhanh và hiện đại hơn pip/poetry)
+- **Package Manager:** `uv` (Faster and more modern than pip/poetry)
 - **Machine Learning:** PyTorch
-- **Chức năng chính:** Nhận diện hình ảnh món ăn, phân tích ước lượng lượng calo.
+- **Core Features:** Food image recognition, calorie estimation analysis.
 
 ## 3. Frontend Client
-### Mobile App (Dành cho End User)
+### Mobile App (For End Users)
 - **Framework:** Flutter (Dart)
 - **State Management:** Provider / Riverpod
 - **UI Design:** Flutter Material & Cupertino
 
-### Web Admin Dashboard (Dành cho Admin)
-- **Framework:** React.js và Tailwind CSS
+### Web Admin Dashboard (For Admins)
+- **Framework:** React.js and Tailwind CSS
 - **UI Library:** Ant Design Pro / AdminLTE
 
-## 4. DevOps & Cấu Hình
+## 4. DevOps & Configuration
 - **Cloud Hosting:** AWS / GCP
 - **Database Hosting:** MongoDB Atlas
 - **CI/CD:** GitHub Actions

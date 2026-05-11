@@ -3,7 +3,7 @@
 This document defines the coding standards for the Nutrition App project.
 
 ## 1. Backend Standards (Spring Boot & Java)
-- **Language**: Java 17+.
+- **Language**: Java 21+.
 - **Layering**: `Controller` → `Service` → `Repository`.
 - **Logic**: No business logic in Controllers.
 - **Naming**:
@@ -21,6 +21,7 @@ This document defines the coding standards for the Nutrition App project.
 - Use `snake_case` for field names in collections.
 - Define explicit indexes for performance.
 
-## 4. Git Workflow
-- **Branches**: `feature/<name>`, `bugfix/<name>`, `fix/<name>`.
-- **Commits**: Atomic commits with reference to User Stories (e.g., "US-1: User Registration").
+## 4. Testing & Quality Assurance
+- **TDD (Test-Driven Development)**: Always write Unit Tests for business logic before implementing the actual source code (Test-First approach).
+- **Coverage**: Ensure Code Coverage reaches a minimum of **80%** for Service and Controller layers.
+- **Automation**: All Unit and Integration Tests must be automatically run in the CI/CD pipeline.

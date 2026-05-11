@@ -1,25 +1,25 @@
 # Advanced Git Commands
 
-Các lệnh nâng cao để xử lý xung đột và quản lý trạng thái code.
+Advanced commands for handling conflicts and managing code states.
 
-## 1. Hợp nhất nhánh (Merge)
+## 1. Merging Branches
 ```bash
 git merge <branch>
 ```
 
-## 2. Cập nhật nhánh dựa trên main (Rebase)
+## 2. Rebase Branch based on main
 ```bash
 git rebase main
 ```
 
-## 3. Lưu tạm thay đổi (Stash)
+## 3. Temporarily Save Changes (Stash)
 ```bash
 git stash
 git stash pop
 ```
 
-## 4. Reset trạng thái code
+## 4. Reset Code State
 ```bash
 git reset --hard HEAD
 ```
-- **Lưu ý**: Lệnh này sẽ xóa bỏ toàn bộ thay đổi chưa commit. Hãy cẩn thận!
+- **Note**: This command will delete all uncommitted changes. Use with caution!

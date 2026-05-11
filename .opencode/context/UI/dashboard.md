@@ -1,48 +1,48 @@
-# Màn Hình Dashboard (Progress Tracking)
+# Dashboard Screen (Progress Tracking)
 
-Đây là màn hình chính (Trang chủ) mà người dùng nhìn thấy mỗi ngày, được thiết kế để gây ấn tượng mạnh (WOW) bằng giao diện trực quan, sang trọng và giàu dữ liệu nhưng không rối mắt.
+This is the main screen (Home) that users see every day, designed to make a strong impression (WOW) with a visual, elegant, and data-rich interface that remains uncluttered.
 
-## 1. Cấu Trúc Tổng Quan (Layout)
-Màn hình được cuộn dọc, nền sử dụng màu `#0F172A` (Dark Slate). Có một gradient mờ ảo tỏa ra từ góc trên bên phải màn hình (màu `#10B981` opacity 15%) tạo chiều sâu.
+## 1. Overall Structure (Layout)
+The screen is vertically scrollable, with a background color of `#0F172A` (Dark Slate). There is a faint gradient radiating from the top right corner (color `#10B981` with 15% opacity) to create depth.
 
-### Header (Phần đầu trang)
-- Góc trái: Lời chào cá nhân hóa "Chào buổi sáng, Khoa! 👋" (Chữ Trắng `#F8FAFC`, font `Outfit` SemiBold 24px).
-- Góc phải: Avatar người dùng hình tròn, viền mỏng màu Primary Green.
+### Header
+- Left corner: Personalized greeting "Good morning, Khoa! 👋" (White text `#F8FAFC`, font `Outfit` SemiBold 24px).
+- Right corner: Circular user avatar with a thin Primary Green border.
 
-## 2. Thẻ Trọng Tâm: Vòng Tròn Calo (Calorie Ring Card)
-Nằm ngay dưới Header, đây là điểm nhấn thị giác lớn nhất.
-- **Background**: Card bo góc 24px, áp dụng hiệu ứng **Glassmorphism** (nền bán trong suốt, blur 12px, viền sáng 1px).
-- **Trung tâm**: Một vòng tròn khuyết (Circular Progress) cỡ lớn.
-  - Vòng nền: `#334155` (Slate 700).
-  - Vòng tiến trình: Sử dụng dải Gradient từ `#10B981` (Mint) sang `#3B82F6` (Xanh dương).
-  - **Animation**: Khi load, dải màu chạy từ 0 đến phần trăm tiêu thụ với hiệu ứng phát sáng nhẹ (Glow).
-- **Text bên trong vòng tròn**:
-  - Số lớn (Hiển thị nổi bật): "1,450" (font Bold 40px).
-  - Label nhỏ phía dưới: "Kcal đã nạp".
-- **Góc dưới Card**: Hiển thị text "Còn lại: 550 Kcal" màu Xanh mint.
+## 2. Focal Card: Calorie Ring (Calorie Ring Card)
+Located immediately below the Header, this is the largest visual highlight.
+- **Background**: 24px rounded Card, applying a **Glassmorphism** effect (semi-transparent background, 12px blur, 1px light border).
+- **Center**: A large circular progress ring (Circular Progress).
+  - Background ring: `#334155` (Slate 700).
+  - Progress ring: Uses a Gradient from `#10B981` (Mint) to `#3B82F6` (Blue).
+  - **Animation**: When loading, the color band runs from 0 to the consumption percentage with a subtle glow effect (Glow).
+- **Text inside the ring**:
+  - Large number (prominently displayed): "1,450" (font Bold 40px).
+  - Small label below: "Kcal consumed".
+- **Bottom of the Card**: Displays text "Remaining: 550 Kcal" in Mint Green.
 
-## 3. Thẻ Dinh Dưỡng Đa Lượng (Macros Breakdown)
-Nằm dưới vòng tròn Calo, hiển thị 3 chỉ số: Protein, Carbs, Fats.
-- Bố cục: 3 cột nằm ngang (Row). Mỗi cột chứa:
-  - Label (VD: "Protein").
-  - Thanh Linear Progress nhỏ.
-  - Số liệu (VD: "45g / 120g").
-- **Màu sắc thanh tiến trình**:
-  - Protein: Gradient Đỏ hồng (`#E11D48`).
-  - Carbs: Gradient Cam (`#F59E0B`).
-  - Fats: Gradient Tím (`#8B5CF6`).
+## 3. Macronutrients Breakdown (Macros Breakdown)
+Located below the Calorie ring, displaying 3 metrics: Protein, Carbs, Fats.
+- Layout: 3 horizontal columns (Row). Each column contains:
+  - Label (e.g., "Protein").
+  - Small Linear Progress bar.
+  - Data (e.g., "45g / 120g").
+- **Progress bar colors**:
+  - Protein: Rose Red Gradient (`#E11D48`).
+  - Carbs: Orange Gradient (`#F59E0B`).
+  - Fats: Purple Gradient (`#8B5CF6`).
 
-## 4. Khu Vực Bữa Ăn Trong Ngày (Today's Meals)
-Hiển thị dạng List theo chiều dọc.
-- Tiêu đề: "Các bữa ăn hôm nay" (Size 20px, SemiBold). Nút "Xem tất cả" nhỏ bên phải.
+## 4. Today's Meals Area
+Displayed as a vertical list.
+- Title: "Today's Meals" (Size 20px, SemiBold). Small "View all" button on the right.
 - **Meal Card**:
-  - Nền đen nhạt (`#1E293B`), bo góc 16px. Có hiệu ứng nhô lên nhẹ khi hover/tap.
-  - Trái: Hình ảnh thu nhỏ (Thumbnail) của món ăn, bo tròn, có filter làm tối nhẹ góc ảnh.
-  - Giữa: Tên món (VD: "Ức gà nướng áp chảo"), dưới là giờ ăn ("12:30 PM").
-  - Phải: Tổng lượng Calo của món ("+350 kcal", màu Primary Green).
+  - Light black background (`#1E293B`), 16px rounded corners. Has a slight elevation effect on hover/tap.
+  - Left: Food thumbnail image, rounded, with a filter darkening the corners slightly.
+  - Middle: Dish name (e.g., "Pan-seared Chicken Breast"), with time of consumption below ("12:30 PM").
+  - Right: Total calories for the dish ("+350 kcal", Primary Green color).
 
-## 5. Nút Thêm Món Ăn (Floating Action Button - FAB)
-- Vị trí: Cố định ở góc dưới cùng bên phải hoặc căn giữa màn hình (như nút Home của tabbar).
-- Thiết kế: Hình tròn lớn, Gradient từ Xanh Mint sang Xanh Emerald.
-- Box Shadow: Tỏa bóng màu xanh (Glow) `0px 10px 20px rgba(16, 185, 129, 0.4)` tạo cảm giác đang lơ lửng.
-- Icon: Ký hiệu dấu CỘNG (`+`) màu trắng hoặc icon Camera. Khi nhấn vào, icon xoay 45 độ biến thành dấu `x` và kích hoạt hiệu ứng mờ phông nền (Backdrop filter) để mở menu chọn: "Chụp ảnh" hoặc "Nhập thủ công".
+## 5. Add Food Button (Floating Action Button - FAB)
+- Position: Fixed at the bottom right corner or centered (like a tab bar Home button).
+- Design: Large circular button, Gradient from Mint Green to Emerald Green.
+- Box Shadow: Radiates a green glow (Glow) `0px 10px 20px rgba(16, 185, 129, 0.4)` giving a floating sensation.
+- Icon: PLUS symbol (`+`) in white or a Camera icon. When pressed, the icon rotates 45 degrees into an `x` and activates a backdrop filter to open a menu: "Take Photo" or "Manual Entry".

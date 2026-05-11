@@ -1,23 +1,23 @@
 # Git Branching & Checkout
 
-Các lệnh để quản lý các luồng phát triển độc lập.
+Commands to manage independent development flows.
 
-## 1. Xem danh sách nhánh
+## 1. List Branches
 ```bash
 git branch -a
 ```
 
-## 2. Tạo nhánh mới và chuyển sang nhánh đó
+## 2. Create New Branch and Switch to it
 ```bash
 git checkout -b feature/your-feature-name
 ```
 
-## 3. Chuyển sang nhánh có sẵn
+## 3. Switch to Existing Branch
 ```bash
 git checkout main
 ```
 
-## Quy Tắc Đặt Tên Nhánh
+## Branch Naming Rules
 - **Feature**: `feature/<name>`
 - **Bugfix**: `bugfix/<id>`
 - **Hotfix**: `hotfix/<description>`

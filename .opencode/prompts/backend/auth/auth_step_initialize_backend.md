@@ -1,0 +1,19 @@
+# Prompt: Build Auth Module (Authentication & Authorization) - Step 1: Initialize Backend (Spring Boot)
+
+## 1. Context & Constraints
+Please read the following files before writing code:
+- `.opencode/context/module_breakdown.md` (Module `auth` section)
+- `.opencode/context/rules.md` (Security: HTTPS, BCrypt, GDPR)
+- `.opencode/context/coding-standards.md`
+- `.opencode/skills/security.md`
+
+## 2. Task: Initialize Backend (Spring Boot)
+1. **Write unit tests for the expected business logic before writing the actual source code (Test-First).**
+2. Create the `com.nutrition.auth` package following the Modular Monolith standard.
+3. Design the `User` document for MongoDB. Ensure fields use `snake_case`. Do not store plaintext passwords.
+4. Set up Spring Security and JWT filters.
+
+## 3. Acceptance Criteria
+- All passwords in the DB are hashed using BCrypt/PBKDF2.
+- API response time is always `< 2 seconds`.
+- Unit tests cover 80%+ of AuthService logic.

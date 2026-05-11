@@ -1,21 +1,21 @@
 # Git Status & Inspection
 
-Các lệnh để kiểm tra trạng thái và sự thay đổi trong mã nguồn.
+Commands to check the status and changes in the source code.
 
-## 1. Kiểm tra trạng thái
+## 1. Check Status
 ```bash
 git status
 ```
-- Xem danh sách các file đã thay đổi, chưa được track hoặc đã sẵn sàng để commit.
+- View a list of changed, untracked, or ready-to-commit files.
 
-## 2. Xem thay đổi chi tiết
+## 2. View Detailed Changes
 ```bash
 git diff
 ```
-- Xem sự khác biệt giữa code hiện tại và commit gần nhất.
+- View differences between the current code and the last commit.
 
-## 3. Xem lịch sử commit
+## 3. View Commit History
 ```bash
 git log --oneline -n 10
 ```
-- Xem 10 commit gần nhất ở dạng rút gọn.
+- View the 10 most recent commits in short form.

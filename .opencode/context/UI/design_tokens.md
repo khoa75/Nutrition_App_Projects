@@ -1,46 +1,46 @@
 # Design System & Design Tokens
 
-Tài liệu này định nghĩa ngôn ngữ thiết kế (Design Language) cho toàn bộ ứng dụng **Nutrition App**. Ứng dụng theo đuổi phong cách **Modern, Premium & Glassmorphism** (Hiện đại, Cao cấp và Hiệu ứng kính), tạo cảm giác mượt mà, sống động và kích thích người dùng tương tác.
+This document defines the Design Language for the entire **Nutrition App**. The application follows a **Modern, Premium & Glassmorphism** style, creating a smooth, vivid feel that encourages user interaction.
 
-## 1. Bảng Màu (Color Palette)
-Hệ thống sử dụng hệ màu HSL/Hex với độ tương phản cao, mang lại cảm giác năng lượng nhưng không gây chói mắt.
+## 1. Color Palette
+The system uses an HSL/Hex color system with high contrast, providing a sense of energy without being overwhelming.
 
-### Primary Colors (Màu chủ đạo)
-- **Primary Green (Brand)**: `#059669` (Emerald) - Tượng trưng cho sức khỏe, thiên nhiên và sự phát triển. Dùng cho nút bấm chính (Call to Action), thanh tiến trình đạt mục tiêu.
-- **Primary Accent**: `#10B981` (Mint) - Dùng làm gradient kết hợp với Primary Green hoặc các trạng thái hover/active.
+### Primary Colors
+- **Primary Green (Brand)**: `#059669` (Emerald) - Symbolizes health, nature, and growth. Used for primary buttons (Call to Action) and goal progress bars.
+- **Primary Accent**: `#10B981` (Mint) - Used as a gradient in combination with Primary Green or for hover/active states.
 
-### Secondary/Semantic Colors (Màu ngữ nghĩa)
-- **Warning (Cam)**: `#F59E0B` - Dùng khi lượng calo tiêu thụ sắp đạt giới hạn.
-- **Danger (Đỏ/Hồng đậm)**: `#E11D48` - Dùng khi lượng calo vượt mức cho phép hoặc BMI ở mức Béo phì. Trạng thái lỗi.
-- **Info (Xanh dương)**: `#3B82F6` - Dùng cho các chỉ số nước uống, giấc ngủ hoặc gợi ý (tips).
+### Secondary/Semantic Colors
+- **Warning (Orange)**: `#F59E0B` - Used when calorie consumption is approaching its limit.
+- **Danger (Red/Dark Pink)**: `#E11D48` - Used when calorie levels exceed limits or BMI is at Obese levels. Error states.
+- **Info (Blue)**: `#3B82F6` - Used for water intake metrics, sleep, or tips.
 
-### Background & Surface (Nền)
-Ứng dụng hỗ trợ Dark Mode là giao diện mặc định (Premium Dark), vì Dark Mode làm nổi bật hình ảnh món ăn và các dải màu gradient.
-- **Main Background (Dark)**: `#0F172A` (Slate 900) - Màu nền chính của ứng dụng.
-- **Surface/Card (Dark)**: `#1E293B` (Slate 800) - Nền của các Card, Modal.
-- **Text Primary**: `#F8FAFC` (Slate 50) - Chữ chính.
-- **Text Secondary**: `#94A3B8` (Slate 400) - Chữ phụ, mô tả nhỏ.
+### Background & Surface
+The application supports Dark Mode as the default interface (Premium Dark), as Dark Mode highlights food images and gradient color bands.
+- **Main Background (Dark)**: `#0F172A` (Slate 900) - Main background color of the application.
+- **Surface/Card (Dark)**: `#1E293B` (Slate 800) - Background for Cards and Modals.
+- **Text Primary**: `#F8FAFC` (Slate 50) - Primary text.
+- **Text Secondary**: `#94A3B8` (Slate 400) - Secondary text, small descriptions.
 
-## 2. Nghệ thuật Chữ (Typography)
-- **Font Family**: `Inter` hoặc `Outfit` (Google Fonts).
+## 2. Typography
+- **Font Family**: `Inter` or `Outfit` (Google Fonts).
 - **Heading (H1)**: Font weight 700 (Bold), Size 32px, Letter spacing -0.02em.
 - **Subheading (H2)**: Font weight 600 (SemiBold), Size 24px.
 - **Body Text**: Font weight 400 (Regular), Size 16px, Line height 1.5.
-- **Caption**: Font weight 400, Size 12px, màu Text Secondary.
+- **Caption**: Font weight 400, Size 12px, Text Secondary color.
 
-## 3. Hiệu ứng Hình ảnh (Visual Effects)
+## 3. Visual Effects
 
-### Glassmorphism (Hiệu ứng kính)
-Thay vì dùng nền Card đặc, ứng dụng sử dụng Glassmorphism cho các Overlay (như Bottom Sheet, Modal, hoặc thanh Header nổi).
+### Glassmorphism
+Instead of using solid Card backgrounds, the application uses Glassmorphism for Overlays (such as Bottom Sheets, Modals, or floating Headers).
 - **Background**: `rgba(30, 41, 59, 0.7)`
 - **Backdrop Filter**: `blur(12px)`
 - **Border**: `1px solid rgba(255, 255, 255, 0.1)`
 
 ### Drop Shadows & Glow
-- Dùng hiệu ứng **Glow (Phát sáng)** thay vì bóng đổ đen truyền thống để tạo cảm giác Cyber/Premium.
-- **Glow Button**: `box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4)` (Ánh sáng xanh ngọc tỏa ra từ nút bấm).
+- Use **Glow** effects instead of traditional black drop shadows to create a Cyber/Premium feel.
+- **Glow Button**: `box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4)` (Jade light radiating from buttons).
 
-### Micro-Animations (Hoạt ảnh vi mô)
-1. **Nút bấm (Buttons)**: Khi nhấn (Tap/Click), nút sẽ co lại nhẹ `scale(0.95)` và nảy lại nhanh (Spring animation).
-2. **Tiến trình (Progress Bars)**: Khi mở màn hình, thanh tiến trình Calo sẽ chạy từ 0 đến giá trị hiện tại trong `800ms` với hiệu ứng `ease-out-cubic`.
-3. **Chuyển trang (Page Transitions)**: Sử dụng hiệu ứng Fade-in và Slide-up nhẹ nhàng (`translateY` từ 10px về 0px, `opacity` từ 0 lên 1 trong `300ms`).
+### Micro-Animations
+1. **Buttons**: When pressed (Tap/Click), buttons will slightly shrink `scale(0.95)` and quickly bounce back (Spring animation).
+2. **Progress Bars**: When the screen opens, the Calorie progress bar will run from 0 to its current value in `800ms` with an `ease-out-cubic` effect.
+3. **Page Transitions**: Use gentle Fade-in and Slide-up effects (`translateY` from 10px to 0px, `opacity` from 0 to 1 in `300ms`).

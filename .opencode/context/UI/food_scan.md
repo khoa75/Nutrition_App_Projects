@@ -1,40 +1,40 @@
-# Màn Hình Nhận Diện Món Ăn Bằng AI (Food AI Scanner)
+# AI Food Recognition Screen (Food AI Scanner)
 
-Màn hình này là tính năng cốt lõi tạo nên tính đột phá của ứng dụng. Giao diện cần mang đậm phong cách công nghệ (Sci-Fi, Futuristic) nhưng vẫn trực quan và dễ sử dụng.
+This screen is the core feature that defines the app's breakthrough nature. The interface needs to be deeply technological (Sci-Fi, Futuristic) yet intuitive and easy to use.
 
-## 1. Màn Hình Camera (Viewfinder)
-Khi người dùng bấm vào "Chụp ảnh món ăn" từ Dashboard, màn hình Camera mở ra toàn màn hình.
+## 1. Camera View (Viewfinder)
+When the user clicks "Scan Food" from the Dashboard, the Camera screen opens in full screen.
 
-- **Nền**: Luồng trực tiếp từ Camera điện thoại. Phủ một lớp bóng mờ (Vignette) ở các góc để hướng sự chú ý vào giữa.
+- **Background**: Live stream from the phone's camera. Overlaid with a vignette at the corners to focus attention on the center.
 - **UI Overlay**:
-  - **Khung quét (Bounding Box)**: Một khung hình vuông ở giữa màn hình với 4 góc được đánh dấu bằng các vạch trắng sáng. Các vạch này di chuyển nhấp nháy nhẹ (Breathing animation) để báo hiệu AI đang hoạt động.
-  - **Đường quét (Scan Line)**: Một vạch ngang màu `#10B981` (Xanh Mint) có hiệu ứng Glow (phát sáng) liên tục trượt lên xuống qua lại bên trong khung quét, giống như hiệu ứng máy quét laser.
-  - **Góc trên**: Dấu `X` để đóng camera.
-  - **Góc dưới**: Nút chụp hình tròn, to, màu trắng. Có nút phụ để "Chọn từ thư viện" (Gallery) bên trái và "Bật flash" bên phải.
+  - **Bounding Box**: A square frame in the center with 4 corners marked by bright white lines. These lines move with a subtle breathing animation to indicate AI activity.
+  - **Scan Line**: A horizontal `#10B981` (Mint Green) line with a glow effect that continuously slides up and down within the bounding box, mimicking a laser scanner effect.
+  - **Top Corner**: An `X` icon to close the camera.
+  - **Bottom Corner**: A large, circular white shutter button. Secondary buttons for "Select from Gallery" on the left and "Toggle Flash" on the right.
 
-## 2. Hiệu Ứng Xử Lý (Processing State)
-Sau khi nhấn nút chụp, bức ảnh bị đóng băng.
-- Một lớp layer màu đen phủ lên ảnh (`rgba(0,0,0, 0.6)`).
-- Chữ "AI đang phân tích lượng Calo..." hiện lên giữa màn hình, với hiệu ứng Loading dạng vòng tròn đồng tâm liên tục mở rộng ra ngoài (Ripple effect) bằng màu Primary Green.
-- Hoạt ảnh vi mô: Các con số chạy lướt nhanh (matrix style) ở nền làm tăng hiệu ứng phân tích công nghệ cao.
+## 2. Processing State
+After the shutter button is pressed, the image freezes.
+- A black overlay layer covers the image (`rgba(0,0,0, 0.6)`).
+- The text "AI is analyzing calorie content..." appears in the center, with a ripple-effect loading animation consisting of concentric circles expanding outwards in Primary Green.
+- Micro-animations: Rapidly scrolling numbers (matrix style) in the background enhance the high-tech analysis feel.
 
-## 3. Modal Kết Quả Phân Tích (Bottom Sheet Result)
-Sau khi API của FastAPI trả về kết quả (thường dưới 2s), một Bottom Sheet vuốt từ dưới lên.
+## 3. Analysis Result Modal (Bottom Sheet Result)
+After the FastAPI API returns results (typically under 2s), a Bottom Sheet slides up from the bottom.
 
-- **Hiệu ứng xuất hiện**: Trượt mượt mà từ dưới lên (Slide Up), background của Bottom Sheet là **Glassmorphism** tối màu (`#1E293B` blur 20px).
-- **Nội Dung Góc Trên Sheet**: Một thanh gạt nhỏ màu xám nhạt (Drag handle).
-- **Dữ liệu AI Trả Về**:
-  - **Độ chính xác (Confidence Badge)**: Ở góc phải, một tag nhỏ: "Độ tin cậy: 92% AI Match" màu xanh lá cây hoặc vàng tùy mức độ.
-  - **Tên Món Ăn (Title)**: Chữ to, nổi bật (VD: "Cơm Tấm Sườn Bì").
-  - **Lượng Calo Tổng (Highlight)**: Số to khổng lồ màu Gradient Xanh: "780 Kcal".
+- **Entrance Effect**: Smoothly slides up from the bottom (Slide Up), with a dark **Glassmorphism** background (`#1E293B` with 20px blur).
+- **Top Sheet Content**: A small light-gray drag handle.
+- **AI Data Returned**:
+  - **Confidence Badge**: In the right corner, a small tag: "Confidence: 92% AI Match" in green or yellow depending on the level.
+  - **Dish Name (Title)**: Large, prominent text (e.g., "Grilled Pork Chop Rice").
+  - **Total Calories (Highlight)**: A huge number in Blue Gradient: "780 Kcal".
   
-- **Thành Phần Dinh Dưỡng Chi Tiết (Macro Breakdown)**:
-  - Bố cục lưới (Grid 3 cột).
-  - Khối 1: Cột màu Đỏ, ghi "Protein", "35g".
-  - Khối 2: Cột màu Cam, ghi "Carbs", "80g".
-  - Khối 3: Cột màu Tím, ghi "Fats", "20g".
-  - Các khối này có nền nhạt tương ứng với màu chữ, bo góc 12px.
+- **Nutritional Breakdown (Macro Breakdown)**:
+  - Grid layout (3 columns).
+  - Block 1: Red column, labeled "Protein", "35g".
+  - Block 2: Orange column, labeled "Carbs", "80g".
+  - Block 3: Purple column, labeled "Fats", "20g".
+  - These blocks have light backgrounds corresponding to the text color and 12px rounded corners.
 
-## 4. Hành Động Xác Nhận (CTAs)
-- Nút bấm chính (Call To Action): **"Thêm vào nhật ký"** (Glow Button màu Xanh Mint, to và trải ngang 100% chiều rộng).
-- Link phụ ngay bên dưới: "Thông tin chưa đúng? Chỉnh sửa thủ công" (Chữ gạch chân nhỏ, màu Slate 400). Khi bấm vào, các khối dữ liệu AI phía trên sẽ biến thành ô input để người dùng nhập lại text/số.
+## 4. Confirmation Actions (CTAs)
+- Primary Button (Call To Action): **"Add to Log"** (Large Mint Green Glow Button spanning 100% width).
+- Secondary link directly below: "Information incorrect? Edit manually" (Small underlined text, Slate 400). When clicked, the AI data blocks above turn into input fields for the user to re-enter text/numbers.

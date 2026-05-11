@@ -1,17 +1,17 @@
 # Skill: Backend Development (Spring Boot)
 
-Kỹ năng cốt lõi để xây dựng hệ thống server mạnh mẽ và có khả năng mở rộng.
+Core skills for building robust and scalable server systems.
 
 ## 1. Spring Boot 3 Best Practices
-- **Dependency Management**: Tối ưu hóa `pom.xml` hoặc `build.gradle` để tránh xung đột thư viện.
-- **Profiles**: Sử dụng `application-dev.yml`, `application-prod.yml` để quản lý cấu hình theo môi trường.
-- **Error Handling**: Sử dụng `@ControllerAdvice` để xử lý lỗi tập trung và trả về lỗi chuẩn hóa.
+- **Dependency Management**: Optimize `pom.xml` or `build.gradle` to avoid library conflicts.
+- **Profiles**: Use `application-dev.yml` and `application-prod.yml` to manage environment-specific configurations.
+- **Error Handling**: Use `@ControllerAdvice` for centralized error handling and standardized error responses.
 
 ## 2. MongoDB & Spring Data
-- **Aggregations**: Sử dụng `Aggregation Pipeline` cho các truy vấn phức tạp như tính toán tổng calo theo tuần/tháng.
-- **Data Consistency**: Đảm bảo tính toàn vẹn dữ liệu thông qua logic nghiệp vụ vì MongoDB không hỗ trợ quan hệ cứng (Foreign Keys).
-- **Indexing**: Tạo `Text Indexes` hoặc `Compound Indexes` cho các trường tìm kiếm thường xuyên.
+- **Aggregations**: Use `Aggregation Pipeline` for complex queries such as calculating total calories by week/month.
+- **Data Consistency**: Ensure data integrity through business logic since MongoDB does not support hard relations (Foreign Keys).
+- **Indexing**: Create `Text Indexes` or `Compound Indexes` for frequently searched fields.
 
 ## 3. Security & Auth
-- **JWT Implementation**: Xây dựng hệ thống token tự cấp lại (refresh token) và quản lý trạng thái đăng nhập.
-- **Role-based Access Control (RBAC)**: Phân quyền rõ ràng giữa `USER` và `ADMIN`.
+- **JWT Implementation**: Build token refresh systems and manage login states.
+- **Role-based Access Control (RBAC)**: Clear permission separation between `USER` and `ADMIN`.
