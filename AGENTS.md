@@ -1,86 +1,89 @@
-# Nutrition App - Development Guidelines (Index)
+# Nutrition App - Development Guidelines
 
-**Nutrition App** is a health management, diet, weight tracking, and AI-powered calorie analysis application.
+**Nutrition App** is a health management, diet tracking, and AI-powered calorie analysis application using Modular Monolith architecture.
 
-> **Important Note**: This `AGENTS.md` file currently serves as the "Index" (Table of Contents) for the documentation system. Do not look for every technical detail here. Please read the in-depth documentation linked below before starting to code.
+## 🚨 Critical Project State
+**Currently in PLANNING PHASE - No source code exists yet.** Main directories (`backend/`, `frontend/`, `ai-service/`, `admin-dashboard/`) are empty.
 
----
+## 🏗️ Architecture Rules
+**Modular Monolith (NOT Microservices)**
+- Backend: Spring Boot with Package-by-Feature modules
+- **Strict boundary**: Modules communicate via Internal Service Interfaces only
+- **Forbidden**: Cross-module Repository access or Database sharing
+- AI Service: Separate FastAPI service for heavy computation
 
-## 1. Documentation Structure
-All standard documentation is clearly distributed into folders:
+## 📁 Module Structure
+```
+backend/src/main/java/com/nutrition/
+├── auth/          # JWT, Social login, OTP
+├── user_profile/  # BMI, BMR, TDEE calculations
+├── food_catalog/  # Food database search
+├── nutrition_plan/# Meal planning engine
+├── meal_tracking/ # Manual + AI food logging
+├── dashboard/     # Statistics & charts
+└── admin/         # User management & audit logs
+```
 
-### Product Requirements
-- **[PRD.md](PRD.md)**: Product Requirements Document (User Stories, Metrics, Personas).
+## 🛠️ Technology Stack
+- **Backend**: Spring Boot 3 (Java 21), MongoDB, JWT, BCrypt
+- **AI Service**: FastAPI (Python), PyTorch, `uv` package manager
+- **Mobile**: Flutter (Dart) with Provider/Riverpod
+- **Admin**: React.js + Tailwind CSS
+- **Database**: MongoDB Atlas with compound indexes
 
-### Knowledge & Context (`.opencode/context/`)
-- `project_overview.md`: Core objectives and detailed roadmap.
-- `domain_knowledge.md`: Medical knowledge (BMI, BMR, TDEE, Macros formulas).
-- `tech_stack.md`: Technical structure and Backend/Frontend/AI systems.
+## ⚡ Development Commands
+**Note: These commands will fail until project structure is created**
 
-### Standard Workflows (`.opencode/workflows/`)
-- `build_feature.md`: Workflow for building new features.
-- `refactor.md`: Workflow for safe code refactoring.
-- `debug.md`: Steps for isolating and fixing bugs.
-- `write_tests.md`: Standards for writing Unit & Integration Tests.
-- `ci_cd.md`: Automated testing and deployment workflow (CI/CD).
-
-### Mandatory Rules (`.opencode/rules/`)
-- `code_standards.md`: Coding standards (Naming, Package-by-feature).
-- `security_and_error_handling.md`: Security standards (JWT, BCrypt) and error handling.
-- `git_workflow.md`: Branching and PR process.
-- `testing_guidelines.md`: Code coverage regulations (>80%).
-
-### Storage & Skills
-- `.opencode/memory/`: Progress and status tracking.
-- `.opencode/skills/`: Specialized coding skills for Spring Boot, Flutter, FastAPI, React.
-
----
-
-## 2. Architecture Strategy
-**Architecture: Modular Monolith**
-- The project absolutely **DOES NOT use Microservices**.
-- Backend (Spring Boot) is organized by **Package-by-Feature**, modules (user, meals, nutrition, admin) run in the same codebase.
-- **Module Boundaries**: Communication between modules must be through **Internal Service Interfaces**; cross-accessing each other's Database or Repository is strictly prohibited.
-- AI analysis is handled separately via **FastAPI + PyTorch**.
-
----
-
-## 3. Development Roadmap Summary
-- **Phase 1 (MVP)**: Auth, BMI calculation, manual data entry, basic Dashboard UI.
-- **Phase 2 (AI)**: Food image recognition (FastAPI), TDEE/Macro recommendation system.
-- **Phase 3 (Admin & Scale)**: Admin Dashboard (React), Audit Logs, performance optimization.
-- **Phase 4 (Advanced)**: Smartwatch integration, community features.
-
----
-
-## 4. Constraints
-- **Performance**: Response time for all APIs must be less than 2 seconds (< 2s).
-- **Scalability**: The system must be designed to handle and scale up to 100,000 users (Scalable to 100K users).
-- **Artificial Intelligence (AI)**: Accuracy of the Food Recognition model must reach over 80%.
-- **Architectural Integrity**: Absolutely no Business Logic inside Controllers. Must adhere to the defined architecture (Modular Monolith / Clean Architecture).
-
-## 5. Useful Commands
 ```bash
-# Backend (Spring Boot)
+# Backend (Spring Boot) - Requires pom.xml first
 ./mvnw spring-boot:run
 ./mvnw test
 
-# Frontend Mobile (Flutter)
+# Frontend Mobile (Flutter) - Requires pubspec.yaml first  
 flutter pub get
 flutter run
 flutter test
 
-# Admin Dashboard (React)
+# AI Service (FastAPI) - Requires requirements.txt first
+uv sync
+uv run uvicorn app.main:app --reload
+
+# Admin Dashboard (React) - Requires package.json first
 npm install
 npm run dev
 ```
 
-## 6. Important Notes
-Always:
-- Adhere to layered architecture.
-- Write maintainable and testable code.
-- Clearly explain the reasoning/logic when creating complex segments.
+## 📏 Coding Standards
+**Mandatory:**
+- **Backend**: `Controller` → `Service` → `Repository` layers only
+- **Naming**: camelCase (methods/vars), PascalCase (classes), UPPER_SNAKE_CASE (constants)
+- **Testing**: TDD approach, 80%+ code coverage required
+- **Database**: snake_case field names, explicit indexes for performance
+
+## 🔒 Security Requirements
+- JWT tokens with refresh mechanism
+- BCrypt password encryption
+- Account lockout after 5 failed attempts
+- Role-based access (USER/ADMIN)
+
+## 🚀 Development Order
+**Phase 1 (MVP)**: Auth → User Profile → Food Catalog → Manual Meal Tracking → Basic Dashboard
+**Phase 2 (AI)**: FastAPI service → Image recognition integration → Meal planning engine
+**Phase 3 (Admin)**: React dashboard → Audit logging → Performance optimization
+
+## 📋 Key Reference Files
+- **User Stories**: `.opencode/context/user_stories.md`
+- **Module Details**: `.opencode/context/module_breakdown.md` 
+- **API Contracts**: Each module defines Input/Output in `.opencode/context/`
+- **Coding Standards**: `.opencode/context/coding-standards.md`
+- **CI/CD Plan**: `.opencode/workflows/ci_cd.md`
+
+## ⚠️ Common Pitfalls to Avoid
+1. **Never put business logic in Controllers**
+2. **Never cross-access other modules' databases**
+3. **Always write tests before implementation (TDD)**
+4. **Use compound MongoDB indexes for performance**
+5. **JWT must include refresh token mechanism**
 
 ---
-**Last Updated:** May 2026
-**Maintained by:** Nutrition App Team
+**Last Updated:** May 2026 | **Status**: Planning Phase | **Next**: Initialize Spring Boot project structure
