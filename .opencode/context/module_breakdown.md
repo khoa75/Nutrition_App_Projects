@@ -101,7 +101,7 @@ The roadmap is arranged by priority from the core foundation to advanced feature
 
 ### 🟢 Phase 1: Core Foundation & MVP (Building the Foundation)
 *Goal: Ensure users can create accounts, set metrics, and use the application at a basic level (manual entry).*
-- **Sprint 1.1:** Project initialization (Spring Boot, Flutter, PostgreSQL). Build `auth` and `user_profile` modules (US-1).
+- **Sprint 1.1:** Project initialization (Spring Boot, Flutter, MongoDB). Build `auth` and `user_profile` modules (US-1).
 - **Sprint 1.2:** Build `food_catalog` module (food database) and `meal_tracking` for manual entry (US-6).
 - **Sprint 1.3:** Build `user_profile` (weight update part US-5) and `dashboard` module displaying basic statistics (US-4).
 

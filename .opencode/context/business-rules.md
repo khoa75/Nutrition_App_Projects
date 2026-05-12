@@ -14,9 +14,11 @@ This document summarizes concepts, formulas, and business logic related to healt
 - **BMR (Male):** `(10 × weight) + (6.25 × height) - (5 × age) + 5`
 - **BMR (Female):** `(10 × weight) + (6.25 × height) - (5 × age) - 161`
 - **TDEE:** `BMR × Activity Level Factor`
-  - *Low (Sedentary):* 1.2
-  - *Normal (Moderate):* 1.55
-  - *High (Active):* 1.9
+  - *Sedentary (little/no exercise):* 1.2
+  - *Light (1-3 days/week):* 1.375
+  - *Moderate (3-5 days/week):* 1.55
+  - *Active (6-7 days/week):* 1.725
+  - *Very Active (2x/day, physical job):* 1.9
 
 ## 3. Determining Target Calories
 - **Weight Loss:** `TDEE - (300 to 500 calories)`

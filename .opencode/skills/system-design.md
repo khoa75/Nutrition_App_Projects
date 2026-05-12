@@ -1,17 +1,60 @@
-# Skill: System Design & Architecture
+# Skill: System Design (Nutrition App)
 
-General system design skills ensuring sustainability and performance.
+Project-specific architecture patterns.
 
-## 1. Modular Monolith Principles
-- **Loose Coupling**: Modules communicate via Interfaces, not directly depending on Implementation.
-- **Transactional Boundaries**: Manage transactions within the scope of each individual module.
-- **Shared Kernel**: Clearly define shared components (Utils, Security, basic DTOs) to avoid code duplication.
+## 1. Modular Monolith Communication Flow
+```
+Controller (module A) → Service Interface (module A)
+                      → Internal Service Interface (module B) ← allowed
+                      → Repository (module B) ← FORBIDDEN
+                      → Direct DB access ← FORBIDDEN
+```
+Each module owns its database collections. Module B exposes a service interface that Module A consumes.
 
-## 2. Scalability & Performance
-- **Caching**: Use `Redis` (if scaling is needed) to store frequently computed BMI or TDEE results.
-- **Asynchronous Processing**: Offload heavy tasks (such as sending emails, processing images) to background tasks.
-- **Load Balancing**: Design the system to be ready for running multiple instances behind a Load Balancer.
+## 2. Module Dependency Graph
+```
+auth ──→ user_profile ──→ nutrition_plan
+  │                           │
+  └──→ meal_tracking ←── food_catalog
+         │
+         └──→ dashboard
+                │
+admin ───→ all modules (read-only via service interfaces)
+```
+Dependencies point FROM consumer TO provider. No circular dependencies.
 
-## 3. Security Design
-- **Data Encryption**: Encrypt sensitive user data (height, weight, personal information).
-- **Audit Logging**: Record every important action for auditing and security purposes.
+## 3. Shared Kernel
+Allowed shared components:
+- `common/dto/ApiResponse.java` — response envelope
+- `common/exception/` — GlobalExceptionHandler, custom exceptions
+- `common/config/` — SecurityConfig, MongoConfig, CorsConfig
+- `common/util/` — DateUtils, CalorieCalculator (stateless utilities)
+
+## 4. Transaction Boundaries
+- Transactions stay within a single module
+- Cross-module operations use compensating actions (no distributed TX)
+- Example: `logMeal()` (meal_tracking) → `updateStats()` (dashboard) via async event
+
+## 5. AI Service Integration (Cross-Service)
+```
+[Flutter] → [Spring Boot: /api/v1/meals/vision]
+           → [FastAPI: /api/v1/predict] (internal HTTP call)
+           ← returns recognized food list
+           ← saves meal_log, returns response to Flutter
+```
+Spring Boot is the ONLY client of FastAPI. FastAPI has no public endpoint.
+
+## 6. Caching Strategy
+- **Phase 1**: No Redis. Cache in-memory (Caffeine cache, 5 min TTL) for food catalog + BMI results
+- **Phase 2**: Add Redis for meal_plan cache, session store
+- **Phase 3**: Redis cluster for dashboard aggregation cache
+
+## 7. Performance Budget
+| Operation | Target | Degradation Threshold |
+|-----------|--------|----------------------|
+| Login/Auth | < 500ms | > 1s |
+| BMI calculation | < 200ms | > 500ms |
+| Food search | < 800ms | > 1.5s |
+| AI recognition | < 2s | > 4s |
+| Dashboard load | < 1.5s | > 3s |
+| Meal log save | < 500ms | > 1s |
