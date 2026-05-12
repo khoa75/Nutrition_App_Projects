@@ -1,6 +1,7 @@
-# Skill: Backend Development (Nutrition App)
-
-Project-specific Spring Boot patterns for Nutrition App modules.
+---
+name: backend
+description: Spring Boot module structure, internal service interfaces, controller templates, MongoDB repository patterns
+---
 
 ## 1. Module Structure (Package-by-Feature)
 Each module follows: `controller/` → `service/` → `repository/` → `model/` → `dto/`

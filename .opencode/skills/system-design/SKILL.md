@@ -1,6 +1,7 @@
-# Skill: System Design (Nutrition App)
-
-Project-specific architecture patterns.
+---
+name: system-design
+description: Modular monolith architecture, module dependency graph, transaction boundaries, caching strategy, and performance budgets
+---
 
 ## 1. Modular Monolith Communication Flow
 ```

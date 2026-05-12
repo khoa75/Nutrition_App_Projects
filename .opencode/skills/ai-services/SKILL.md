@@ -1,6 +1,7 @@
-# Skill: AI Services (Nutrition App)
-
-Project-specific FastAPI & PyTorch patterns for food recognition.
+---
+name: ai-services
+description: FastAPI + PyTorch food recognition service structure, API endpoints, model pipeline, and integration patterns
+---
 
 ## 1. Service Structure
 ```

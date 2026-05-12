@@ -1,6 +1,7 @@
-# Skill: Security (Nutrition App)
-
-Project-specific security patterns.
+---
+name: security
+description: JWT authentication, RBAC, password policy, API security, and data privacy patterns
+---
 
 ## 1. JWT Implementation
 ```java

@@ -1,6 +1,7 @@
-# Skill: Front-end Development (Nutrition App)
-
-Project-specific Flutter & React patterns.
+---
+name: front-end
+description: Flutter mobile app architecture, Riverpod state management, API client patterns, and React admin dashboard
+---
 
 ## 1. Flutter (Mobile App) Architecture
 ```

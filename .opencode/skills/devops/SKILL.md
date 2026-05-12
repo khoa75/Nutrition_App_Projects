@@ -1,6 +1,7 @@
-# Skill: DevOps (Nutrition App)
-
-Project-specific CI/CD, Docker, and infrastructure patterns.
+---
+name: devops
+description: Docker Compose setup, CI/CD pipelines, infrastructure scaling, monitoring, and backup strategies
+---
 
 ## 1. Services & Ports
 | Service | Port | Docker Image Base |

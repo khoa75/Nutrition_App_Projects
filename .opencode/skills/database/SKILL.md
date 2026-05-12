@@ -1,6 +1,7 @@
-# Skill: Database Management (Nutrition App)
-
-Project-specific MongoDB patterns for Nutrition App.
+---
+name: database
+description: MongoDB collection schemas, compound indexes, aggregation pipelines, and naming conventions
+---
 
 ## 1. Collection Schemas
 

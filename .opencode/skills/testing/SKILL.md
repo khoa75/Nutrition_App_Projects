@@ -1,6 +1,7 @@
-# Skill: Testing (Nutrition App)
-
-Project-specific testing patterns and requirements.
+---
+name: testing
+description: Testing patterns, TDD workflow, coverage requirements, and test scenarios for Nutrition App
+---
 
 ## 1. TDD Workflow
 1. Write test (fails) → implement minimal code → test passes → refactor
