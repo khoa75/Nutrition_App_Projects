@@ -1,9 +1,9 @@
 # Prompt: Build Meal Tracking & AI Vision Module - Step 2: Integration from Spring Boot Backend
 
 ## 1. Context & Constraints
-- `.opencode/context/module_breakdown.md` (`meal_tracking` and `ai_vision_service` sections)
+- `.opencode/context/02-requirements/module_breakdown.md` (`meal_tracking` and `ai_vision_service` sections)
 - `.opencode/skills/ai-services.md` (PyTorch, FastAPI)
-- `.opencode/context/rules.md` (AI Accuracy ≥ 85%, fast processing time)
+- `.opencode/context/03-standards/rules.md` (AI Accuracy ≥ 85%, fast processing time)
 
 ## 2. Task: Integration from Spring Boot Backend
 1. In the `com.nutrition.mealtracking` package, implement API `POST /api/meals/upload`.

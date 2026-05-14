@@ -53,3 +53,11 @@ Workflows:
 - MongoDB Atlas automated snapshots (daily, 7-day retention)
 - File uploads (food images) stored in S3/Cloudinary, not in container
 - Configuration in `.env` files / GitHub Secrets (never in code)
+
+## 7. Implementation Prompts
+These steps guide the automated implementation of CI/CD:
+- [Step 1: Backend & AI CI](file:///home/khoa/Projects/Nutrition_App/Nutrition_App_Projects/.opencode/skills/devops/github-actions-prompts/step_1_ci_backend_ai.md)
+- [Step 2: Frontend CI](file:///home/khoa/Projects/Nutrition_App/Nutrition_App_Projects/.opencode/skills/devops/github-actions-prompts/step_2_ci_frontend.md)
+- [Step 3: CD & Deployment](file:///home/khoa/Projects/Nutrition_App/Nutrition_App_Projects/.opencode/skills/devops/github-actions-prompts/step_3_cd_deployment.md)
+
+**Last Updated**: May 2026 | **Status**: Infrastructure Ready for Phase 1

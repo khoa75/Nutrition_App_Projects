@@ -1,9 +1,9 @@
 # Prompt: Build Dashboard Module (Statistics & Visualization) - Step 2: Database Optimization
 
 ## 1. Context & Constraints
-- `.opencode/context/module_breakdown.md` (Module `dashboard` section)
+- `.opencode/context/02-requirements/module_breakdown.md` (Module `dashboard` section)
 - `.opencode/skills/front-end.md` (How to use Charts in Flutter/React)
-- `.opencode/context/rules.md` (Dashboard query speed < 2s)
+- `.opencode/context/03-standards/rules.md` (Dashboard query speed < 2s)
 
 ## 2. Task: Database Optimization
 1. Ensure log storage collections have Indexes on the `user_id` and `date` fields to prevent query slowdown as data grows.

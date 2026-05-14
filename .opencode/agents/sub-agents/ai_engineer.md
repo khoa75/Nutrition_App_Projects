@@ -376,9 +376,9 @@ python monitor_performance.py --endpoint http://localhost:8000/api/v1/recognize-
 - [ ] Input validation for image uploads
 
 ## Reference Files
-- **AI Integration**: `.opencode/context/` (look for AI-related files)
-- **API Standards**: Follow `.opencode/context/coding-standards.md`
+- **AI Integration**: `.opencode/context/02-requirements/` (look for AI-related files)
+- **API Standards**: Follow `.opencode/context/03-standards/coding-standards.md`
 - **Performance Requirements**: API response time < 2 seconds
-- **Security Guidelines**: `.opencode/context/security_and_error_handling.md`
+- **Security Guidelines**: `.opencode/context/03-standards/security_and_error_handling.md`
 
 **Last Updated**: May 2026 | **Status**: Ready for Phase 2 Implementation

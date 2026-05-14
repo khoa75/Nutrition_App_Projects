@@ -1,7 +1,5 @@
 # Nutrition App - Development Guidelines
 
-**Nutrition App** is a health management, diet tracking, and AI-powered calorie analysis application using Modular Monolith architecture.
-
 ## 🚨 Critical Project State
 **Currently in PLANNING PHASE - No source code exists yet.** Main directories (`backend/`, `frontend/`, `ai-service/`, `admin-dashboard/`) are empty.
 
@@ -23,13 +21,6 @@ backend/src/main/java/com/nutrition/
 ├── dashboard/     # Statistics & charts
 └── admin/         # User management & audit logs
 ```
-
-## 🛠️ Technology Stack
-- **Backend**: Spring Boot 3 (Java 21), MongoDB, JWT, BCrypt
-- **AI Service**: FastAPI (Python), PyTorch, `uv` package manager
-- **Mobile**: Flutter (Dart) with Provider/Riverpod
-- **Admin**: React.js + Tailwind CSS
-- **Database**: MongoDB Atlas with compound indexes
 
 ## ⚡ Development Commands
 **Note: These commands will fail until project structure is created**
@@ -53,12 +44,32 @@ npm install
 npm run dev
 ```
 
+## 🤖 OpenCode Agent Configuration
+This repo uses specialized OpenCode agents for different tasks:
+- **plan**: Architecture planning, feature breakdown
+- **build**: Implementation, writing code, running tests
+- **explore**: Codebase exploration, understanding structure
+- **general**: Research, multi-step problem solving
+- **project_lead**: Orchestrating sub-agents, maintaining architectural integrity
+- **backend_dev**: Spring Boot 3/Java 21 backend modules
+- **frontend_dev**: Flutter mobile app + React admin dashboard
+- **ai_engineer**: FastAPI + PyTorch food recognition service
+- **devops_engineer**: Docker, CI/CD, cloud deployment
+- **reviewer**: Code review, security audit, quality assurance
+- **docs_writer**: Documentation, API docs, README
+
 ## 📏 Coding Standards
 **Mandatory:**
 - **Backend**: `Controller` → `Service` → `Repository` layers only
 - **Naming**: camelCase (methods/vars), PascalCase (classes), UPPER_SNAKE_CASE (constants)
-- **Testing**: TDD approach, 80%+ code coverage required
+- **Testing**: TDD approach, 80%+ code coverage required (Service: 90%+, Controller: 80%+)
 - **Database**: snake_case field names, explicit indexes for performance
+- **Modules**: Communicate via Service Interfaces only (no cross-module Repository access)
+- **Async Processing**: Use `@Async` for non-blocking tasks
+- **Logic**: No business logic in Controllers
+- **Frontend**: 
+  - Flutter: Clean Architecture, PascalCase for Classes, snake_case for filenames
+  - React: Functional components and Hooks, PascalCase for Components
 
 ## 🔒 Security Requirements
 - JWT tokens with refresh mechanism
@@ -72,11 +83,11 @@ npm run dev
 **Phase 3 (Admin)**: React dashboard → Audit logging → Performance optimization
 
 ## 📋 Key Reference Files
-- **User Stories**: `.opencode/context/user_stories.md`
-- **Module Details**: `.opencode/context/module_breakdown.md` 
-- **API Contracts**: Each module defines Input/Output in `.opencode/context/`
-- **Coding Standards**: `.opencode/context/coding-standards.md`
-- **CI/CD Plan**: `.opencode/workflows/ci_cd.md`
+- **User Stories**: `.opencode/context/02-requirements/user_stories.md`
+- **Module Details**: `.opencode/context/02-requirements/module_breakdown.md` 
+- **API Contracts**: Each module defines Input/Output in `.opencode/context/02-requirements/`
+- **Coding Standards**: `.opencode/context/03-standards/coding-standards.md`
+- **CI/CD Plan**: `.opencode/context/05-infrastructure/ci_cd.md`
 
 ## ⚠️ Common Pitfalls to Avoid
 1. **Never put business logic in Controllers**
@@ -84,6 +95,3 @@ npm run dev
 3. **Always write tests before implementation (TDD)**
 4. **Use compound MongoDB indexes for performance**
 5. **JWT must include refresh token mechanism**
-
----
-**Last Updated:** May 2026 | **Status**: Planning Phase | **Next**: Initialize Spring Boot project structure

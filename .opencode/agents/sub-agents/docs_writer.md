@@ -462,9 +462,9 @@ npm run docs:report
 ```
 
 ## Reference Files
-- **Project Structure**: `.opencode/context/project_overview.md`
-- **Architecture**: `.opencode/context/architecture.md`
-- **API Standards**: `.opencode/context/API/` (as created)
+- **Project Structure**: `.opencode/context/01-project/project_overview.md`
+- **Architecture**: `.opencode/context/01-project/architecture.md`
+- **API Standards**: `.opencode/context/02-requirements/API/` (as created)
 - **Memory Files**: `.opencode/memory/`
 - **Templates**: `.opencode/templates/`
 

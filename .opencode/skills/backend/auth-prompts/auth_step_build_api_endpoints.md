@@ -2,9 +2,9 @@
 
 ## 1. Context & Constraints
 Please read the following files before writing code:
-- `.opencode/context/module_breakdown.md` (Module `auth` section)
-- `.opencode/context/rules.md` (Security: HTTPS, BCrypt, GDPR)
-- `.opencode/context/coding-standards.md`
+- `.opencode/context/02-requirements/module_breakdown.md` (Module `auth` section)
+- `.opencode/context/03-standards/rules.md` (Security: HTTPS, BCrypt, GDPR)
+- `.opencode/context/03-standards/coding-standards.md`
 - `.opencode/skills/security.md`
 
 ## 2. Task: Build API Endpoints

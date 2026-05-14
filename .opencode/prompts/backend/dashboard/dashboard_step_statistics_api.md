@@ -1,9 +1,9 @@
 # Prompt: Build Dashboard Module (Statistics & Visualization) - Step 1: Statistics API (Spring Boot)
 
 ## 1. Context & Constraints
-- `.opencode/context/module_breakdown.md` (Module `dashboard` section)
+- `.opencode/context/02-requirements/module_breakdown.md` (Module `dashboard` section)
 - `.opencode/skills/front-end.md` (How to use Charts in Flutter/React)
-- `.opencode/context/rules.md` (Dashboard query speed < 2s)
+- `.opencode/context/03-standards/rules.md` (Dashboard query speed < 2s)
 
 ## 2. Task: Statistics API (Spring Boot)
 1. **Write unit tests for the expected business logic before writing the actual source code (Test-First).**

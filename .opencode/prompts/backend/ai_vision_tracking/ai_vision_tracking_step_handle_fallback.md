@@ -1,9 +1,9 @@
 # Prompt: Build Meal Tracking & AI Vision Module - Step 3: Handle Fallback
 
 ## 1. Context & Constraints
-- `.opencode/context/module_breakdown.md` (`meal_tracking` and `ai_vision_service` sections)
+- `.opencode/context/02-requirements/module_breakdown.md` (`meal_tracking` and `ai_vision_service` sections)
 - `.opencode/skills/ai-services.md` (PyTorch, FastAPI)
-- `.opencode/context/rules.md` (AI Accuracy ≥ 85%, fast processing time)
+- `.opencode/context/03-standards/rules.md` (AI Accuracy ≥ 85%, fast processing time)
 
 ## 2. Task: Handle Fallback
 1. If FastAPI returns an error or the confidence score is too low, return an appropriate error code to the Frontend.

@@ -303,9 +303,9 @@ const handleMealSubmit = useCallback(async (mealData: MealData) => {
 - [ ] Include proper TypeScript types (React)
 
 ## Reference Files
-- **UI Design**: `.opencode/context/UI/`
-- **Coding Standards**: `.opencode/context/coding-standards.md`
-- **API Contracts**: `.opencode/context/API/` (when available)
-- **Design Tokens**: `.opencode/context/UI/design_tokens.md`
+- **UI Design**: `.opencode/context/04-ui-ux/`
+- **Coding Standards**: `.opencode/context/03-standards/coding-standards.md`
+- **API Contracts**: `.opencode/context/02-requirements/API/` (when available)
+- **Design Tokens**: `.opencode/context/04-ui-ux/design_tokens.md`
 
 **Last Updated**: May 2026 | **Status**: Ready for Sprint 1 Implementation

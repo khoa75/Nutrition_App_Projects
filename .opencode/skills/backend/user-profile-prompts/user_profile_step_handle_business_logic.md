@@ -2,9 +2,9 @@
 
 ## 1. Context & Constraints
 Please read the following files before writing code:
-- `.opencode/context/module_breakdown.md` (Module `user_profile` section)
-- `.opencode/context/business-rules.md` (BMI, BMR, TDEE formulas)
-- `.opencode/context/rules.md` (kg/lbs, cm/feet support)
+- `.opencode/context/02-requirements/module_breakdown.md` (Module `user_profile` section)
+- `.opencode/context/02-requirements/business-rules.md` (BMI, BMR, TDEE formulas)
+- `.opencode/context/03-standards/rules.md` (kg/lbs, cm/feet support)
 
 ## 2. Task: Handle Business Logic
 1. Implement `HealthMetricsService` to accurately calculate BMI and TDEE according to the formulas in `business-rules.md`.

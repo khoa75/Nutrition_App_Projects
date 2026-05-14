@@ -472,9 +472,9 @@ curl -X POST -d '{"alerts": []}' http://localhost:9093/api/v1/alerts
 
 ## Reference Files
 - **CI/CD Plan**: `.opencode/workflows/ci_cd.md`
-- **Architecture**: `.opencode/context/architecture.md`
+- **Architecture**: `.opencode/context/01-project/architecture.md`
 - **Performance Requirements**: API response time < 2 seconds
-- **Security Guidelines**: `.opencode/context/security_and_error_handling.md`
+- **Security Guidelines**: `.opencode/context/03-standards/security_and_error_handling.md`
 - **Database Guidelines**: `.opencode/skills/database.md`
 
 **Last Updated**: May 2026 | **Status**: Ready for Infrastructure Setup

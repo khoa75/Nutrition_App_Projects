@@ -63,4 +63,4 @@ src/
 ## 7. Data Visualization
 - **Flutter**: `fl_chart` for calorie/weight line charts
 - **React**: `Recharts` for admin analytics
-- Chart colors match UI design tokens in `.opencode/context/UI/`
+- Chart colors match UI design tokens in `.opencode/context/04-ui-ux/`

@@ -7,7 +7,7 @@ The **Nutrition App** project is built entirely with a **Modular Monolith** arch
 - **Database:** MongoDB (Using Spring Data MongoDB)
 - **Authentication:** JWT (JSON Web Tokens)
 - **Security:** Spring Security, BCrypt (Password encryption)
-- **File Storage:** Cloudinary or Amazon S3
+- **File Storage:** Cloudinary
 
 ## 2. AI / ML Service (Analysis & Recognition)
 - **Framework:** FastAPI (Python)

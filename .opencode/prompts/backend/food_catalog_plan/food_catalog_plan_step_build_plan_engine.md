@@ -1,9 +1,9 @@
 # Prompt: Build Food Catalog & Nutrition Plan Module - Step 2: Build Nutrition Plan Engine
 
 ## 1. Context & Constraints
-- `.opencode/context/module_breakdown.md` (`food_catalog` & `nutrition_plan` sections)
+- `.opencode/context/02-requirements/module_breakdown.md` (`food_catalog` & `nutrition_plan` sections)
 - `.opencode/skills/database.md` (MongoDB Indexing Strategy)
-- `.opencode/context/business-rules.md` (Macronutrients & Target Calories)
+- `.opencode/context/02-requirements/business-rules.md` (Macronutrients & Target Calories)
 
 ## 2. Task: Build Nutrition Plan Engine
 1. Create an algorithm (Service) that takes `TDEE` and the user's `goal` (weight gain/loss) as input.

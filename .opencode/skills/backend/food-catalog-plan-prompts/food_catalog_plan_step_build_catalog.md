@@ -1,9 +1,9 @@
 # Prompt: Build Food Catalog & Nutrition Plan Module - Step 1: Build Food Catalog
 
 ## 1. Context & Constraints
-- `.opencode/context/module_breakdown.md` (`food_catalog` & `nutrition_plan` sections)
+- `.opencode/context/02-requirements/module_breakdown.md` (`food_catalog` & `nutrition_plan` sections)
 - `.opencode/skills/database.md` (MongoDB Indexing Strategy)
-- `.opencode/context/business-rules.md` (Macronutrients & Target Calories)
+- `.opencode/context/02-requirements/business-rules.md` (Macronutrients & Target Calories)
 
 ## 2. Task: Build Food Catalog
 1. **Write unit tests for the expected business logic before writing the actual source code (Test-First).**

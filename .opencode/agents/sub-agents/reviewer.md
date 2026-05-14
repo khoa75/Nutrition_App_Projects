@@ -287,9 +287,9 @@ gh pr approve --message "Approved after addressing comments"
 - **Performance Standards**: 100% of endpoints must meet response time requirements
 
 ## Reference Files
-- **Architecture Rules**: `.opencode/context/architecture.md`
-- **Coding Standards**: `.opencode/context/coding-standards.md`
-- **Security Guidelines**: `.opencode/context/security_and_error_handling.md`
+- **Architecture Rules**: `.opencode/context/01-project/architecture.md`
+- **Coding Standards**: `.opencode/context/03-standards/coding-standards.md`
+- **Security Guidelines**: `.opencode/context/03-standards/security_and_error_handling.md`
 - **Performance Requirements**: API response time < 2 seconds
 - **Database Standards**: `.opencode/skills/database.md`
 

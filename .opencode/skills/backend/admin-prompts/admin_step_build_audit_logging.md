@@ -1,7 +1,7 @@
 # Prompt: Build Admin Module (Administration & Monitoring) - Step 2: Build Audit Logging
 
 ## 1. Context & Constraints
-- `.opencode/context/module_breakdown.md` (Module `admin` section)
+- `.opencode/context/02-requirements/module_breakdown.md` (Module `admin` section)
 - `.opencode/skills/front-end.md` (React Hooks, Reusable Components)
 - `.opencode/skills/security.md` (Audit Logging, RBAC)
 

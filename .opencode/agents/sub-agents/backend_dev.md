@@ -141,10 +141,10 @@ public class GlobalExceptionHandler {
 - [ ] Error handling centralized
 
 ## Reference Files
-- **Architecture**: `.opencode/context/architecture.md`
-- **Coding Standards**: `.opencode/context/coding-standards.md`
-- **Module Details**: `.opencode/context/module_breakdown.md`
-- **Security Rules**: `.opencode/context/security_and_error_handling.md`
+- **Architecture**: `.opencode/context/01-project/architecture.md`
+- **Coding Standards**: `.opencode/context/03-standards/coding-standards.md`
+- **Module Details**: `.opencode/context/02-requirements/module_breakdown.md`
+- **Security Rules**: `.opencode/context/03-standards/security_and_error_handling.md`
 - **Database Skills**: `.opencode/skills/database.md`
 
 **Last Updated**: May 2026 | **Status**: Ready for Sprint 1 Implementation
