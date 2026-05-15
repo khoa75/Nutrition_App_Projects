@@ -60,4 +60,14 @@ These steps guide the automated implementation of CI/CD:
 - [Step 2: Frontend CI](file:///home/khoa/Projects/Nutrition_App/Nutrition_App_Projects/.opencode/skills/devops/github-actions-prompts/step_2_ci_frontend.md)
 - [Step 3: CD & Deployment](file:///home/khoa/Projects/Nutrition_App/Nutrition_App_Projects/.opencode/skills/devops/github-actions-prompts/step_3_cd_deployment.md)
 
+## 8. Cách làm việc theo Workflows (Workflow Practices)
+- **Tự động hóa hoàn toàn (Full Automation):** Mọi thay đổi mã nguồn đẩy lên các nhánh chính hoặc tạo Pull Request đều phải kích hoạt pipeline kiểm tra tự động (Lint, Test, Build).
+- **Phân tách môi trường (Environment Separation):**
+  - Nhánh `feature-*`: Chỉ chạy CI (Build, Test) để phát hiện lỗi sớm.
+  - Nhánh `staging` (hoặc pre-prod): Chạy CI và tự động deploy (CD) lên môi trường staging để test tích hợp.
+  - Nhánh `main`: Yêu cầu duyệt thủ công (Manual Approval Gate) trước khi thực hiện deploy (CD) lên Production.
+- **Fail-Fast (Phát hiện lỗi sớm):** Pipeline sẽ tự động dừng nếu bất kỳ bước nào (ví dụ test coverage < 80%) thất bại, ngăn chặn code lỗi đi tiếp.
+- **Quản lý Secrets an toàn:** Không lưu trữ API Keys, mật khẩu trong file YAML. Mọi thông tin nhạy cảm phải được truyền qua GitHub Secrets hoặc môi trường bảo mật tương đương.
+- **Yêu cầu Commit thường xuyên:** Bất cứ khi nào có thay đổi trên codebase, dù là nhỏ nhất (fix bug nhỏ, thêm docs, format code...), người phát triển (hoặc AI Agent) phải luôn chủ động hỏi: *"Có muốn tạo commit cho thay đổi này không?"* trước khi chuyển sang tác vụ khác.
+
 **Last Updated**: May 2026 | **Status**: Infrastructure Ready for Phase 1

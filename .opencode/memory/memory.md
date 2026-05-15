@@ -9,7 +9,7 @@ This file serves as a persistent memory and state tracker for OpenCode throughou
 ## Tasks
 
 ### In Progress
-- [ ] Restructuring .opencode folder
+- [ ] Khởi tạo khung mã nguồn (scaffold) cho các module Backend, Frontend, AI và Admin
 
 ### Backlog
 - [ ] Implement User Authentication (Spring Security + JWT)
@@ -18,12 +18,6 @@ This file serves as a persistent memory and state tracker for OpenCode throughou
 - [ ] Design Mobile Dashboard (Flutter)
 - [ ] Build Admin Panel (React)
 - [ ] Integrate MongoDB with Audit Logging
-
-### Completed
-- [x] Initial Scaffolding of directory structure
-- [x] Project architecture definition
-- [x] Initial project folder structure creation.
-- [x] BMI Calculation Feature (Step 1-6)
 
 ## Important Notes
 - Always refer to `.opencode/AGENTS.md` for project guidelines and requirements.
