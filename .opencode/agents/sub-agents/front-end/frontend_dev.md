@@ -1,3 +1,11 @@
+---
+name: frontend_dev
+description: >
+  Agent: Frontend Developer
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Agent: Frontend Developer
 
 ## Persona

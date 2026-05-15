@@ -1,0 +1,141 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "openrouter": {
+      "baseUrl": "${OPENROUTER_BASE_URL}",
+      "apiKey": "${OPENROUTER_API_KEY}"
+    }
+  },
+  "instructions": [
+    "AGENTS.md"
+  ],
+  "lsp": {
+    "java": {
+      "command": [
+        "jdtls"
+      ],
+      "extensions": [
+        ".java"
+      ]
+    },
+    "python": {
+      "command": [
+        "pyright-langserver",
+        "--stdio"
+      ],
+      "extensions": [
+        ".py"
+      ]
+    },
+    "dart": {
+      "command": [
+        "dart",
+        "language-server",
+        "--protocol=lsp"
+      ],
+      "extensions": [
+        ".dart"
+      ]
+    },
+    "typescript": {
+      "command": [
+        "typescript-language-server",
+        "--stdio"
+      ],
+      "extensions": [
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "javascript": {
+      "command": [
+        "typescript-language-server",
+        "--stdio"
+      ],
+      "extensions": [
+        ".js",
+        ".jsx"
+      ]
+    }
+  },
+  "skills": {
+    "paths": [
+      ".opencode/skills"
+    ]
+  },
+  "permission": {
+    "bash": "ask",
+    "edit": "ask",
+    "grep": "allow",
+    "read": "allow",
+    "lsp": "allow"
+  },
+  "agent": {
+    "plan": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "description": "Plan architecture, break down features, design implementation strategy",
+      "temperature": 0.1,
+      "mode": "primary"
+    },
+    "build": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "description": "Implement features, write code, run tests",
+      "temperature": 0.2,
+      "mode": "primary"
+    },
+    "explore": {
+      "model": "openrouter/google/gemini-2.0-flash-001",
+      "description": "Quick codebase exploration, search files, understand project structure",
+      "temperature": 0.1,
+      "mode": "primary"
+    },
+    "general": {
+      "model": "openrouter/google/gemini-2.0-flash-001",
+      "description": "General-purpose tasks, research, multi-step problem solving",
+      "temperature": 0.3,
+      "mode": "primary"
+    },
+    "project_lead": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "temperature": 0.1,
+      "description": "Orchestrate sub-agents, maintain architectural integrity, coordinate cross-module work",
+      "mode": "primary"
+    },
+    "backend_dev": {
+      "model": "openrouter/anthropic/claude-sonnet-20241022",
+      "temperature": 0.2,
+      "description": "Spring Boot 3 / Java 21 backend — auth, user_profile, food_catalog, meal_tracking, dashboard, admin modules",
+      "mode": "subagent"
+    },
+    "frontend_dev": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "temperature": 0.3,
+      "description": "Flutter mobile app + React admin dashboard — screens, state management, API integration",
+      "mode": "subagent"
+    },
+    "ai_engineer": {
+      "model": "openrouter/anthropic/claude-sonnet-20241022",
+      "temperature": 0.3,
+      "description": "FastAPI + PyTorch — food recognition model, calorie estimation, image processing pipeline",
+      "mode": "subagent"
+    },
+    "devops_engineer": {
+      "model": "openrouter/google/gemini-2.0-flash-001",
+      "temperature": 0.2,
+      "description": "Docker, CI/CD, cloud deployment, monitoring, infrastructure-as-code",
+      "mode": "subagent"
+    },
+    "reviewer": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "temperature": 0.1,
+      "description": "Code review, security audit, quality assurance, best practices enforcement",
+      "mode": "subagent"
+    },
+    "docs_writer": {
+      "model": "openrouter/google/gemini-2.0-flash-001",
+      "temperature": 0.4,
+      "description": "Documentation, API docs, README, project memory, changelogs",
+      "mode": "subagent"
+    }
+  }
+}

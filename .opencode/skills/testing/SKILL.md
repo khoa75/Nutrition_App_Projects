@@ -1,8 +1,9 @@
 ---
 name: testing
 description: Testing patterns, TDD workflow, coverage requirements, and test scenarios for Nutrition App
+license: Apache-2.0
+compatibility: opencode
 ---
-
 ## 1. TDD Workflow
 1. Write test (fails) → implement minimal code → test passes → refactor
 2. Every new feature module starts with 3 test files: `{Module}ServiceTest`, `{Module}ControllerTest`, `{Module}IntegrationTest`

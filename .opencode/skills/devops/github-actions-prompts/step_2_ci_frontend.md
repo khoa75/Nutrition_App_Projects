@@ -1,3 +1,11 @@
+---
+name: step_2_ci_frontend
+description: >
+  Prompt: Setup GitHub Actions CI - Step 2: Frontend (Mobile & Admin)
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Setup GitHub Actions CI - Step 2: Frontend (Mobile & Admin)
 
 ## 1. Context & Constraints

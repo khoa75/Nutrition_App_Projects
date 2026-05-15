@@ -1,3 +1,11 @@
+---
+name: user_profile_step_design_model_dto
+description: >
+  Prompt: Build User Profile Module (Health Profile) - Step 1: Design Model & DTO (Spring Boot)
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build User Profile Module (Health Profile) - Step 1: Design Model & DTO (Spring Boot)
 
 ## 1. Context & Constraints

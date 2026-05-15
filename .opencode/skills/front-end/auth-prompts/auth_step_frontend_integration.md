@@ -1,3 +1,11 @@
+---
+name: auth_step_frontend_integration
+description: >
+  Prompt: Build Auth Module (Authentication & Authorization) - Step 3: Frontend Integration
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Auth Module (Authentication & Authorization) - Step 3: Frontend Integration
 
 ## 1. Context & Constraints

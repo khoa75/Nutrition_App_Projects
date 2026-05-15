@@ -1,3 +1,11 @@
+---
+name: step_3_cd_deployment
+description: >
+  Prompt: Setup GitHub Actions CD - Step 3: Deployment Workflows
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Setup GitHub Actions CD - Step 3: Deployment Workflows
 
 ## 1. Context & Constraints

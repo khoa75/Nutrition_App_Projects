@@ -1,3 +1,11 @@
+---
+name: ai_vision_tracking_step_backend_integration
+description: >
+  Prompt: Build Meal Tracking & AI Vision Module - Step 2: Integration from Spring Boot Backend
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Meal Tracking & AI Vision Module - Step 2: Integration from Spring Boot Backend
 
 ## 1. Context & Constraints

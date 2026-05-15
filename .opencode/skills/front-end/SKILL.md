@@ -1,8 +1,9 @@
 ---
 name: front-end
 description: Flutter mobile app architecture, Riverpod state management, API client patterns, and React admin dashboard
+license: Apache-2.0
+compatibility: opencode
 ---
-
 ## 1. Flutter (Mobile App) Architecture
 ```
 lib/

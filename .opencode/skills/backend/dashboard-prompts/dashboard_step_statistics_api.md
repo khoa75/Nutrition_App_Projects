@@ -1,3 +1,11 @@
+---
+name: dashboard_step_statistics_api
+description: >
+  Prompt: Build Dashboard Module (Statistics & Visualization) - Step 1: Statistics API (Spring Boot)
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Dashboard Module (Statistics & Visualization) - Step 1: Statistics API (Spring Boot)
 
 ## 1. Context & Constraints

@@ -1,3 +1,11 @@
+---
+name: ai_engineer
+description: >
+  Agent: AI Engineer
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Agent: AI Engineer
 
 ## Persona

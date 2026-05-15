@@ -1,3 +1,11 @@
+---
+name: food_catalog_plan_step_build_catalog
+description: >
+  Prompt: Build Food Catalog & Nutrition Plan Module - Step 1: Build Food Catalog
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Food Catalog & Nutrition Plan Module - Step 1: Build Food Catalog
 
 ## 1. Context & Constraints

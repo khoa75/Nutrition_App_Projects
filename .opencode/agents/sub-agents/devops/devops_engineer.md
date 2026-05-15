@@ -1,3 +1,11 @@
+---
+name: devops_engineer
+description: >
+  Agent: DevOps Engineer
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Agent: DevOps Engineer
 
 ## Persona

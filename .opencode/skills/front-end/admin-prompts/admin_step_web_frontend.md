@@ -1,3 +1,11 @@
+---
+name: admin_step_web_frontend
+description: >
+  Prompt: Build Admin Module (Administration & Monitoring) - Step 3: Web Frontend (React.js)
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Admin Module (Administration & Monitoring) - Step 3: Web Frontend (React.js)
 
 ## 1. Context & Constraints

@@ -1,3 +1,11 @@
+---
+name: food_catalog_plan_step_performance_optimization
+description: >
+  Prompt: Build Food Catalog & Nutrition Plan Module - Step 3: Performance Optimization
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Food Catalog & Nutrition Plan Module - Step 3: Performance Optimization
 
 ## 1. Context & Constraints

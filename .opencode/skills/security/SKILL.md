@@ -1,8 +1,9 @@
 ---
 name: security
 description: JWT authentication, RBAC, password policy, API security, and data privacy patterns
+license: Apache-2.0
+compatibility: opencode
 ---
-
 ## 1. JWT Implementation
 ```java
 // Access Token: 15 minutes, contains userId + role

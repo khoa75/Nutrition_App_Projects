@@ -1,3 +1,11 @@
+---
+name: admin_step_build_audit_logging
+description: >
+  Prompt: Build Admin Module (Administration & Monitoring) - Step 2: Build Audit Logging
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Admin Module (Administration & Monitoring) - Step 2: Build Audit Logging
 
 ## 1. Context & Constraints

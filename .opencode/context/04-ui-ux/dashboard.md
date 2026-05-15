@@ -1,25 +1,25 @@
 # Dashboard Screen (Progress Tracking)
 
-This is the main screen (Home) that users see every day, designed to make a strong impression (WOW) with a visual, elegant, and data-rich interface that remains uncluttered.
+This is the main screen (Home) that users see every day, designed to make a strong impression (WOW) with a visual, elegant, and data-rich interface that remains uncluttered and fresh.
 
 ## 1. Overall Structure (Layout)
-The screen is vertically scrollable, with a background color of `#0F172A` (Dark Slate). There is a faint gradient radiating from the top right corner (color `#10B981` with 15% opacity) to create depth.
+The screen is vertically scrollable, with a background color of `#F7FBF7` (Pale Mint). A very subtle green gradient radiates from the top left corner to create a sense of light.
 
 ### Header
-- Left corner: Personalized greeting "Good morning, Khoa! 👋" (White text `#F8FAFC`, font `Outfit` SemiBold 24px).
-- Right corner: Circular user avatar with a thin Primary Green border.
+- **Left corner**: Personalized greeting "Good morning, Khoa! 👋" (Deep Forest Green `#1B5E20`, font `Outfit` SemiBold 24px).
+- **Right corner**: Circular user avatar with a thin Primary Green (`#00C853`) border.
 
 ## 2. Focal Card: Calorie Ring (Calorie Ring Card)
 Located immediately below the Header, this is the largest visual highlight.
-- **Background**: 24px rounded Card, applying a **Glassmorphism** effect (semi-transparent background, 12px blur, 1px light border).
+- **Background**: 24px rounded Card, applying a **Glassmorphism** effect (White semi-transparent background, 16px blur, subtle primary green border).
 - **Center**: A large circular progress ring (Circular Progress).
-  - Background ring: `#334155` (Slate 700).
-  - Progress ring: Uses a Gradient from `#10B981` (Mint) to `#3B82F6` (Blue).
-  - **Animation**: When loading, the color band runs from 0 to the consumption percentage with a subtle glow effect (Glow).
+  - Background ring: `#E8F5E9` (Very light green).
+  - Progress ring: Uses a Gradient from `#00C853` (Vibrant Green) to `#2979FF` (Electric Blue).
+  - **Animation**: When loading, the color band runs from 0 to the consumption percentage with a subtle glow effect.
 - **Text inside the ring**:
-  - Large number (prominently displayed): "1,450" (font Bold 40px).
+  - Large number: "1,450" (font Bold 40px, Deep Forest Green).
   - Small label below: "Kcal consumed".
-- **Bottom of the Card**: Displays text "Remaining: 550 Kcal" in Mint Green.
+- **Bottom of the Card**: Displays text "Remaining: 550 Kcal" in Vibrant Green.
 
 ## 3. Macronutrients Breakdown (Macros Breakdown)
 Located below the Calorie ring, displaying 3 metrics: Protein, Carbs, Fats.
@@ -28,21 +28,28 @@ Located below the Calorie ring, displaying 3 metrics: Protein, Carbs, Fats.
   - Small Linear Progress bar.
   - Data (e.g., "45g / 120g").
 - **Progress bar colors**:
-  - Protein: Rose Red Gradient (`#E11D48`).
-  - Carbs: Orange Gradient (`#F59E0B`).
-  - Fats: Purple Gradient (`#8B5CF6`).
+  - Protein: Rose Red (`#E11D48`).
+  - Carbs: Amber (`#F59E0B`).
+  - Fats: Electric Blue (`#2979FF`).
 
-## 4. Today's Meals Area
+## 4. Weight Tracking Area (US-5)
+A dedicated section to track weight progress.
+- **Title**: "Weight Progress" (Size 20px, SemiBold).
+- **Mini Chart**: A small sparkline chart showing the weight trend over the last 7 days.
+- **Entry Action**: A small [Update Weight] button (Primary Green text with an underline).
+  - When clicked, a small popup/modal appears with a numeric keypad and a slider to quickly log current weight.
+
+## 5. Today's Meals Area
 Displayed as a vertical list.
 - Title: "Today's Meals" (Size 20px, SemiBold). Small "View all" button on the right.
 - **Meal Card**:
-  - Light black background (`#1E293B`), 16px rounded corners. Has a slight elevation effect on hover/tap.
-  - Left: Food thumbnail image, rounded, with a filter darkening the corners slightly.
+  - Pure white background (`#FFFFFF`), 16px rounded corners. Has a soft drop shadow.
+  - Left: Food thumbnail image, rounded.
   - Middle: Dish name (e.g., "Pan-seared Chicken Breast"), with time of consumption below ("12:30 PM").
-  - Right: Total calories for the dish ("+350 kcal", Primary Green color).
+  - Right: Total calories for the dish ("+350 kcal", Vibrant Green color).
 
-## 5. Add Food Button (Floating Action Button - FAB)
-- Position: Fixed at the bottom right corner or centered (like a tab bar Home button).
-- Design: Large circular button, Gradient from Mint Green to Emerald Green.
-- Box Shadow: Radiates a green glow (Glow) `0px 10px 20px rgba(16, 185, 129, 0.4)` giving a floating sensation.
-- Icon: PLUS symbol (`+`) in white or a Camera icon. When pressed, the icon rotates 45 degrees into an `x` and activates a backdrop filter to open a menu: "Take Photo" or "Manual Entry".
+## 6. Add Food Button (Floating Action Button - FAB)
+- Position: Fixed at the bottom right corner.
+- Design: Large circular button, Gradient from Vibrant Green to Deep Green.
+- Box Shadow: Radiates a green glow.
+- Icon: PLUS symbol (`+`) in white. When pressed, activates a menu: "Take Photo" or "Manual Entry".

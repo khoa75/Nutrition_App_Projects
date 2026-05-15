@@ -1,3 +1,11 @@
+---
+name: auth_step_initialize_backend
+description: >
+  Prompt: Build Auth Module (Authentication & Authorization) - Step 1: Initialize Backend (Spring Boot)
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Auth Module (Authentication & Authorization) - Step 1: Initialize Backend (Spring Boot)
 
 ## 1. Context & Constraints

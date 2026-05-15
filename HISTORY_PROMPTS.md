@@ -9,3 +9,8 @@ This file tracks the prompts provided by the user during the development of the 
 | 2026-05-15 15:20 | Cập nhật vào một file gọi là HISTORY_PROMPTS.md với mục tiêu là lưu tất cả các prompts từ nay mà tôi sử dụng |
 | 2026-05-15 15:21 | Cập nhật điều này vào trong file AGENTS.md giúp tôi |
 | 2026-05-15 15:27 | Cập nhật điều này vào trong file AGENTS.md giúp tôi |
+| 2026-05-15 20:08 | Trong phần context ui-ux có thể thêm cho tôi phần màu sắc chủ đạo không. Đây là các màu sắc chủ đạo mà tôi mong muốn: Bộ màu "Modern Mint" (Hiện đại & Thanh thoát)... Dựa vào user_stories.md có thể giúp tôi cập nhật lại các file trong thư mục ui-ux |
+| 2026-05-15 20:22 | Primary (Chủ đạo): #76FF03 (Xanh chanh cực kỳ bắt mắt) Secondary (Phụ): #C6FF00 (Xanh vàng tạo sự tươi mới) Background (Nền): #FAFAFA (Trắng xám nhẹ để tông xanh nổi bật) Surface (Vùng chứa): #FFFFFF (Trắng thuần) Accent (Điểm nhấn): #303F9F (Xanh Indigo đậm để tạo độ sâu và sự chuyên nghiệp) Text (Chữ): #212121 (Đen xám cho độ tương phản cao nhất) Thêm cho tôi phần này vào trong file admin-dashboard.md |
+| 2026-05-16 05:17 | Có thể dựa vào user_stories.md sau đó cập nhật lại giúp tôi phần ui-ux không |
+| 2026-05-16 05:32 | Hãy cập nhật tất cả các files trong folder agents và folders skills thành format này giúp tôi |
+| 2026-05-16 05:53 | Phần sub-agents có thể tổ chức lại theo vai trò của từng agents không |

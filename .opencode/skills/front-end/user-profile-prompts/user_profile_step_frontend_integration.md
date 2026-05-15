@@ -1,3 +1,11 @@
+---
+name: user_profile_step_frontend_integration
+description: >
+  Prompt: Build User Profile Module (Health Profile) - Step 3: Frontend Integration (Flutter)
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build User Profile Module (Health Profile) - Step 3: Frontend Integration (Flutter)
 
 ## 1. Context & Constraints

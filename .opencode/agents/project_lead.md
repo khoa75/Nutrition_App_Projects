@@ -1,3 +1,11 @@
+---
+name: project_lead
+description: >
+  Agent: Project Lead
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Agent: Project Lead
 
 ## Persona
