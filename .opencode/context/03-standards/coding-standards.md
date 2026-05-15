@@ -22,6 +22,6 @@ This document defines the coding standards for the Nutrition App project.
 - Define explicit indexes for performance.
 
 ## 4. Testing & Quality Assurance
-- **TDD (Test-Driven Development)**: Always write Unit Tests for business logic before implementing the actual source code (Test-First approach).
+- **TDD (Test-Driven Development)**: **Luôn luôn viết test trước khi viết code (Always write tests before writing code).** Always write Unit Tests for business logic before implementing the actual source code (Test-First approach).
 - **Coverage**: Ensure Code Coverage reaches a minimum of **80%** for Service and Controller layers.
 - **Automation**: All Unit and Integration Tests must be automatically run in the CI/CD pipeline.

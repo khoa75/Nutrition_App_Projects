@@ -27,6 +27,6 @@ Based on the [PRD.md](../../PRD.md) and architectural constraints, the following
 
 ## 4. Architecture & Coding Principles
 - **Main Backend:** Adhere to the **Modular Monolith** model. Code is decomposed into independent modules (packages) based on features (Feature-based packaging).
-- **Development Process:** Apply **Test-Driven Development (TDD)**. Write unit tests to define behavior before writing the actual processing code.
+- **Development Process:** Apply **Test-Driven Development (TDD)**. **Luôn luôn viết test trước khi viết code (Always write tests before writing code).** Write unit tests to define behavior before writing the actual processing code.
 - **Separate AI Service:** All heavy tasks related to Machine Learning/Computer Vision must be isolated in the **FastAPI Service** to avoid bottlenecks for the main Backend.
 - **Food Database Updates:** The core food database must be designed to support regular updates from Admins/Nutritionists.
