@@ -36,7 +36,7 @@ AI service (`ai_vision_service`) is a separate FastAPI process called by `meal_t
 - **Backend:** Controller → Service → Repository. No business logic in controllers. `@Async` for non-blocking tasks.
 - **Naming:** `camelCase` (vars/methods), `PascalCase` (classes), `UPPER_SNAKE_CASE` (constants), `snake_case` (DB fields, Dart filenames).
 - **Testing:** TDD – write tests **before** implementation. 80%+ coverage (Service 90%, Controller 80%).
-- **Flutter:** Clean Architecture. React: functional components with hooks.
+- **Flutter:** Clean Architecture. **React:** TypeScript only (no `.js`/`.jsx`), functional components with hooks.
 
 ## Security
 - JWT with refresh tokens, BCrypt passwords.
