@@ -9,7 +9,7 @@ This file serves as a persistent memory and state tracker for OpenCode throughou
 ## Tasks
 
 ### In Progress
-- [ ] Khởi tạo khung mã nguồn (scaffold) cho các module Backend, Frontend, AI và Admin
+- [ ] Initialize scaffold for Backend, Frontend, AI, and Admin modules
 
 ### Backlog
 - [ ] Implement User Authentication (Spring Security + JWT)

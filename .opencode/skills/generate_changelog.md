@@ -1,22 +1,23 @@
-# Prompt Mẫu: Sinh Release Notes / Changelog
-**Tác vụ**: Đọc lịch sử Git bằng câu lệnh `git log` và tự động tạo file `CHANGELOG.md` dựa trên Conventional Commits.
+# Sample Prompt: Generate Release Notes / Changelog
 
-**Hướng dẫn dành cho AI Agent (`docs_writer` / `devops_engineer`)**:
-1. Sử dụng công cụ chạy lệnh terminal để lấy danh sách commit. 
-   - Lệnh ví dụ: `git log --pretty=format:"%h - %s (%an, %ad)" --since="v[phiên_bản_trước]"` (hoặc đọc toàn bộ nếu là bản release đầu tiên).
-2. Phân loại các commit theo loại (type):
-   - **`feat`**: Tính năng mới (New Features)
-   - **`fix`**: Sửa lỗi (Bug Fixes)
-   - **`perf`**: Cải thiện hiệu năng (Performance Improvements)
-   - *Bỏ qua* các commit thuộc loại `chore`, `docs`, `style` (ngoại trừ trường hợp những commit này có ảnh hưởng trực tiếp đến người dùng cuối).
-3. Biên soạn nội dung theo định dạng Markdown chuẩn:
+**Task**: Read Git history using `git log` command and automatically create `CHANGELOG.md` file based on Conventional Commits.
+
+**Instructions for AI Agent (`docs_writer` / `devops_engineer`)**:
+1. Use terminal command tool to get commit list.
+   - Example command: `git log --pretty=format:"%h - %s (%an, %ad)" --since="v[previous_version]"` (or read all if it's the first release).
+2. Classify commits by type:
+   - **`feat`**: New Features
+   - **`fix`**: Bug Fixes
+   - **`perf`**: Performance Improvements
+   - *Skip* commits of type `chore`, `docs`, `style` (unless these commits have direct impact on end users).
+3. Compose content in standard Markdown format:
    ```markdown
-   ## [Tên_Phiên_bản] - YYYY-MM-DD
+   ## [Version_Name] - YYYY-MM-DD
    
-   ### ✨ Tính năng mới (New Features)
-   - Lọc và liệt kê các mô tả từ commit `feat`...
+   ### ✨ New Features
+   - Filter and list descriptions from `feat` commits...
    
-   ### 🐛 Sửa lỗi (Bug Fixes)
-   - Lọc và liệt kê các mô tả từ commit `fix`...
+   ### 🐛 Bug Fixes
+   - Filterand list descriptions from `fix` commits...
    ```
-4. Cuối cùng, tự động ghi (append) hoặc tạo mới nội dung vào file `CHANGELOG.md` ở thư mục gốc của dự án.
+4. Finally, automatically append or create new content to `CHANGELOG.md` file in the project root directory.

@@ -6,7 +6,7 @@ test.txt
 Thumbs.db
 
 # ==============================
-# IDEs / Editors
+# IDEs / Editor
 # ==============================
 .idea/
 .vscode/
@@ -81,3 +81,4 @@ flutter_*.png
 .env.test.local
 .env.production.local
 
+data/ 
