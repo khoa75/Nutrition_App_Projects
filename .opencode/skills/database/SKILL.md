@@ -132,4 +132,94 @@ compatibility: opencode
 - **Top foods by frequency**: `$unwind items → $group {food_id → $count} → $sort {count: -1} → $limit 10`
 
 ## 4. Naming Convention
+
+All field names in `snake_case` (consistent with Java `@Field("snake_case")` mapping).
+
+## 5. Building the Database
+
+The project uses **MongoDB** running locally via Docker Compose. Follow these steps to spin up the database and apply the required indexes.
+
+### 5.1 Docker Compose
+Create (or verify) a `docker-compose.yml` at the repository root with the following service definition:
+
+```yaml
+version: "3.9"
+services:
+  mongodb:
+    image: mongo:7.0
+    container_name: nutrition_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: nutrition_db
+    volumes:
+      - mongo_data:/data/db
+volumes:
+  mongo_data:
+```
+
+Run:
+```
+docker compose up -d mongodb
+```
+The database will be reachable at `mongodb://localhost:27017/nutrition_db` which matches the `mongodb.url` entry in `opencode.json`.
+
+### 5.2 Index Creation Script
+Create a script `scripts/init_indexes.js` (executed with `mongosh`) that creates all indexes defined in **Section 2** of this skill:
+
+```js
+use nutrition_db;
+
+// users indexes
+db.users.createIndex({email: 1}, {unique: true, sparse: true});
+db.users.createIndex({phone: 1}, {unique: true, sparse: true});
+
+// user_profiles
+db.user_profiles.createIndex({user_id: 1}, {unique: true});
+
+// weight_logs
+db.weight_logs.createIndex({user_id: 1, date: -1});
+
+// food_items
+db.food_items.createIndex({name: "text", name_vi: "text"});
+db.food_items.createIndex({category: 1});
+
+// meal_logs
+db.meal_logs.createIndex({user_id: 1, date: -1});
+db.meal_logs.createIndex({user_id: 1, meal_type: 1, date: -1});
+
+// meal_plans
+db.meal_plans.createIndex({user_id: 1, date: -1});
+
+// audit_logs
+db.audit_logs.createIndex({created_at: -1});
+db.audit_logs.createIndex({target_user_id: 1, created_at: -1});
+```
+Run the script after the container starts:
+```
+mongosh "mongodb://localhost:27017" scripts/init_indexes.js
+```
+
+### 5.3 Integration with Backend
+The Spring Boot backend reads the connection string from `opencode.json` (`mongodb.url`). Ensure the `application.yml` contains:
+```yaml
+spring:
+  data:
+    mongodb:
+      uri: ${MONGODB_URL:mongodb://localhost:27017/nutrition_db}
+```
+The backend will automatically map the collections defined above using Spring Data MongoDB repositories.
+
+### 5.4 Testing the Connection
+Run a quick sanity check from the backend module:
+```bash
+./mvnw test -Dtest=MongoConnectionTest
+```
+Create a simple JUnit test that injects `MongoTemplate` and performs a `countDocuments` on any collection. It should pass when the Docker container is up.
+
+---
+```
+```
+
 All field names in `snake_case` (consistent with Java `@Field("snake_case")` mapping)
