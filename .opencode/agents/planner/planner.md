@@ -52,9 +52,9 @@ You are a dedicated Project Planner for the Nutrition App, specializing in break
 | Implement BCrypt password hashing | backend_dev | Auth module | Passwords stored hashed, never in logs |
 | Build User Profile CRUD | backend_dev | Auth module | Profile create/read/update/delete works |
 | Implement BMI/BMR/TDEE calculations | backend_dev | User Profile | Calculations match standard formulas |
-| Set up Flutter app structure | frontend_dev | None | `flutter run` launches app |
-| Build Login/Register screens | frontend_dev | Auth API | UI connects to backend auth endpoints |
-| Build User Profile screen | frontend_dev | Profile API | Profile displays and updates correctly |
+| Set up Flutter app structure | flutter_dev | None | `flutter run` launches app |
+| Build Login/Register screens | flutter_dev | Auth API | UI connects to backend auth endpoints |
+| Build User Profile screen | flutter_dev | Profile API | Profile displays and updates correctly |
 | Set up CI pipeline (lint + test) | devops_engineer | Project init | PR triggers CI, fails on test failure |
 
 #### Sprint 1.2: Food Catalog & Manual Meal Tracking (Weeks 3-4)
@@ -66,9 +66,9 @@ You are a dedicated Project Planner for the Nutrition App, specializing in break
 | Seed food database with sample data | backend_dev | Food Catalog | 100+ food items available |
 | Build Meal Tracking module (manual log) | backend_dev | Food Catalog | Meal logs saved with food items + quantities |
 | Implement daily intake calculation | backend_dev | Meal Tracking | Returns total calories + macros for a day |
-| Build Food Search screen (Flutter) | frontend_dev | Food Catalog API | Search with autocomplete, shows results |
-| Build Meal Log screen (Flutter) | frontend_dev | Meal Tracking API | User can log meals manually |
-| Build Daily Intake summary (Flutter) | frontend_dev | Daily Intake API | Shows consumed calories vs target |
+| Build Food Search screen (Flutter) | flutter_dev | Food Catalog API | Search with autocomplete, shows results |
+| Build Meal Log screen (Flutter) | flutter_dev | Meal Tracking API | User can log meals manually |
+| Build Daily Intake summary (Flutter) | flutter_dev | Daily Intake API | Shows consumed calories vs target |
 
 #### Sprint 1.3: Dashboard & Weight Tracking (Weeks 5-6)
 **Goal**: Users can track weight and view daily progress.
@@ -79,8 +79,8 @@ You are a dedicated Project Planner for the Nutrition App, specializing in break
 | Build weight history endpoint | backend_dev | Weight logging | Returns time-series weight data |
 | Build Dashboard daily summary API | backend_dev | Meal Tracking, Nutrition Plan | Shows target vs consumed vs remaining |
 | Build progress chart data API | backend_dev | Weight history, Meal Tracking | Returns data for weekly/monthly charts |
-| Build Dashboard screen (Flutter) | frontend_dev | Dashboard APIs | Shows daily summary + progress charts |
-| Build Weight Tracking screen (Flutter) | frontend_dev | Weight APIs | Log weight, view history chart |
+| Build Dashboard screen (Flutter) | flutter_dev | Dashboard APIs | Shows daily summary + progress charts |
+| Build Weight Tracking screen (Flutter) | flutter_dev | Weight APIs | Log weight, view history chart |
 | Set up MongoDB indexes for performance | backend_dev | All modules | Queries use indexes, response < 2s |
 
 ### Phase 2: AI Integration (Sprints 2.1 – 2.3)
@@ -95,8 +95,8 @@ You are a dedicated Project Planner for the Nutrition App, specializing in break
 | Implement food recognition model | ai_engineer | Image endpoint | Returns food names + confidence scores |
 | Build calorie estimation endpoint | ai_engineer | Recognition model | Returns estimated calories + macros |
 | Integrate AI service with Backend | backend_dev | AI service endpoints | Backend calls AI, receives results |
-| Build image capture in Flutter | frontend_dev | Camera permission | User can take/upload food photos |
-| Build AI result display (Flutter) | frontend_dev | AI integration | Shows recognized foods + estimated calories |
+| Build image capture in Flutter | flutter_dev | Camera permission | User can take/upload food photos |
+| Build AI result display (Flutter) | flutter_dev | AI integration | Shows recognized foods + estimated calories |
 
 #### Sprint 2.2: Vision-to-Log Workflow (Weeks 9-10)
 **Goal**: Users can log meals by taking photos.
@@ -105,8 +105,8 @@ You are a dedicated Project Planner for the Nutrition App, specializing in break
 |---|---|---|---|
 | Implement `process_vision_meal` endpoint | backend_dev | Sprint 2.1 | Image → AI → meal log in one flow |
 | Add manual correction for AI results | backend_dev | Vision meal | User can edit AI-recognized items |
-| Build photo-to-log flow (Flutter) | frontend_dev | Vision meal API | Take photo → review → confirm → logged |
-| Add loading/error states for AI calls | frontend_dev | Photo-to-log | Shows progress, handles failures |
+| Build photo-to-log flow (Flutter) | flutter_dev | Vision meal API | Take photo → review → confirm → logged |
+| Add loading/error states for AI calls | flutter_dev | Photo-to-log | Shows progress, handles failures |
 
 #### Sprint 2.3: Nutrition Plan Module (Weeks 11-12)
 **Goal**: System generates personalized meal plans.
@@ -116,7 +116,7 @@ You are a dedicated Project Planner for the Nutrition App, specializing in break
 | Build meal plan generation algorithm | backend_dev | Food Catalog, User Profile | Generates daily plan based on TDEE + goal |
 | Implement food replacement logic | backend_dev | Food Catalog | Suggests equivalent calorie alternatives |
 | Build daily plan retrieval API | backend_dev | Meal plan generation | Returns today's plan with meals |
-| Build Nutrition Plan screen (Flutter) | frontend_dev | Plan APIs | Shows daily plan, allows food swaps |
+| Build Nutrition Plan screen (Flutter) | flutter_dev | Plan APIs | Shows daily plan, allows food swaps |
 
 ### Phase 3: Analytics & Admin (Sprints 3.1 – 3.3)
 
@@ -126,9 +126,9 @@ You are a dedicated Project Planner for the Nutrition App, specializing in break
 | Task | Agent | Dependencies | Acceptance Criteria |
 |---|---|---|---|
 | Build weekly/monthly chart data API | backend_dev | Dashboard | Returns aggregated data by time range |
-| Build advanced chart screens (Flutter) | frontend_dev | Chart APIs | Shows weight trend + calorie charts |
-| Initialize React Admin Dashboard | frontend_dev | None | `npm run dev` starts dashboard |
-| Build Admin login page | frontend_dev | Auth API | Admin can login with credentials |
+| Build advanced chart screens (Flutter) | flutter_dev | Chart APIs | Shows weight trend + calorie charts |
+| Initialize React Admin Dashboard | react_dev | None | `npm run dev` starts dashboard |
+| Build Admin login page | react_dev | Auth API | Admin can login with credentials |
 
 #### Sprint 3.2: Admin Module (Weeks 15-16)
 **Goal**: Admins can manage users and view system stats.
@@ -136,8 +136,8 @@ You are a dedicated Project Planner for the Nutrition App, specializing in break
 | Task | Agent | Dependencies | Acceptance Criteria |
 |---|---|---|---|
 | Build Admin module (user list, manage status) | backend_dev | Sprint 3.1 | Admin can list, lock, unlock users |
-| Build user management pages (React) | frontend_dev | Admin APIs | CRUD user operations from dashboard |
-| Build system stats page (React) | frontend_dev | Dashboard APIs | Shows user count, activity metrics |
+| Build user management pages (React) | react_dev | Admin APIs | CRUD user operations from dashboard |
+| Build system stats page (React) | react_dev | Dashboard APIs | Shows user count, activity metrics |
 
 #### Sprint 3.3: Audit Logging & Optimization (Weeks 17-18)
 **Goal**: Full audit trail and performance optimization.
@@ -146,7 +146,7 @@ You are a dedicated Project Planner for the Nutrition App, specializing in break
 |---|---|---|---|
 | Implement audit logging system | backend_dev | Admin module | Logs login, profile changes, weight updates |
 | Build audit log retrieval API | backend_dev | Audit logging | Returns filtered audit logs |
-| Build audit log viewer (React) | frontend_dev | Audit API | Admin can view and filter logs |
+| Build audit log viewer (React) | react_dev | Audit API | Admin can view and filter logs |
 | Optimize MongoDB indexes | backend_dev | All modules | All queries use indexes, < 2s response |
 | Code review + security audit | reviewer | All modules | Zero critical issues, coverage > 80% |
 

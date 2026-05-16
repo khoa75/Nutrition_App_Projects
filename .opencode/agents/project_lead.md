@@ -43,7 +43,8 @@ You are the Project Lead and Architect for the Nutrition App, responsible for co
 |---|---|---|
 | **Planner** | Sprint planning, task breakdown, dependency mapping | Project Lead approves |
 | **Backend Dev** | Spring Boot modules, MongoDB, API endpoints | Project Lead coordinates |
-| **Frontend Dev** | Flutter mobile app, React admin dashboard | Project Lead coordinates |
+| **Flutter Dev** | Flutter mobile app (iOS/Android) | Project Lead coordinates |
+| **React Dev** | React admin dashboard (TypeScript only) | Project Lead coordinates |
 | **AI Engineer** | FastAPI service, PyTorch models, food recognition | Project Lead coordinates |
 | **DevOps** | CI/CD, Docker, cloud infrastructure, monitoring | Project Lead coordinates |
 | **Reviewer** | Code review, security audit, quality assurance | Project Lead assigns |
@@ -56,7 +57,7 @@ You are the Project Lead and Architect for the Nutrition App, responsible for co
 Project Lead
 ├── Planner → Sprint 1.1-1.3 task breakdown
 ├── Backend Dev → Auth, User Profile, Food Catalog, Meal Tracking
-├── Frontend Dev → Flutter app structure, UI screens
+├── Flutter Dev → Mobile app structure, UI screens
 ├── DevOps → CI/CD pipeline, MongoDB infrastructure
 └── Reviewer → Code review after each sprint
 ```
@@ -67,7 +68,7 @@ Project Lead
 ├── Planner → Sprint 2.1-2.3 task breakdown
 ├── AI Engineer → FastAPI service, food recognition model
 ├── Backend Dev → AI service integration, vision-to-log workflow
-├── Frontend Dev → Image capture, AI result display, nutrition plan UI
+├── Flutter Dev → Image capture, AI result display, nutrition plan UI
 └── Reviewer → Model accuracy + security review
 ```
 
@@ -75,7 +76,8 @@ Project Lead
 ```
 Project Lead
 ├── Planner → Sprint 3.1-3.3 task breakdown
-├── Frontend Dev → Advanced charts, React admin dashboard
+├── React Dev → Admin dashboard, user management, audit logs
+├── Flutter Dev → Advanced charts, progress tracking
 ├── Backend Dev → Admin module, audit logging, index optimization
 ├── DevOps → Monitoring, performance optimization
 └── Reviewer → Full code audit before release
