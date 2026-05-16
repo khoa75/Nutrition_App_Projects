@@ -1,12 +1,12 @@
 ---
 name: git
-description: Kỹ năng quản lý phiên bản, viết commit message chuẩn mực (Conventional Commits) và tối ưu lịch sử Git
+description: Version control skill, writing standard commit messages (Conventional Commits) and optimizing Git history
 license: Apache-2.0
 compatibility: opencode
 ---
-## 1. Tiêu chuẩn viết Commit Message (Conventional Commits)
+## 1. Commit Message Standard (Conventional Commits)
 
-Để lịch sử Git rõ ràng, chuyên nghiệp và dễ dàng cho việc tự động hóa (ví dụ tạo changelog), toàn bộ commit trong dự án cần tuân thủ cấu trúc sau:
+To keep Git history clear, professional, and easy to automate (e.g., generating changelogs), all commits in the project must follow this structure:
 
 ```text
 <type>(<scope>): <subject>
@@ -16,30 +16,30 @@ compatibility: opencode
 <footer>
 ```
 
-### Các `type` (loại commit) tiêu chuẩn:
-- `feat`: Thêm một tính năng mới.
-- `fix`: Sửa một lỗi (bug).
-- `docs`: Cập nhật tài liệu (README, Swagger, markdown...).
-- `style`: Thay đổi định dạng code (khoảng trắng, thiếu dấu chấm phẩy, format code...) không làm thay đổi logic.
-- `refactor`: Viết lại code nhưng không làm thay đổi logic (không fix bug, không thêm tính năng).
-- `perf`: Tối ưu hóa hiệu năng, tốc độ xử lý.
-- `test`: Thêm mới hoặc sửa các test cases.
-- `build`: Thay đổi hệ thống build hoặc các dependency (maven, npm, uv, pub...).
-- `ci`: Thay đổi cấu hình CI/CD (GitHub Actions, workflow files...).
-- `chore`: Các công việc dọn dẹp, thay đổi công cụ hỗ trợ không thuộc các loại trên.
+### Standard `type` (commit types):
+- `feat`: Add a new feature.
+- `fix`: Fix a bug.
+- `docs`: Update documentation (README, Swagger, markdown...).
+- `style`: Change code formatting (whitespace, missing semicolons, code format...) without changing logic.
+- `refactor`: Rewrite code without changing logic (no bug fixes, no new features).
+- `perf`: Optimize performance, processing speed.
+- `test`: Add or fix test cases.
+- `build`: Change build system or dependencies (maven, npm, uv, pub...).
+- `ci`: Change CI/CD configuration (GitHub Actions, workflow files...).
+- `chore`: Cleanup tasks, tool changes not belonging to the above types.
 
-### 2. Quy tắc viết Subject (dòng tiêu đề)
-- **Luôn gắn mã User Story hoặc Task ID (nếu có):** Ví dụ `feat(auth): US-01 add JWT login endpoint`.
-- **Dùng tiếng Anh và viết ở thể mệnh lệnh:** Ví dụ `add` thay vì `added` hay `adds`, `fix` thay vì `fixed`.
-- **Ngắn gọn:** Tối đa 50-72 ký tự để hiển thị tốt trên các công cụ dòng lệnh hoặc UI của GitHub.
-- Không viết hoa chữ cái đầu (trừ trường hợp tên riêng/mã số).
-- Không để dấu chấm ở cuối câu tiêu đề.
+### 2. Subject Line Rules
+- **Always include User Story or Task ID (if available):** Example `feat(auth): US-01 add JWT login endpoint`.
+- **Use English and write in imperative mood:** Example `add` instead of `added` or `adds`, `fix` instead of `fixed`.
+- **Be concise:** Maximum 50-72 characters for good display on command line tools or GitHub UI.
+- Do not capitalize the first letter (except for proper names/numbers).
+- Do not put a period at the end of the subject line.
 
-### 3. Quy tắc Body và Footer (tùy chọn)
-- **Body:** Cách tiêu đề 1 dòng trống. Giải thích **tại sao** lại có thay đổi này (What and Why) thay vì miêu tả code làm gì (How). Dòng nên bẻ (wrap) ở khoảng 72 ký tự.
-- **Footer:** Dùng để tham chiếu đến các ticket/issue (VD: `Closes #42`, `Fixes US-05`) hoặc đánh dấu Breaking Changes.
+### 3. Body and Footer Rules (optional)
+- **Body:** Separate from subject with one blank line. Explain **why** this change was made (What and Why) instead of describing how the code works (How). Lines should be wrapped at around 72 characters.
+- **Footer:** Used to reference tickets/issues (e.g., `Closes #42`, `Fixes US-05`) or mark Breaking Changes.
 
-## 4. Các thực hành tốt (Best Practices) khi Commit
-- **Atomic Commits (Commit nguyên tử):** Mỗi commit chỉ nên tập trung giải quyết 1 vấn đề/tác vụ duy nhất. Đừng gom chung việc fix lỗi CSS và tạo endpoint Backend vào cùng một commit.
-- **Kiểm tra trước khi commit:** Luôn review kỹ các thay đổi đã stage (Staged changes) để đảm bảo không bị lọt code rác (như `console.log`, `print`, `TODO` tạm thời).
-- **Hỏi trước khi làm:** (Dành cho AI Agent) Bất kỳ khi nào có một thay đổi nhỏ trên codebase, AI Agent phải chủ động hỏi xem người dùng có muốn commit lại tác vụ đó không để giữ lịch sử minh bạch.
+## 4. Best Practices when Committing
+- **Atomic Commits:** Each commit should focus on solving only one issue/task. Don't combine fixing CSS bugs and creating a Backend endpoint in the same commit.
+- **Check before committing:** Always carefully review staged changes to ensure no garbage code slips through (like `console.log`, `print`, temporary `TODO`).
+- **Ask before doing:** (For AI Agent) Whenever there is a small change on the codebase, the AI Agent must proactively ask if the user wants to commit that task to keep the history transparent.

@@ -61,14 +61,14 @@ These steps guide the automated implementation of CI/CD:
 - [Step 2: Frontend CI](file:///home/khoa/Projects/Nutrition_App/Nutrition_App_Projects/.opencode/skills/devops/github-actions-prompts/step_2_ci_frontend.md)
 - [Step 3: CD & Deployment](file:///home/khoa/Projects/Nutrition_App/Nutrition_App_Projects/.opencode/skills/devops/github-actions-prompts/step_3_cd_deployment.md)
 
-## 8. Cách làm việc theo Workflows (Workflow Practices)
-- **Tự động hóa hoàn toàn (Full Automation):** Mọi thay đổi mã nguồn đẩy lên các nhánh chính hoặc tạo Pull Request đều phải kích hoạt pipeline kiểm tra tự động (Lint, Test, Build).
-- **Phân tách môi trường (Environment Separation):**
-  - Nhánh `feature-*`: Chỉ chạy CI (Build, Test) để phát hiện lỗi sớm.
-  - Nhánh `staging` (hoặc pre-prod): Chạy CI và tự động deploy (CD) lên môi trường staging để test tích hợp.
-  - Nhánh `main`: Yêu cầu duyệt thủ công (Manual Approval Gate) trước khi thực hiện deploy (CD) lên Production.
-- **Fail-Fast (Phát hiện lỗi sớm):** Pipeline sẽ tự động dừng nếu bất kỳ bước nào (ví dụ test coverage < 80%) thất bại, ngăn chặn code lỗi đi tiếp.
-- **Quản lý Secrets an toàn:** Không lưu trữ API Keys, mật khẩu trong file YAML. Mọi thông tin nhạy cảm phải được truyền qua GitHub Secrets hoặc môi trường bảo mật tương đương.
-- **Yêu cầu Commit thường xuyên:** Bất cứ khi nào có thay đổi trên codebase, dù là nhỏ nhất (fix bug nhỏ, thêm docs, format code...), người phát triển (hoặc AI Agent) phải luôn chủ động hỏi: *"Có muốn tạo commit cho thay đổi này không?"* trước khi chuyển sang tác vụ khác.
+## 8. Workflow Practices
+- **Full Automation:** All source code changes pushed to main branches or creating Pull Requests must trigger automated check pipelines (Lint, Test, Build).
+- **Environment Separation:**
+  - `feature-*` branches: Only run CI (Build, Test) to detect errors early.
+  - `staging` (or pre-prod) branch: Run CI and automatically deploy (CD) to staging environment for integration testing.
+  - `main` branch: Requires manual approval (Manual Approval Gate) before deploying (CD) to Production.
+- **Fail-Fast:** Pipeline will automatically stop if any step fails (e.g., test coverage < 80%), preventing buggy code from proceeding.
+- **Secure Secrets Management:** Do not store API Keys, passwords in YAML files. All sensitive information must be passed through GitHub Secrets or equivalent secure environment.
+- **Frequent Commit Requirement:** Whenever there is a change on the codebase, no matter how small (fix minor bug, add docs, format code...), the developer (or AI Agent) must always proactively ask: *"Do you want to create a commit for this change?"* before moving to another task.
 
 **Last Updated**: May 2026 | **Status**: Infrastructure Ready for Phase 1

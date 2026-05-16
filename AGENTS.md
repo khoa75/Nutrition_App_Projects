@@ -1,7 +1,13 @@
 # Nutrition App – OpenCode Guidance
 
 ## Project State
-**Planning phase** – all source directories (`backend/src`, `ai-service/app`, `frontend/lib`, `admin-dashboard/src`) are empty. No `pom.xml`, `pyproject.toml`, `pubspec.yaml`, or root `package.json` in subdirectories yet. Scaffold before running any build/test commands.
+**Scaffolding phase** – directory structures exist for all four components but no build files yet (`pom.xml`, `pyproject.toml`, `pubspec.yaml`, `admin-dashboard/package.json`). Create build configs before running any build/test commands.
+
+Source tree status:
+- `backend/src/main/java/` and `backend/src/test/` exist – no packages or `pom.xml` yet
+- `ai-service/app/{api,core,models,services}/` exist – no `pyproject.toml` yet
+- `admin-dashboard/src/{assets,components,pages,services,store,tests,utils}/` exist – no `package.json` yet
+- `frontend/lib/` exists (empty) – no `pubspec.yaml` yet; `android/` and `ios/` shells present
 
 ## Architecture
 Modular monolith. Four components:
@@ -44,21 +50,33 @@ AI service (`ai_vision_service`) is a separate FastAPI process called by `meal_t
 - Roles: `USER`, `ADMIN`.
 - Secrets in `.env` (gitignored) – **never commit credentials**.
 
-## LSP Configuration (from `opencode.json`)
-- Java → `jdtls` · Python → `pyright-langserver` · Dart → `dart language-server` · TS/JS → `typescript-language-server`
+## MCP Servers (from `opencode.json`)
+MongoDB (`nutrition_db`), GitHub, Brave Search, Docker, Cloudinary, Postman – all available via `npx`. Env vars required: `OPENROUTER_API_KEY`, `GITHUB_PERSONAL_ACCESS_TOKEN`, `BRAVE_API_KEY`, `CLOUDINARY_URL`, `POSTMAN_API_KEY`.
 
 ## Reference Docs
 All detailed specs live in `.opencode/context/`:
 - `01-project/` – architecture, overview, tech stack
 - `02-requirements/` – business rules, module breakdown, user stories
 - `03-standards/` – coding standards, rules
-- `04-ui-ux/` – UI/UX specs
+- `04-ui-ux/` – UI/UX specs (Modern Mint color palette)
 - `05-infrastructure/` – CI/CD plan (GitHub Actions, Docker)
 - `06-glossary/` – terminology
 - `07-api-contracts/` – API specs
 - `08-qa/` – QA guidelines
 
-Skills in `.opencode/skills/` (backend, database, front-end, ai-services, devops, security, testing, system-design, git).
+Skills in `.opencode/skills/` (19 total: `java-springboot`, `fastapi-python`, `jwt-security`, `typescript-react-reviewer`, `rest-api-design`, `git-advanced-workflows`, `git-branch-pr-workflow`, `conversation-memory`, `ai-services`, `backend`, `database`, `devops`, `front-end`, `git`, `security`, `system-design`, `testing`, `debug`).
+
+## Agents (from `opencode.json`)
+- `project_lead` – orchestration, architecture
+- `backend_dev` – Spring Boot / Java 21
+- `frontend_dev` – Flutter + React/TS
+- `ai_engineer` – FastAPI / PyTorch
+- `devops_engineer` – Docker / CI/CD
+- `reviewer` – code review, security, quality
+- `database_admin` – MongoDB schema / indexes
+- `qa_tester` – TDD, coverage enforcement
+- `security_auditor` – JWT, RBAC, OWASP
+- `docs_writer` – docs, changelogs, history
 
 ## History
 Log every user request into `HISTORY_PROMPTS.md` with timestamp and exact prompt text.
