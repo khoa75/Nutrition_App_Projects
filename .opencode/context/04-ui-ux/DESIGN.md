@@ -66,6 +66,43 @@
 | **Button States** | Default primary `#2ED5C5`; Hover darken 10 %; Pressed darken 20 %; Disabled opacity 0.4. |
 | **Form Validation** | Inline error text red `#D32F2F`, icon, auto‑scroll to first error. |
 | **Toast Notifications** | Bottom‑center, auto‑dismiss 3 s, slide‑in/out. Types: Success (green), Error (red), Info (blue). |
+
+### Task Completion Notification
+When an operation finishes (e.g., a meal is logged, a food item is added, profile saved, or background sync succeeds), show a transient **toast**.
+
+**Visual design**
+- Position: bottom‑center (mobile) / bottom‑right (desktop)
+- Size: up to 320 dp wide, 48 dp high
+- Background: success `#4CAF50`, error `#F44336`, info `#2196F3`
+- Icon: left‑aligned, 20 dp, matching the type
+- Border radius: 8 dp, elevation 2 (`0 4px 6px rgba(0,0,0,0.15)`)
+- Animation: slide‑up 200 ms, fade‑out after 3 s
+
+**Interaction**
+- Auto‑dismiss after 3 s; tap to dismiss.
+- Accessibility: `role="status"` (success/info) or `role="alert"` (error), `aria-live` accordingly.
+- Does not steal focus.
+
+**Code snippets**
+*React (react‑hot‑toast)*
+```tsx
+import { toast } from 'react-hot-toast';
+export const showSuccess = (msg: string) => toast.success(msg,{duration:3000,position:'bottom-center',style:{background:'#4CAF50',color:'#fff'}});
+export const showError = (msg: string) => toast.error(msg,{duration:4000,position:'bottom-center',style:{background:'#F44336',color:'#fff'}});
+```
+*Flutter*
+```dart
+ScaffoldMessenger.of(context).showSnackBar(
+  SnackBar(content: Text('Meal logged'),backgroundColor: Colors.green,behavior: SnackBarBehavior.floating,duration: const Duration(seconds:3)),
+);
+```
+
+**Typical use cases**
+- Meal logged → `showSuccess('Meal logged!')`
+- Food added → `showSuccess('Food added')`
+- Profile saved → `showSuccess('Profile updated')`
+- Sync error → `showError('Sync failed')`
+- Validation warning → `showInfo('Please fill required fields')`
 | **Pull‑to‑Refresh** | Home & Dashboard trigger data reload with top spinner. |
 | **Swipe Actions** (Meal list) | Swipe left → Delete (red), swipe right → Edit (blue). |
 | **Keyboard Navigation** | Logical tab order, focus ring, Enter triggers default button. |
