@@ -1,0 +1,9 @@
+# Docker profile overrides
+spring:
+  data:
+    mongodb:
+      uri: mongodb://mongodb:27017/nutrition_db
+
+logging:
+  level:
+    com.nutrition: INFO
