@@ -1,8 +1,9 @@
 ---
 name: ai-services
 description: FastAPI + PyTorch food recognition service structure, API endpoints, model pipeline, and integration patterns
+license: Apache-2.0
+compatibility: opencode
 ---
-
 ## 1. Service Structure
 ```
 ai-service/

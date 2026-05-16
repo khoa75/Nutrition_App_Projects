@@ -1,46 +1,44 @@
 # Design System & Design Tokens
 
-This document defines the Design Language for the entire **Nutrition App**. The application follows a **Modern, Premium & Glassmorphism** style, creating a smooth, vivid feel that encourages user interaction.
+This document defines the Design Language for the entire **Nutrition App**. The application follows a **Modern, Premium & Glassmorphism** style, using the **"Modern Mint"** palette to create a fresh, clean, and energetic feel.
 
-## 1. Color Palette
-The system uses an HSL/Hex color system with high contrast, providing a sense of energy without being overwhelming.
+## 1. Color Palette: "Modern Mint"
+The system uses high-quality hex colors to provide a sense of health and clarity.
 
 ### Primary Colors
-- **Primary Green (Brand)**: `#059669` (Emerald) - Symbolizes health, nature, and growth. Used for primary buttons (Call to Action) and goal progress bars.
-- **Primary Accent**: `#10B981` (Mint) - Used as a gradient in combination with Primary Green or for hover/active states.
-
-### Secondary/Semantic Colors
-- **Warning (Orange)**: `#F59E0B` - Used when calorie consumption is approaching its limit.
-- **Danger (Red/Dark Pink)**: `#E11D48` - Used when calorie levels exceed limits or BMI is at Obese levels. Error states.
-- **Info (Blue)**: `#3B82F6` - Used for water intake metrics, sleep, or tips.
+- **Primary (Main)**: `#00C853` (Vibrant Green) - Symbolizes health, vitality, and growth. Used for primary actions and key highlights.
+- **Secondary**: `#B9F6CA` (Mint Green) - Used for selection states, subtle backgrounds, and secondary highlights.
 
 ### Background & Surface
-The application supports Dark Mode as the default interface (Premium Dark), as Dark Mode highlights food images and gradient color bands.
-- **Main Background (Dark)**: `#0F172A` (Slate 900) - Main background color of the application.
-- **Surface/Card (Dark)**: `#1E293B` (Slate 800) - Background for Cards and Modals.
-- **Text Primary**: `#F8FAFC` (Slate 50) - Primary text.
-- **Text Secondary**: `#94A3B8` (Slate 400) - Secondary text, small descriptions.
+- **Background (Main)**: `#F7FBF7` (Pale Mint/White) - The main background color, providing a very soft mint tint for a premium look.
+- **Surface (Cards/Modals)**: `#FFFFFF` (Pure White) - Used for info cards and containers to ensure high readability.
+- **Text (Primary)**: `#1B5E20` (Deep Forest Green) - Used for main content and headings for maximum contrast and readability.
+
+### Semantic & Accent Colors
+- **Accent**: `#2979FF` (Electric Blue) - Used for links, information notifications, and highlighting specific metrics.
+- **Warning**: `#F59E0B` (Amber) - Used when nearing calorie limits.
+- **Danger**: `#E11D48` (Rose Red) - Used for error states or exceeding nutritional limits.
 
 ## 2. Typography
 - **Font Family**: `Inter` or `Outfit` (Google Fonts).
-- **Heading (H1)**: Font weight 700 (Bold), Size 32px, Letter spacing -0.02em.
-- **Subheading (H2)**: Font weight 600 (SemiBold), Size 24px.
-- **Body Text**: Font weight 400 (Regular), Size 16px, Line height 1.5.
-- **Caption**: Font weight 400, Size 12px, Text Secondary color.
+- **Heading (H1)**: Font weight 700 (Bold), Size 32px, Letter spacing -0.02em, Color: Text Primary.
+- **Subheading (H2)**: Font weight 600 (SemiBold), Size 24px, Color: Text Primary.
+- **Body Text**: Font weight 400 (Regular), Size 16px, Line height 1.5, Color: Text Primary.
+- **Caption**: Font weight 400, Size 12px, Color: Text Primary (with 60% opacity).
 
 ## 3. Visual Effects
 
-### Glassmorphism
-Instead of using solid Card backgrounds, the application uses Glassmorphism for Overlays (such as Bottom Sheets, Modals, or floating Headers).
-- **Background**: `rgba(30, 41, 59, 0.7)`
-- **Backdrop Filter**: `blur(12px)`
-- **Border**: `1px solid rgba(255, 255, 255, 0.1)`
+### Glassmorphism (Light Theme)
+Instead of dark overlays, we use a light, frosty glass effect.
+- **Background**: `rgba(255, 255, 255, 0.7)`
+- **Backdrop Filter**: `blur(16px)`
+- **Border**: `1px solid rgba(0, 200, 83, 0.1)` (Subtle Primary Green border)
 
 ### Drop Shadows & Glow
-- Use **Glow** effects instead of traditional black drop shadows to create a Cyber/Premium feel.
-- **Glow Button**: `box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4)` (Jade light radiating from buttons).
+- **Soft Shadow**: `box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05)` (Very subtle shadow for cards).
+- **Glow Button**: `box-shadow: 0 8px 20px rgba(0, 200, 83, 0.3)` (Radiant green glow for Primary buttons).
 
 ### Micro-Animations
-1. **Buttons**: When pressed (Tap/Click), buttons will slightly shrink `scale(0.95)` and quickly bounce back (Spring animation).
-2. **Progress Bars**: When the screen opens, the Calorie progress bar will run from 0 to its current value in `800ms` with an `ease-out-cubic` effect.
-3. **Page Transitions**: Use gentle Fade-in and Slide-up effects (`translateY` from 10px to 0px, `opacity` from 0 to 1 in `300ms`).
+1. **Buttons**: When pressed, buttons slightly shrink `scale(0.96)` with a spring bounce effect.
+2. **Progress Bars**: Smooth transition from 0 to current value over `1000ms` with `ease-out-expo`.
+3. **Page Transitions**: Gentle Fade-in and Slide-up (`translateY(15px)` to `0`) in `400ms`.

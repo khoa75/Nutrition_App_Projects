@@ -1,19 +1,21 @@
 # Meal Suggestion Screen (Nutrition Recommendations)
 
-This screen provides personalized meal suggestions based on TDEE goals. The interface is designed to stimulate the palate and provide motivation, using a modern layout such as card carousels or visual lists.
+This screen provides personalized meal suggestions based on the user's BMI and weight goals (Aligns with US-2). The interface is designed to stimulate the palate and provide motivation, using a modern layout such as card carousels or visual lists.
 
 ## 1. Overall Structure
 - **Background**: Dark Slate (`#0F172A`) consistent with the Dashboard to ensure uniformity.
 - **Header**:
   - Back button in the left corner.
-  - Title: "Today's Nutrition Plan" (Font `Outfit`, Size 24px, Bold, color `#F8FAFC`).
-  - Filter/Settings button in the right corner (For users to edit Goal: Weight Loss/Gain).
+  - Title: "Nutrition Plan" (Font `Outfit`, Size 24px, Bold, color `#F8FAFC`).
+  - Filter/Settings button in the right corner (For users to adjust parameters like Goal or recalculate based on updated BMI).
 
-## 2. Goal Toggle & Summary Card
-- Directly below the Header is a smooth horizontal slider (Segmented Control).
-- **States**: [Weight Loss] | [Maintain] | [Weight Gain].
-- When toggling, a slider indicator glides across with a spring effect, highlighting the current goal in Primary Green (`#059669`).
-- **Summary Box**: A small Glassmorphism Card displaying a quick summary: "Target: 1,800 Kcal / day".
+## 2. Timeframe & Goal Selection
+- **Timeframe Selector**: A sleek horizontal scroll or segmented control allowing users to switch the view between **Day / Week / Month / Year** (US-2 Acceptance Criteria).
+- **Goal Toggle & Summary Card**:
+  - Directly below the Timeframe is a smooth horizontal slider (Segmented Control).
+  - **States**: [Weight Loss] | [Maintain] | [Weight Gain].
+  - When toggling, a slider indicator glides across with a spring effect, highlighting the current goal in Primary Green (`#059669`).
+  - **Summary Box**: A small Glassmorphism Card displaying a quick summary: "Current BMI: 24.5 | Target: 1,800 Kcal / day".
 
 ## 3. Meal List (Meal Timeline / Carousel)
 Meals are divided chronologically (Breakfast, Lunch, Dinner, Snacks).
@@ -34,8 +36,9 @@ Each card features a 3D elevation effect and Parallax during scrolling.
   - 1px thin border, transparent gray background.
 
 ## 4. Interactions & Micro-animations
-### Swap Button
+### Swap Button (Replacing Dishes)
 - The right corner of the card features a "Swap Dish" button (rotating arrow icon).
+- **Functionality**: Allows replacing suggested dishes with others of **similar calories** (US-2 Acceptance Criteria).
 - **Animation**: When clicked, the icon rotates 360 degrees in 300ms. The current meal card blurs (blur transition) and a light Shimmer effect glides across before displaying the new replacement dish.
 
 ### Log Button (Eat This / Log Button)

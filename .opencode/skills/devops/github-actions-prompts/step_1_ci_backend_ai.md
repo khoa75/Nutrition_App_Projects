@@ -1,3 +1,11 @@
+---
+name: step_1_ci_backend_ai
+description: >
+  Prompt: Setup GitHub Actions CI - Step 1: Backend & AI Service
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Setup GitHub Actions CI - Step 1: Backend & AI Service
 
 ## 1. Context & Constraints

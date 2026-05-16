@@ -1,8 +1,9 @@
 ---
 name: devops
 description: Docker Compose setup, CI/CD pipelines, infrastructure scaling, monitoring, and backup strategies
+license: Apache-2.0
+compatibility: opencode
 ---
-
 ## 1. Services & Ports
 | Service | Port | Docker Image Base |
 |---------|------|-------------------|

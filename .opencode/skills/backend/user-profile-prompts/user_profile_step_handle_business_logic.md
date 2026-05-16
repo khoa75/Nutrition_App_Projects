@@ -1,3 +1,11 @@
+---
+name: user_profile_step_handle_business_logic
+description: >
+  Prompt: Build User Profile Module (Health Profile) - Step 2: Handle Business Logic
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build User Profile Module (Health Profile) - Step 2: Handle Business Logic
 
 ## 1. Context & Constraints

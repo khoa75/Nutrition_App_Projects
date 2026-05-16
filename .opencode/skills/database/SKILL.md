@@ -1,8 +1,9 @@
 ---
 name: database
 description: MongoDB collection schemas, compound indexes, aggregation pipelines, and naming conventions
+license: Apache-2.0
+compatibility: opencode
 ---
-
 ## 1. Collection Schemas
 
 ### users

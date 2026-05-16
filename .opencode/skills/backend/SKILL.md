@@ -1,8 +1,9 @@
 ---
 name: backend
 description: Spring Boot module structure, internal service interfaces, controller templates, MongoDB repository patterns
+license: Apache-2.0
+compatibility: opencode
 ---
-
 ## 1. Module Structure (Package-by-Feature)
 Each module follows: `controller/` → `service/` → `repository/` → `model/` → `dto/`
 ```

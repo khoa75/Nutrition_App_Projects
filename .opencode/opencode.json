@@ -1,0 +1,216 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "openrouter": {
+      "baseUrl": "${OPENROUTER_BASE_URL}",
+      "apiKey": "${OPENROUTER_API_KEY}"
+    }
+  },
+  "instructions": [
+    "AGENTS.md"
+  ],
+  "lsp": {
+    "java": {
+      "command": [
+        "jdtls"
+      ],
+      "extensions": [
+        ".java"
+      ]
+    },
+    "python": {
+      "command": [
+        "pyright-langserver",
+        "--stdio"
+      ],
+      "extensions": [
+        ".py"
+      ]
+    },
+    "dart": {
+      "command": [
+        "dart",
+        "language-server",
+        "--protocol=lsp"
+      ],
+      "extensions": [
+        ".dart"
+      ]
+    },
+    "typescript": {
+      "command": [
+        "typescript-language-server",
+        "--stdio"
+      ],
+      "extensions": [
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "javascript": {
+      "command": [
+        "typescript-language-server",
+        "--stdio"
+      ],
+      "extensions": [
+        ".js",
+        ".jsx"
+      ]
+    }
+  },
+  "skills": {
+    "paths": [
+      ".opencode/skills"
+    ]
+  },
+  "permission": {
+    "bash": "ask",
+    "edit": "ask",
+    "grep": "allow",
+    "read": "allow",
+    "lsp": "allow"
+  },
+  "mcpServers": {
+    "mongodb": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-mongodb",
+        "mongodb://localhost:27017/nutrition_db"
+      ]
+    },
+    "github": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-github"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "brave-search": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-brave-search"
+      ],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      }
+    },
+    "docker": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@docker/mcp-server"
+      ]
+    },
+    "cloudinary": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "cloudinary-mcp-server"
+      ],
+      "env": {
+        "CLOUDINARY_URL": "${CLOUDINARY_URL}"
+      }
+    },
+    "postman": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postman"
+      ],
+      "env": {
+        "POSTMAN_API_KEY": "${POSTMAN_API_KEY}"
+      }
+    }
+  },
+  "agent": {
+    "plan": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "description": "Plan architecture, break down features, design implementation strategy",
+      "temperature": 0.1,
+      "mode": "primary"
+    },
+    "build": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "description": "Implement features, write code, run tests — orchestrates backend_dev, frontend_dev, ai_engineer",
+      "temperature": 0.1,
+      "mode": "primary"
+    },
+    "explore": {
+      "model": "openrouter/google/gemini-2.0-flash-001",
+      "description": "Quick codebase exploration, search files, understand project structure",
+      "temperature": 0.1,
+      "mode": "primary"
+    },
+    "general": {
+      "model": "openrouter/google/gemini-2.0-flash-001",
+      "description": "General-purpose tasks, research, multi-step problem solving",
+      "temperature": 0.2,
+      "mode": "primary"
+    },
+    "project_lead": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "temperature": 0.1,
+      "description": "Orchestrate sub-agents, maintain architectural integrity, coordinate cross-module work — uses git-advanced-workflows for version control",
+      "mode": "primary"
+    },
+    "backend_dev": {
+      "model": "openrouter/anthropic/claude-sonnet-20241022",
+      "temperature": 0.1,
+      "description": "Spring Boot 3 / Java 21 backend — auth, user_profile, food_catalog, meal_tracking, dashboard, admin modules. Uses java-springboot skill for Controller→Service→Repository pattern, package-by-feature structure, and @Async non-blocking tasks",
+      "mode": "subagent"
+    },
+    "frontend_dev": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "temperature": 0.2,
+      "description": "Flutter mobile app + React admin dashboard — screens, Riverpod state management, API integration. Uses typescript-react-reviewer for React TSX functional components with hooks",
+      "mode": "subagent"
+    },
+    "ai_engineer": {
+      "model": "openrouter/anthropic/claude-sonnet-20241022",
+      "temperature": 0.2,
+      "description": "FastAPI + PyTorch — food recognition model, calorie estimation, image processing pipeline. Uses fastapi-python skill for REST endpoint design, async request handling, and Pydantic models",
+      "mode": "subagent"
+    },
+    "devops_engineer": {
+      "model": "openrouter/google/gemini-2.0-flash-001",
+      "temperature": 0.1,
+      "description": "Docker Compose, CI/CD pipelines, cloud deployment, monitoring, infrastructure-as-code — multi-service orchestration for backend, ai-service, MongoDB",
+      "mode": "subagent"
+    },
+    "reviewer": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "temperature": 0.05,
+      "description": "Code review, security audit, quality assurance — enforces JWT auth (jwt-security skill), BCrypt passwords, RBAC roles (USER/ADMIN), account lockout after 5 failed attempts, 80%+ test coverage",
+      "mode": "subagent"
+    },
+    "docs_writer": {
+      "model": "openrouter/google/gemini-2.0-flash-001",
+      "temperature": 0.3,
+      "description": "Documentation, API docs, README, project memory, changelogs — maintains HISTORY_PROMPTS.md and .opencode/context/ specs",
+      "mode": "subagent"
+    },
+    "database_admin": {
+      "model": "openrouter/anthropic/claude-sonnet-20241022",
+      "temperature": 0.1,
+      "description": "MongoDB schema design, compound indexes, aggregation pipelines, query optimization — manages nutrition_db collections with snake_case field naming",
+      "mode": "subagent"
+    },
+    "qa_tester": {
+      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "temperature": 0.1,
+      "description": "TDD workflow — writes tests before implementation. Enforces 90% service coverage, 80% controller coverage. Runs ./mvnw test, flutter test, and npm test across all modules",
+      "mode": "subagent"
+    },
+    "security_auditor": {
+      "model": "openrouter/anthropic/claude-sonnet-20241022",
+      "temperature": 0.05,
+      "description": "Security audit — JWT token validation, refresh token rotation, password policy enforcement, API endpoint protection, .env secrets management, OWASP vulnerability checks",
+      "mode": "subagent"
+    }
+  }
+}

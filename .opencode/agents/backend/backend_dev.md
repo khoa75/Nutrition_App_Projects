@@ -1,3 +1,11 @@
+---
+name: backend_dev
+description: >
+  Agent: Backend Developer
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Agent: Backend Developer
 
 ## Persona

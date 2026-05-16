@@ -1,3 +1,11 @@
+---
+name: admin_step_administration_api
+description: >
+  Prompt: Build Admin Module (Administration & Monitoring) - Step 1: Administration API (Spring Boot)
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Admin Module (Administration & Monitoring) - Step 1: Administration API (Spring Boot)
 
 ## 1. Context & Constraints

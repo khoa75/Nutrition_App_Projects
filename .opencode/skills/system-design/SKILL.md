@@ -1,8 +1,9 @@
 ---
 name: system-design
 description: Modular monolith architecture, module dependency graph, transaction boundaries, caching strategy, and performance budgets
+license: Apache-2.0
+compatibility: opencode
 ---
-
 ## 1. Modular Monolith Communication Flow
 ```
 Controller (module A) → Service Interface (module A)

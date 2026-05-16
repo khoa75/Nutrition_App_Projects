@@ -1,8 +1,9 @@
 ---
 name: git
 description: Kỹ năng quản lý phiên bản, viết commit message chuẩn mực (Conventional Commits) và tối ưu lịch sử Git
+license: Apache-2.0
+compatibility: opencode
 ---
-
 ## 1. Tiêu chuẩn viết Commit Message (Conventional Commits)
 
 Để lịch sử Git rõ ràng, chuyên nghiệp và dễ dàng cho việc tự động hóa (ví dụ tạo changelog), toàn bộ commit trong dự án cần tuân thủ cấu trúc sau:

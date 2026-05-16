@@ -1,3 +1,11 @@
+---
+name: reviewer
+description: >
+  Agent: Code Reviewer
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Agent: Code Reviewer
 
 ## Persona

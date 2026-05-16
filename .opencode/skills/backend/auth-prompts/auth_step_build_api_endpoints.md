@@ -1,3 +1,11 @@
+---
+name: auth_step_build_api_endpoints
+description: >
+  Prompt: Build Auth Module (Authentication & Authorization) - Step 2: Build API Endpoints
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Auth Module (Authentication & Authorization) - Step 2: Build API Endpoints
 
 ## 1. Context & Constraints

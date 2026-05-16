@@ -1,3 +1,11 @@
+---
+name: docs_writer
+description: >
+  Agent: Technical Writer
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Agent: Technical Writer
 
 ## Persona

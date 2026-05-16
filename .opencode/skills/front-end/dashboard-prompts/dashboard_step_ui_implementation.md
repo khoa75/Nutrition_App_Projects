@@ -1,3 +1,11 @@
+---
+name: dashboard_step_ui_implementation
+description: >
+  Prompt: Build Dashboard Module (Statistics & Visualization) - Step 3: UI Implementation (Flutter)
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Dashboard Module (Statistics & Visualization) - Step 3: UI Implementation (Flutter)
 
 ## 1. Context & Constraints

@@ -1,3 +1,11 @@
+---
+name: dashboard_step_database_optimization
+description: >
+  Prompt: Build Dashboard Module (Statistics & Visualization) - Step 2: Database Optimization
+license: Apache-2.0
+compatibility: opencode
+---
+
 # Prompt: Build Dashboard Module (Statistics & Visualization) - Step 2: Database Optimization
 
 ## 1. Context & Constraints
