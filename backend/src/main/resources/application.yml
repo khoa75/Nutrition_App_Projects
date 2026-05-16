@@ -1,0 +1,39 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: nutrition-backend
+
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/nutrition_db}
+      auto-index-creation: true
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: non_null
+
+# ── JWT ──────────────────────────────────────────────────────────────────
+app:
+  jwt:
+    secret: ${JWT_SECRET:nutrition-app-dev-secret-key-change-in-production}
+    expiration-ms: 86400000          # 24 hours
+    refresh-expiration-ms: 2592000000 # 30 days
+
+# ── Actuator ─────────────────────────────────────────────────────────────
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# ── Logging ─────────────────────────────────────────────────────────────
+logging:
+  level:
+    com.nutrition: DEBUG
+    org.springframework.security: INFO
