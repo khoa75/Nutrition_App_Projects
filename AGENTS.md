@@ -89,6 +89,66 @@ com.nutrition
 - Record every user request in `HISTORY_PROMPTS.md` with a timestamp.
 
 ## Quick reference for agents
+
+### New Food‑Sync Service (Node/Express)
+- **Location**: `food-sync/` (create this folder). All source files live under `src/` following the clean‑architecture layout described in the previous answer.
+- **Entry point**: `npm run start` (script defined in `package.json`). The server listens on `PORT` (default 3000).
+- **Required env vars** (place in `.env` at the repo root):
+  ```
+  BING_API_KEY=your‑bing‑key
+  CLOUDINARY_CLOUD_NAME=...
+  CLOUDINARY_API_KEY=...
+  CLOUDINARY_API_SECRET=...
+  MONGODB_URI=mongodb://localhost:27017/nutrition_app
+  BATCH_SIZE=100          # foods processed per batch
+  CONCURRENCY=10          # parallel async calls
+  LOG_LEVEL=info
+  ```
+- **Run the whole pipeline**: `POST /sync-foods` – idempotent; it will upsert foods by `foodId` and skip already‑processed items.
+- **Run only the API**: `GET /foods` – returns `{foodName, imageUrl}` for the frontend.
+- **Batch processing**: the service reads `food_list.json` (≈ 5900 items) in chunks of `BATCH_SIZE`. Each chunk processes up to `CONCURRENCY` items in parallel.
+- **Error handling**:
+  * If Bing returns no image → log `WARN` and continue.
+  * Cloudinary upload → retry up to **3** times before giving up (log `ERROR`).
+  * MongoDB write errors → log and continue; the pipeline never aborts.
+- **Logging**: `winston` writes to console and `logs/food-sync.log`. Progress is logged every 10 % of the total items.
+- **Idempotency**: before inserting a food, the repository does an `upsert` on `{foodId}`; existing `imageUrl` is kept unless a new successful upload occurs.
+- **Testing**: unit tests live under `src/__tests__/`. Run with `npm test`. Aim for ≥ 80 % coverage.
+- **CI**: add a GitHub Action that runs `npm ci && npm test && npm run lint` on every PR.
+
+### Existing Backend (Spring Boot) notes
+- **Auth** still uses mock JWTs – see `backend/auth/service/impl/AuthServiceImpl.java`. Real JWT implementation must be added before any protected endpoint is used.
+- **SecurityConfig** currently permits all `/api/v1/auth/**` but no JWT filter; remember to wire `JwtUtils` and the filter when you protect routes.
+- **MongoDB** collections used by the new service (`foods`) are **outside** the current Spring modules; they can be accessed directly via Spring Data if needed.
+- **Docker compose** already brings up a MongoDB container; the Node service can connect using the same `MONGODB_URI`.
+
+### Common commands (do NOT guess)
+- **Start Spring backend**: `./mvnw spring-boot:run`
+- **Run backend tests**: `./mvnw test`
+- **Start AI service** (once `pyproject.toml` exists): `uv sync && uv run uvicorn app.main:app --reload`
+- **Start mobile app**: `flutter pub get && flutter run`
+- **Start admin dashboard** (once `package.json` exists): `npm install && npm run dev`
+- **Full stack Docker**: `docker compose up -d` then `docker compose down -v` to wipe DB.
+- **Seed DB** (scripts folder): `cd scripts && uv run python seed_mongodb.py`
+
+### Repository‑wide conventions
+- **All commands must be run from the repository root** unless a `workdir` is explicitly set.
+- **Never commit generated files** (e.g., `node_modules`, `target/`, `build/`).
+- **Use Conventional Commits** for every change.
+- **Update `.env.example`** whenever a new environment variable is added.
+- **Never store binary image data in MongoDB** – only Cloudinary `secure_url` is persisted.
+- **Idempotent scripts**: re‑running `POST /sync-foods` must not duplicate records.
+- **Do not edit files without first reading them** – OpenCode enforces `read` before `edit`.
+
+### Helpful files to read first
+- `README.md` – overall project description.
+- `db-schema/migrations/V001__create_core_collections.js` – shows existing collection patterns.
+- `backend/common/config/SecurityConfig.java` – where JWT filter would be added.
+- `db-schema/indexes/foods.indexes.js` – example index definition for the new `foods` collection.
+- `AGENTS.md` – this file contains the authoritative command shortcuts.
+
+---
+*Keep this file short and up‑to‑date; it is the first thing OpenCode agents consult.*
 - **Run commands** – always use the exact snippets above; missing build files will cause failures.
 - **Testing** – create tests first; the test suite currently has zero files.
 - **JWT** – implement `JwtUtils` and a Spring Security filter before adding protected endpoints.

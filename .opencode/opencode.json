@@ -170,6 +170,19 @@
         "-x",
         "@modelcontextprotocol/server-filesystem"
       ]
+    },
+    "docker": {
+      "type": "local",
+      "command": [
+        "docker",
+        "mcp",
+        "gateway",
+        "run"
+      ],
+      "enable": true,
+      "env": {
+        "DOCKER_COMPOSE_FILE": "docker-compose.yml"
+      }
     }
   }
 }
