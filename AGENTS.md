@@ -1,41 +1,39 @@
 # Nutrition App – AGENTS.md
 
-## Build-file reality (don't guess)
-
+## Build‑file reality (don’t guess)
 | Component | Build config | Status |
-|-----------|--------------|--------|
-| **Backend** (`backend/`) | `pom.xml` ✅ | Spring Boot 3.4.4, Java 21, JJWT 0.12.6, embed mongo for test |
-| **AI Service** (`ai-service/`) | ❌ No `pyproject.toml` | Needs creation before any `uv` command |
-| **Mobile App** (`frontend/`) | ❌ No `pubspec.yaml` | Needs creation before any `flutter` command |
-| **Admin Dashboard** (`admin-dashboard/`) | ❌ No `package.json` | Needs creation before any `npm` command |
-| **Seeding scripts** (`scripts/`) | `pyproject.toml` ✅ | Has `pymongo` dep, `uv sync` works here |
+|---|---|---|
+| **Backend** (`backend/`) | `pom.xml` ✅ | Spring Boot 3.4.4, Java 21, JJWT 0.12.6, embedded Mongo for tests |
+| **AI Service** (`ai-service/`) | ❌ No `pyproject.toml` | Create before any `uv` command |
+| **Mobile App** (`frontend/`) | ❌ No `pubspec.yaml` | Create before any `flutter` command |
+| **Admin Dashboard** (`admin-dashboard/`) | ❌ No `package.json` | Create before any `npm` command |
+| **Seeding scripts** (`scripts/`) | `pyproject.toml` ✅ | `uv sync` works here |
 
-## What's already written vs. empty scaffolding
+**TDD required** – write tests *before* implementation (90 % service, 80 % controller coverage).
 
-- **Backend `auth` module** — 8 files: `AuthController`, `AuthService` + `impl`, `User` model, `UserRepository`, DTOs (`LoginRequest`, `RegisterRequest`, `TokenResponse`). **`AuthServiceImpl` returns mock JWT tokens** (line 56: `TODO: generate real JWT`). No JWT filter, no `JwtUtils` class exists yet.
-- **Backend `userprofile` module** — 7 files: controller, service, `UserProfile` model, repository, DTOs. **Fully functional** BMI/BMR/TDEE calculation.
-- **Backend `common`** — `SecurityConfig` (permitAll `/api/v1/auth/**`, stateless sessions, CSRF disabled), `CorsConfig` (permit all origins), `GlobalExceptionHandler`, `ApiResponse<T>` wrapper.
-- **Backend empty modules** — `foodcatalog/`, `nutritionplan/`, `mealtracking/`, `dashboard/`, `admin/` **exist as empty directory trees only** (no `.java` files).
-- **Backend tests** — `src/test/java/` exists but **zero test files**.
-- **Frontend, AI Service, Admin Dashboard** — All three are **empty scaffolding** (0 code files).
-- All four Dockerfiles exist and `docker-compose.yml` is complete.
+## What’s already written vs. empty scaffolding
+- **Backend `auth`** – 8 files, `AuthServiceImpl` returns mock JWTs (TODO: real JWT). No `JwtUtils` or JWT filter yet.
+- **Backend `userprofile`** – fully functional BMI/BMR/TDEE logic.
+- **Backend `common`** – `SecurityConfig` (permits `/api/v1/auth/**`), `CorsConfig`, `GlobalExceptionHandler`, `ApiResponse<T>`.
+- **Empty modules** – `foodcatalog/`, `nutritionplan/`, `mealtracking/`, `dashboard/`, `admin/` (no Java files).
+- **Tests** – `src/test/java/` exists but contains no test files.
+- **Frontend / AI / Admin** – only empty scaffolding.
+- All Dockerfiles and `docker-compose.yml` are present.
 
 ## Surprising things that matter
+- **Mock JWT** – `AuthServiceImpl.buildTokenResponse()` returns static strings. Real JWT flow needs `JwtUtils`, a filter, and wiring into `SecurityConfig`.
+- **SecurityConfig** lacks a JWT filter chain; all non‑auth endpoints currently have no authentication provider.
+- **No CI/CD** – `.github/` missing; workflows must be added from scratch.
+- **No pre‑commit / formatter** – no `.editorconfig`, `.prettierrc`, etc.
 
-- **`AuthServiceImpl` only stubs JWT** — `buildTokenResponse()` returns `"mock-jwt-token"` / `"mock-refresh-token"`. Need to create `JwtUtils`, JWT filter, and wire into `SecurityConfig` before auth is real.
-- **`SecurityConfig` has no JWT filter chain** — `authorizeHttpRequests` permits `/api/v1/auth/**` and `/actuator/**`, but any other path requires authentication with no filter to provide it yet.
-- **No `.github/` directory, no CI/CD** — workflows must be created from scratch.
-- **No pre-commit hooks, no formatter config** — no `.editorconfig`, `.prettierrc`, `.eslintrc`.
-
-## Exact commands
-
+## Exact commands (run from repo root)
 ```bash
 # Backend
-./mvnw spring-boot:run         # start on :8080 (needs MongoDB on :27017)
-./mvnw test                    # runs tests (embed Mongo, no external deps)
+./mvnw spring-boot:run   # starts on :8080 (requires MongoDB on :27017)
+./mvnw test              # runs unit/integration tests (embedded Mongo)
 
 # AI Service (after creating pyproject.toml)
-uv sync                        # install deps
+uv sync
 uv run uvicorn app.main:app --reload
 
 # Mobile (after creating pubspec.yaml)
@@ -49,62 +47,52 @@ npm run dev
 
 # Docker full stack
 docker compose up -d
-docker compose down -v         # WARNING: deletes MongoDB volume
+# WARNING: `docker compose down -v` deletes the MongoDB volume
 
-# Seeding
+docker compose down -v
+
+# Seed DB
 cd scripts && uv run python seed_mongodb.py
 ```
 
-## Backend structure
-
+## Backend structure (package‑by‑feature)
 ```
 com.nutrition
-├── auth/          # login, register, JWT (mock)
-├── userprofile/   # profile CRUD + health metrics
-├── foodcatalog/   # EMPTY
-├── nutritionplan/ # EMPTY
-├── mealtracking/  # EMPTY
-├── dashboard/     # EMPTY
-├── admin/         # EMPTY
-└── common/        # SecurityConfig, CorsConfig, exceptions, ApiResponse
+├─ auth/          # login, register, mock JWT
+├─ userprofile/   # profile CRUD + health metrics
+├─ foodcatalog/   # EMPTY
+├─ nutritionplan/ # EMPTY
+├─ mealtracking/  # EMPTY
+├─ dashboard/     # EMPTY
+├─ admin/         # EMPTY
+└─ common/        # SecurityConfig, CorsConfig, exceptions, ApiResponse
 ```
-
-- **No cross-module repository access** — modules communicate only via internal service interfaces.
-- Module dependency order: `auth → user_profile → food_catalog → nutrition_plan → meal_tracking → dashboard → admin`.
-- AI service (`ai_vision_service`) is a separate FastAPI process invoked by `meal_tracking`.
-- All controllers: `@RestController`, `/api/v1/<module>` prefix, `@RequiredArgsConstructor` constructor injection.
-- All endpoints return `ResponseEntity<ApiResponse<T>>`.
-- DTOs use Java `record` types with `jakarta.validation` annotations.
+- Modules communicate **only via service interfaces** – no cross‑module repository access.
+- Dependency order: `auth → userprofile → foodcatalog → nutritionplan → mealtracking → dashboard → admin`.
+- Controllers use `@RestController`, `/api/v1/<module>` prefix, `@RequiredArgsConstructor`, and return `ResponseEntity<ApiResponse<T>>`.
+- DTOs are Java `record`s with `jakarta.validation` annotations.
 
 ## Model / DB notes
+- `User` → `users` collection (unique sparse indexes on `email` and `phone`).
+- `UserProfile` → `user_profiles` collection (unique `user_id`).
+- Field names use **snake_case** via `@Field`.
+- Auditing (`@CreatedDate`, `@LastModifiedDate`) requires `@EnableMongoAuditing` (already on `NutritionApplication`).
 
-- `User` → collection `users` (fields: `email`, `phone` with unique sparse indexes, `passwordHash`, `fullName`, `role`, `status`, `failedAttempts`, `lockedUntil`, `socialProviders[]`).
-- `UserProfile` → collection `user_profiles` (fields: `user_id` unique index, `height_cm`, `weight_kg`, `activity_level`, `goal_type`, `target_weight_kg`, `bmi`, `bmr`, `tdee`).
-- MongoDB field naming: `snake_case` in Java via `@Field("field_name")`.
-- Spring `@CreatedDate` / `@LastModifiedDate` require `@EnableMongoAuditing` (already on `NutritionApplication`).
-
-## OpenCode config that changes behavior
-
-- **Permissions**: `opencode.json` sets `bash=ask`, `edit=ask` — subagents must ask before running commands or editing files.
-- **LSP**: Java (jdtls), Python (pyright), Dart (dart language-server), TS/JS (typescript-language-server).
-- **Skills path**: `.opencode/skills/` — contains backend, front-end, ai-services, devops, testing, security, system-design, database, git skills. Import via `skill` tool.
-- **Context files**: `.opencode/context/` — project overview, requirements, standards, UI/UX, infrastructure, glossary, API contracts, QA specs.
-- **opencode.json references AGENTS.md** as its only `instructions` entry.
-- **Agent models**: GPT-4o for plan/build/review, Claude Sonnet for backend/AI/database, Gemini Flash for explore/devops/docs.
+## OpenCode behaviour tweaks
+- `opencode.json` sets **bash=ask** and **edit=ask** – agents must request permission before running commands or editing files.
+- Skills live under `.opencode/skills/`; load with the `skill` tool when relevant (e.g., `backend`, `fastapi-python`).
+- Detailed agent specs are in `.opencode/agents/` – consult them for role‑specific guidance.
+- `opencode.json` lists this `AGENTS.md` as the first instruction file.
 
 ## Commit conventions
+- Use **Conventional Commits** (see `git-advanced-workflows` skill).
+- Record every user request in `HISTORY_PROMPTS.md` with a timestamp.
 
-- Conventional Commits expected (implied by `git-advanced-workflows` skill).
-- Record every user request in `HISTORY_PROMPTS.md` with timestamp.
+## Quick reference for agents
+- **Run commands** – always use the exact snippets above; missing build files will cause failures.
+- **Testing** – create tests first; the test suite currently has zero files.
+- **JWT** – implement `JwtUtils` and a Spring Security filter before adding protected endpoints.
+- **CI** – add GitHub Actions workflows; no existing `.github/` directory.
+- **Formatting** – set up `.editorconfig` / `.prettierrc` if needed; none exist.
 
-## Namespace rules
-
-| Scope | Convention | Example |
-|-------|-----------|---------|
-| Java vars/methods | `camelCase` | `getProfile` |
-| Java classes | `PascalCase` | `AuthServiceImpl` |
-| Java constants | `UPPER_SNAKE_CASE` | `ACTIVITY_MULTIPLIERS` |
-| MongoDB fields | `snake_case` | `height_cm`, `user_id` |
-| Dart filenames | `snake_case` | `login_screen.dart` |
-| React | TypeScript only, functional components + hooks | |
-| Flutter | Clean Architecture, Riverpod | |
+*(All other instruction files (`README*`, `.opencode/context/*`, etc.) contain deeper project details and should be consulted as needed.)*

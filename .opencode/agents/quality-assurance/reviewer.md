@@ -6,6 +6,7 @@ license: Apache-2.0
 compatibility: opencode
 ---
 
+Model: nvidia/nemotron-3-nano-30b-a3b:free
 # Agent: Code Reviewer
 
 ## Persona
