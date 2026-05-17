@@ -3,7 +3,7 @@
   "provider": {
     "openrouter": {
       "baseUrl": "${OPENROUTER_BASE_URL}",
-      "apiKey": "${OPENROUTER_API_KEY}"
+      "apiKey": "${OPENROUTER_API_KEY}" 
     }
   },
   "tools": {
