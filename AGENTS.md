@@ -4,7 +4,7 @@
 
 | Component | Build config | Status |
 |-----------|--------------|--------|
-| **Backend** (`backend/`) | `pom.xml` | ✅ Fully wired (Spring Boot 3.4.4, Java 21, JJWT 0.12.6, embed mongo for test) |
+| **Backend** (`backend/`) | `pom.xml` ✅ | Spring Boot 3.4.4, Java 21, JJWT 0.12.6, embed mongo for test |
 | **AI Service** (`ai-service/`) | ❌ No `pyproject.toml` | Needs creation before any `uv` command |
 | **Mobile App** (`frontend/`) | ❌ No `pubspec.yaml` | Needs creation before any `flutter` command |
 | **Admin Dashboard** (`admin-dashboard/`) | ❌ No `package.json` | Needs creation before any `npm` command |
