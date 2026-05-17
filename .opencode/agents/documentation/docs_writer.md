@@ -6,6 +6,7 @@ license: Apache-2.0
 compatibility: opencode
 ---
 
+Model: minimax/minimax-m2.5:free
 # Agent: Technical Writer
 
 ## Persona

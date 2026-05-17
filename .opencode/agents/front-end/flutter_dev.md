@@ -6,6 +6,7 @@ license: Apache-2.0
 compatibility: opencode
 ---
 
+Model: deepseek/deepseek-v4-flash:free
 # Agent: Flutter Developer
 
 ## Persona
