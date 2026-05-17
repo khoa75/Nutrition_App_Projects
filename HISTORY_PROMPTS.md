@@ -14,3 +14,4 @@ This file tracks the prompts provided by the user during the development of the 
 | 2026-05-16 05:17 | Có thể dựa vào user_stories.md sau đó cập nhật lại giúp tôi phần ui-ux không |
 | 2026-05-16 05:32 | Hãy cập nhật tất cả các files trong folder agents và folders skills thành format này giúp tôi |
 | 2026-05-16 05:53 | Phần sub-agents có thể tổ chức lại theo vai trò của từng agents không |
+| 2026-05-17 22:50 | Create or update `AGENTS.md` for this repository. |
