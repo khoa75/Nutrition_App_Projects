@@ -266,6 +266,22 @@ def main():
     if not args.init_only:
         print(f"\nSeeding '{COLLECTION_NAME}' collection...")
         items = load_json_data(args.json)
+        # Add imageUrl for known foods (served by backend static folder)
+        # Mapping from food name (case‑insensitive) to image filename
+        image_map = {
+            "pho": "pho.jpg",
+            "pizza": "pizza.jpg",
+        }
+        for doc in items:
+            # Try to find a matching key in image_map using lower‑cased name
+            name_key = doc.get("name", {}).get("en", "").lower()
+            if not name_key:
+                # fallback to Vietnamese name if English not present
+                name_key = doc.get("name", {}).get("vi", "").lower()
+            img_file = image_map.get(name_key)
+            if img_file:
+                doc["imageUrl"] = f"http://localhost:8080/food-images/{img_file}"
+        
         collection = db[COLLECTION_NAME]
         seed_food_items(collection, items)
 
