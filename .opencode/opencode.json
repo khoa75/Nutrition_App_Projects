@@ -135,7 +135,8 @@
       "command": [
         "npx",
         "-x",
-        "@modelcontextprotocol/server-filesystem"
+        "@modelcontextprotocol/server-filesystem",
+        "."
       ]
     },
     "memory": {
