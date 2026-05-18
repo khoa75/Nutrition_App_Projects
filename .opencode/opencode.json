@@ -3,7 +3,7 @@
   "provider": {
     "openrouter": {
       "baseUrl": "${OPENROUTER_BASE_URL}",
-      "apiKey": "${OPENROUTER_API_KEY}" 
+      "apiKey": "${OPENROUTER_API_KEY}"
     }
   },
   "tools": {
@@ -28,7 +28,6 @@
         ".java"
       ]
     },
-
     "typescript": {
       "command": [
         "typescript-language-server",
@@ -105,22 +104,16 @@
       "description": "Senior Backend Developer — Spring Boot 3 / Java 21, MongoDB, JWT, BCrypt. Implements auth, user_profile, food_catalog, meal_tracking, nutrition_plan, dashboard, admin modules. Enforces Controller→Service→Repository pattern, zero cross-module repository access. References: .opencode/agents/backend/backend_dev.md",
       "mode": "subagent"
     },
-    "flutter_dev": {
+    "react_native_dev": {
       "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.2,
-      "description": "Flutter Developer — Flutter (Dart 3.0+), Riverpod state management, GoRouter, Dio, Clean Architecture. Builds mobile app for iOS/Android with Material Design UI. References: .opencode/agents/front-end/flutter_dev.md",
+      "description": "React-Native Developer — React-Native (TypeScript), Redux Toolkit/Zustand, React Native Paper. Builds mobile client for Android/iOS with calorie tracking dashboards. References: .opencode/agents/front-end/react_native_dev.md",
       "mode": "subagent"
     },
     "react_dev": {
       "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.2,
       "description": "React Developer — React 18+ TypeScript only, Redux Toolkit, React Router v6, Axios, Ant Design, Tailwind CSS. Builds Admin Dashboard with functional components and hooks. References: .opencode/agents/front-end/react_dev.md",
-      "mode": "subagent"
-    },
-    "ai_engineer": {
-      "models": "deepseek/deepseek-v4-flash:free",
-      "temperature": 0.2,
-      "description": "AI Engineer — FastAPI (Python 3.10+), PyTorch, computer vision, food recognition model, calorie estimation. Builds image processing pipeline with inference < 2 seconds. Uses uv package manager. References: .opencode/agents/ai-services/ai_engineer.md",
       "mode": "subagent"
     },
     "reviewer": {

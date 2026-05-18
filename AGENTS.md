@@ -1,35 +1,38 @@
-# Nutrition App Agent Notes
+# Nutrition App Agent Guidance
 
-## Current Build Reality
-- `backend/` is the only runnable app today: Spring Boot `3.4.4`, Java `21`, Maven wrapper, MongoDB (Needs migration to PostgreSQL), JJWT dependencies in `backend/pom.xml`.
-- `scripts/` is the only Python project with `pyproject.toml`; it requires Python `>=3.13`.
-- `admin-dashboard/` has a Dockerfile but no `package.json`, `src/`, or `public/`; create those before `npm ci`, `npm run build`, or Docker build.
-- `frontend/` has no `package.json` or source files; create the React-Native project config before any `react-native` command.
-- There is no `.github/` workflow, pre-commit config, formatter config, or test file under `backend/src/test/java/` yet.
+## Core Runtime Facts
+- **Backend** is the only runnable component now. Run with `./mvnw spring-boot:run` from `backend/`. It defaults to `mongodb://localhost:27017/nutrition_db` unless `MONGODB_URI` is set.
+- **Tests**: `./mvnw test` from `backend/` (no tests yet).
+- **Docker**: `docker compose up -d postgres backend` from repo root (docker‑compose still points to Mongo; update required before full stack).
+- **Python scripts**: `uv sync` then run the seed script from `scripts/` (ensure the script exists first).
+- **Admin dashboard** and **frontend** lack package manifests; they must be scaffolded before any `npm`/`react-native` commands.
 
-## Commands That Actually Work
-- Backend dev server: from `backend/`, run `./mvnw spring-boot:run`; it reads `MONGODB_URI` or defaults to `mongodb://localhost:27017/nutrition_db`.
-- Backend tests: from `backend/`, run `./mvnw test`; embedded DB dependency is present, but no tests currently exist.
-- Docker database/backend: from repo root, run `docker compose up -d postgres backend` (Need to update docker-compose.yml from mongo to postgres).
-- Full Docker Compose is not currently buildable until `admin-dashboard/` gets its missing project files.
-- Seeding scripts: from `scripts/`, run `uv sync` then run python seed script only after confirming the script exists.
+## Module Landscape
+- Active Java packages: `auth`, `userprofile`, `common`.
+- Empty package trees: `foodcatalog`, `nutritionplan`, `mealtracking`, `dashboard`, `admin`.
+- Entry point: `backend/src/main/java/com/nutrition/NutritionApplication.java` (Mongo auditing enabled).
+- Controllers return `ResponseEntity<ApiResponse<T>>` with fields `success`, `message`, `data`, `timestamp`.
+- Security: `SecurityConfig` permits `/api/v1/auth/**` and `/actuator/**`; all other routes require auth, but JWT filter is not wired yet (mock tokens returned).
+- Business logic lives in `UserProfileServiceImpl` (BMI/BMR/TDEE).
 
-## Backend Wiring
-- Entry point is `backend/src/main/java/com/nutrition/NutritionApplication.java`; Mongo auditing is enabled there.
-- Existing modules with Java code: `auth`, `userprofile`, and `common`; `foodcatalog`, `nutritionplan`, `mealtracking`, `dashboard`, and `admin` are empty package trees.
-- Controllers return `ResponseEntity<ApiResponse<T>>`; the actual wrapper fields are `success`, `message`, `data`, `timestamp`, not the JSend shape described in older docs.
-- Current endpoints are `/api/v1/auth/register`, `/api/v1/auth/login`, `/api/v1/profile/metrics`, `/api/v1/profile/{userId}`.
-- `SecurityConfig` permits `/api/v1/auth/**` and `/actuator/**`; every other route requires authentication, but no JWT filter is wired yet.
-- `AuthServiceImpl` hashes passwords with BCrypt but returns literal `mock-jwt-token` and `mock-refresh-token`; adding real auth requires a JWT utility/filter and security-chain wiring.
-- `UserProfileServiceImpl` contains the BMI/BMR/TDEE business logic; keep controllers thin.
+## Data Migration Note
+- Current Mongo collections: `users`, `user_profiles`. When migrating to PostgreSQL, map JPA entities to tables `users` and `user_profiles` using `@Column(name = "snake_case")` where needed.
 
-## Data And Contracts
-- (Needs Migration to PostgreSQL): Existing collections were `users` and `user_profiles`. JPA Entities should map to `users` and `user_profiles` tables.
-- Use explicit `@Column(name = "snake_case")` for PostgreSQL names that are not already snake_case; `UserProfile` already maps fields like `user_id`, `height_cm`, `target_weight_kg`, `updated_at`.
-- API contract notes live in `.opencode/context/07-api-contracts/`; update those mock contracts when backend response shapes change.
+## Important Docs & Locations
+- OpenCode config: `.opencode/opencode.json` (this file is the sole instruction source).
+- Contextual docs: `.opencode/context/` (e.g., API contracts in `07-api-contracts`).
+- History logging: `HISTORY_PROMPTS.md` (record each prompt with timestamp).
+- **Do not trust** the root `README.md` for current setup status; it is outdated.
 
-## Repo Workflow
-- `.opencode/opencode.json` is the active OpenCode config and references this file as its only instruction source.
-- Specialized context is in `.opencode/context/`; skills are in `.opencode/skills/`.
-- Record each user prompt in `HISTORY_PROMPTS.md` with a timestamp.
-- Do not trust root `README.md` blindly for setup status; it still claims the backend build file is missing even though `backend/pom.xml` exists.
+## Common Gotchas
+- Running `npm ci` or `react-native` commands will fail until `package.json` and source directories are created in `admin-dashboard/` and `frontend/`.
+- Docker compose currently expects a Mongo service; attempting to start the stack without updating `docker-compose.yml` will cause backend DB connection failures.
+- No test files exist under `backend/src/test/java/`; adding tests is required before CI can be useful.
+- JWT authentication is placeholder; any auth‑protected endpoint will accept the mock token.
+
+## Quick Reference Commands
+- **Backend dev**: `cd backend && ./mvnw spring-boot:run`
+- **Backend test**: `cd backend && ./mvnw test`
+- **Docker stack**: `docker compose up -d postgres backend`
+- **Python env**: `cd scripts && uv sync`
+- **Seed data**: `cd scripts && python <seed_script>.py` (verify script name first)

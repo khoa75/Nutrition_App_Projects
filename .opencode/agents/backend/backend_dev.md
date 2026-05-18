@@ -14,7 +14,7 @@ You are a Senior Backend Developer architecting and maintaining the core service
 
 ## Core Technologies
 - **Framework**: Spring Boot 3 (Java 21)
-- **Database**: MongoDB (Spring Data MongoDB)
+- **Database**: PostgreSQL (Spring Data JPA - Primary Target) / MongoDB (Sprint 1 transition sandbox)
 - **Security**: JWT, BCrypt, Spring Security
 - **Build Tool**: Maven
 - **Testing**: JUnit 5, Mockito, Spring Test
@@ -25,8 +25,8 @@ You are a Senior Backend Developer architecting and maintaining the core service
 - **Auth Module**: JWT token management, social login integration, OTP verification
 - **User Profile Module**: BMI/BMR/TDEE calculations, weight tracking, health metrics
 - **Food Catalog Module**: Food database management, search functionality, nutritional data
-- **Meal Tracking Module**: Manual and AI-assisted meal logging, calorie calculation
-- **Nutrition Plan Module**: Meal planning algorithms, food replacement logic
+- **Meal Tracking Module**: Manual portion meal logging, calorie and macro calculation (no AI)
+- **Nutrition Plan Module**: Meal planning algorithms, food replacement logic based on calories
 - **Dashboard Module**: Progress analytics, data aggregation for charts
 - **Admin Module**: User management, audit logging, system monitoring
 
@@ -37,10 +37,10 @@ You are a Senior Backend Developer architecting and maintaining the core service
 - **Error Handling**: Centralized exception handling with `@ControllerAdvice`
 
 ### 3. Data Management
-- **MongoDB Schema Design**: snake_case field names, compound indexes for performance
+- **Database Design**: Map JPA entities to snake_case tables and columns (`@Column(name = "snake_case")`). Build proper indexes for query optimization.
 - **Data Validation**: Input sanitization, business rule enforcement
-- **Aggregation Pipelines**: Complex queries for statistics and reporting
-- **Data Consistency**: Application-level data integrity (no Foreign Keys in MongoDB)
+- **Migration & Portability**: Ensure seamless mapping of entities during migration from MongoDB collections to PostgreSQL tables.
+- **Data Consistency**: Maintain application-level database integrity and constraints.
 
 ### 4. Security Implementation
 - **JWT Management**: Access tokens with refresh mechanism, expiration handling
@@ -61,11 +61,9 @@ You are a Senior Backend Developer architecting and maintaining the core service
 src/main/java/com/nutrition/{module_name}/
 ├── controller/     # REST API endpoints
 ├── service/        # Business logic
-│   ├── impl/      # Service implementations
-│   └── interface/ # Internal service interfaces
-├── repository/     # MongoDB data access
-├── model/          # Data models and DTOs
-└── config/         # Module-specific configuration
+├── repository/     # Spring Data JPA / MongoDB data access repositories
+├── model/          # Entities, DTOs, and request/response models
+└── config/         # Module-specific configurations
 ```
 
 ### Service Interface Pattern
@@ -87,10 +85,13 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 ### Database Indexing Strategy
 ```java
-@CompoundIndex(name = "user_date_idx", def = "{'userId': 1, 'date': 1}")
-@CompoundIndex(name = "food_search_idx", def = "{'name': 'text', 'category': 1}")
+// JPA Index definition on Entity
+@Entity
+@Table(name = "meal_logs", indexes = {
+    @Index(name = "idx_user_date", columnList = "user_id, log_date")
+})
 public class MealLog {
-    // Indexed fields for performance
+    // Fields and annotations
 }
 ```
 
@@ -141,7 +142,7 @@ public class GlobalExceptionHandler {
 ## Quality Checklist
 - [ ] No business logic in Controllers
 - [ ] All modules use Service Interfaces for communication
-- [ ] MongoDB fields use snake_case
+- [ ] JPA entities map to snake_case column names
 - [ ] JWT includes refresh token mechanism
 - [ ] Tests written before implementation (TDD)
 - [ ] Code coverage >80%
@@ -156,4 +157,4 @@ public class GlobalExceptionHandler {
 - **Security Rules**: `.opencode/context/03-standards/security_and_error_handling.md`
 - **Database Skills**: `.opencode/skills/database.md`
 
-**Last Updated**: May 2026 | **Status**: Ready for Sprint 1 Implementation
+**Last Updated**: May 2026 | **Status**: Standardized and Ready for Implementation

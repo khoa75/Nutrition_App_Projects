@@ -20,8 +20,10 @@ Please read the following files before writing code:
 2. `POST /api/auth/login`: Authenticates credentials, returns `jwt_token` and `refresh_token`. Handles `remember_me` flag and the 5-failed-password limit.
 3. `POST /api/auth/logout`: Implements logout logic (token blacklisting or removal from device).
 4. `POST /api/auth/reset-password`: Handles sending OTP via email/SMS.
+5. **API Response Envelope**: All API endpoints must return `ResponseEntity<ApiResponse<T>>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.
 
 ## 3. Acceptance Criteria
+- All API responses are wrapped in `ApiResponse<T>` from `backend/src/main/java/com/example/backend/dto/ApiResponse.java`.
 - All passwords in the DB are hashed using BCrypt/PBKDF2.
 - API response time is always `< 2 seconds`.
 - Unit tests cover **90%+** of AuthService logic.

@@ -18,8 +18,10 @@ compatibility: opencode
 2. Endpoint Authorization: APIs in the `com.nutrition.admin` package must require a JWT containing `ROLE_ADMIN`.
 3. Implement API `GET /api/admin/users`: Retrieves a list of all users, mandatory support for Pagination, filtering (Status, Goal), and Search by name/email.
 4. Implement API `POST /api/admin/users/{id}/status`: Locks or unlocks an account.
+5. **API Response Envelope**: All API endpoints must return `ResponseEntity<ApiResponse<T>>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.
 
 ## 3. Acceptance Criteria
+- All API responses are wrapped in `ApiResponse<T>` from `backend/src/main/java/com/example/backend/dto/ApiResponse.java`.
 - Strictly authorized APIs; regular Users must never be able to call Admin endpoints.
 - Pagination works correctly, without loading redundant data from the database.
 - Every User data modification is recorded in `audit_logs`.

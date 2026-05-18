@@ -14,7 +14,7 @@ You are a Technical Writer and Project Organizer for the Nutrition App. You ensu
 
 ## Core Technologies
 - **Documentation**: Markdown, Mermaid diagrams, OpenAPI/Swagger
-- **Code Documentation**: Javadoc, DartDoc, TypeScriptDoc
+- **Code Documentation**: Javadoc, TypeScriptDoc, JSDoc
 - **Project Management**: GitHub Projects, task tracking
 - **Knowledge Base**: Structured documentation with clear organization
 - **Collaboration**: GitHub Discussions, issue templates
@@ -64,12 +64,17 @@ You are a Technical Writer and Project Organizer for the Nutrition App. You ensu
 │   └── tech-stack.md          # Technology decisions
 ├── agents/                    # Agent definitions
 │   ├── project_lead.md        # Main coordinator
-│   ├── backend_dev.md         # Backend implementation
-│   ├── frontend_dev.md        # Frontend implementation
-│   ├── ai_engineer.md         # AI/ML development
-│   ├── devops_engineer.md     # Infrastructure/CI/CD
-│   ├── reviewer.md           # Code quality
-│   └── docs_writer.md        # Documentation
+│   ├── backend/
+│   │   └── backend_dev.md     # Backend implementation
+│   ├── front-end/
+│   │   ├── react_dev.md       # Admin web implementation
+│   │   └── react_native_dev.md # Mobile client implementation
+│   ├── devops/
+│   │   └── devops.md          # DevOps / infrastructure
+│   ├── quality-assurance/
+│   │   └── reviewer.md        # Code quality
+│   └── documentation/
+│       └── docs_writer.md     # Documentation
 ├── workflows/                 # Standard processes
 │   ├── build_feature.md      # Feature development
 │   ├── refactor.md           # Code refactoring
@@ -78,8 +83,8 @@ You are a Technical Writer and Project Organizer for the Nutrition App. You ensu
 │   └── ci_cd.md              # Deployment
 ├── skills/                   # Technical skills and patterns
 │   ├── backend.md            # Spring Boot best practices
-│   ├── front-end.md          # Flutter/React patterns
-│   ├── database.md           # MongoDB optimization
+│   ├── front-end.md          # React-Native/React patterns
+│   ├── database.md           # Database optimization
 │   ├── security.md           # Security implementation
 │   └── devops.md            # Infrastructure management
 ├── memory/                   # Project memory and progress
@@ -168,17 +173,16 @@ The Nutrition App follows a **Modular Monolith** architecture with strict bounda
 ```mermaid
 graph TB
     subgraph "Frontend Layer"
-        A[Flutter Mobile App]
+        A[React Native Mobile App]
         B[React Admin Dashboard]
     end
     
     subgraph "Backend Layer"
         C[Spring Boot API]
-        D[FastAI Service]
     end
     
     subgraph "Data Layer"
-        E[MongoDB Atlas]
+        E[PostgreSQL Database]
         F[Redis Cache]
     end
     
@@ -190,14 +194,10 @@ graph TB
     
     A --> C
     B --> C
-    C --> D
     C --> E
     C --> F
-    D --> E
     H --> C
-    H --> D
     I --> C
-    I --> D
     I --> E
 ```
 
@@ -268,11 +268,10 @@ graph LR
 ## Known Issues
 - No source code exists yet
 - Waiting for Spring Boot initialization
-
 ## Next Sprint Planning
 **Sprint 1 (2 weeks)**:
 1. Initialize Spring Boot project
-2. Set up MongoDB integration
+2. Set up database integration (PostgreSQL target / MongoDB current sandbox)
 3. Implement Auth module
 4. Create User Profile module
 5. Basic API endpoints
@@ -280,8 +279,9 @@ graph LR
 **Sprint 2 (2 weeks)**:
 1. Food Catalog module
 2. Meal Tracking module
-3. Basic Flutter app structure
+3. Basic React-Native app structure
 4. Integration testing
+
 ```
 
 ### Decision Log
@@ -301,32 +301,20 @@ graph LR
 - Microservices: Chosen for simplicity initially, can be refactored later
 - Monolith without modules: Rejected for maintainability concerns
 
-## Decision: MongoDB Database
+## Decision: PostgreSQL Database
 **Date**: May 2026  
 **Status**: Approved  
 **Rationale**: 
-- Flexible schema design for various data types
-- Good fit for nutrition data with nested structures
-- Cloud-native with MongoDB Atlas
-- Performance for document-based operations
+- Strong relational schemas mapping cleanly to structured domains (User Profile, Food Catalog, Meal Logs)
+- Native JOIN operations and indexing optimized for multi-table queries
+- High performance under concurrent write operations (transactional safety)
+- Robust migration strategy from initial MongoDB collections
 
 **Alternatives Considered**: 
-- PostgreSQL: Rejected for rigid schema requirements
-- DynamoDB: Rejected for cost concerns and query limitations
-
-## Decision: FastAPI for AI Service
-**Date**: May 2026  
-**Status**: Approved  
-**Rationale**: 
-- High performance for AI inference
-- Automatic API documentation
-- Python ecosystem for ML/DL
-- Easy deployment and scaling
-
-**Alternatives Considered**: 
-- Spring Boot with ML: Rejected for performance concerns
-- Flask: Rejected for less comprehensive features
+- MongoDB: Used initially as a Sprint 1 transition sandbox, subsequently migrated to PostgreSQL for schema enforcement and relational integrity.
+- DynamoDB: Rejected for lack of relational JOIN features.
 ```
+
 
 ## Documentation Templates
 
