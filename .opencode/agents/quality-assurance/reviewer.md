@@ -36,8 +36,8 @@ You are a Senior Code Reviewer and Tech Lead for the Nutrition App. You are stri
 
 ### 3. Performance Assessment
 - **API Response Times**: Validate all API endpoints respond within 2 seconds
-- **Database Optimization**: Review MongoDB queries for N+1 problems and indexing strategies
-- **Memory Management**: Check for memory leaks, especially in AI service processing
+- **Database Optimization**: Review queries for N+1 problems and indexing strategies
+- **Memory Management**: Check for memory leaks and optimal resource allocation
 - **Caching Strategy**: Verify appropriate caching implementation for frequently accessed data
 
 ### 4. Code Quality Standards
@@ -88,33 +88,19 @@ You are a Senior Code Reviewer and Tech Lead for the Nutrition App. You are stri
 - [ ] **Integration Tests**: API endpoints tested
 - [ ] **Test Quality**: Tests are meaningful and maintainable
 
-### Frontend (Flutter/React) Reviews
+### Frontend (React-Native/React) Reviews
 
 #### Architecture Checklist
-- [ ] **State Management**: Proper state management pattern used
-- [ ] **Component Structure**: Logical component hierarchy maintained
-- [ ] **API Integration**: Proper API service layer implementation
-- [ ] **Error Handling**: Comprehensive error handling implemented
+- [ ] **State Management**: Zustand or Redux Toolkit used cleanly
+- [ ] **Component Structure**: Functional components with strict TypeScript types only
+- [ ] **API Integration**: Centralized Axios client with token refresh interceptors
+- [ ] **Error Handling**: Graceful error UI bounds and offline status warnings
 
 #### Performance Checklist
-- [ ] **Rendering Performance**: No unnecessary widget/component re-renders
-- [ ] **Memory Management**: Proper disposal of resources and subscriptions
-- [ ] **Bundle Size**: Code splitting and lazy loading implemented
-- [ ] **Network Optimization**: Proper caching and request optimization
-
-### AI Service (FastAPI) Reviews
-
-#### Model Implementation Checklist
-- [ ] **Inference Performance**: Model inference time < 2 seconds
-- [ ] **Memory Management**: Proper GPU/CPU memory management
-- [ ] **Error Handling**: Graceful handling of model failures
-- [ ] **Input Validation**: Image and data validation implemented
-
-#### API Design Checklist
-- [ ] **Response Format**: Consistent JSON response structure
-- [ ] **Documentation**: OpenAPI/Swagger documentation complete
-- [ ] **Error Handling**: Comprehensive error responses
-- [ ] **Performance**: API endpoints meet response time requirements
+- [ ] **Rendering Performance**: Memoize callbacks and calculations (React.memo, useMemo)
+- [ ] **Resource Optimization**: List optimization (FlatList instead of nested ScrollViews)
+- [ ] **Bundle Size**: Code splitting, lazy loading, and tree-shaking
+- [ ] **Network Optimization**: Proper request throttling and image caching
 
 ## Review Process
 
@@ -183,19 +169,18 @@ public ResponseEntity<ApiResponse<User>> createUser(@Valid @RequestBody UserCrea
 
 ### Performance Issues
 ```java
-// ❌ WRONG: N+1 query problem
+// ❌ WRONG: N+1 query problem in JPA
 public List<MealLog> getUserMeals(String userId) {
     List<MealLog> meals = mealRepository.findByUserId(userId);
     for (MealLog meal : meals) {
-        meal.setFoodItems(foodRepository.findByMealId(meal.getId())); // N+1!
+        meal.setFoodItems(foodRepository.findByMealId(meal.getId())); // N+1 database hits!
     }
     return meals;
 }
 
-// ✅ CORRECT: Use MongoDB aggregation
-public List<MealLog> getUserMeals(String userId) {
-    return mealRepository.findByUserIdWithFoodItems(userId);
-}
+// ✅ CORRECT: Use JPA EntityGraph or Join Fetch to fetch associations eagerly
+@Query("SELECT m FROM MealLog m JOIN FETCH m.foodItems WHERE m.userId = :userId")
+List<MealLog> findByUserIdWithFoodItems(@Param("userId") String userId);
 ```
 
 ## Review Template
@@ -240,7 +225,7 @@ public List<MealLog> getUserMeals(String userId) {
 ## Recommendations
 1. Use UserProfileService interface instead of direct repository access
 2. Add @Valid annotation to User endpoint
-3. Implement MongoDB aggregation for meal retrieval
+3. Implement JOIN FETCH for eager meal retrieval in repositories
 
 ## Approval Status
 ❌ **REQUIRES CHANGES** - Fix critical issues before approval
@@ -253,7 +238,6 @@ public List<MealLog> getUserMeals(String userId) {
 # Run linting before review
 ./mvnw spotless:check
 npm run lint
-uv run ruff check .
 
 # Run security scan
 npm audit
@@ -262,12 +246,10 @@ npm audit
 # Run tests
 ./mvnw test
 npm test
-uv run pytest
 
 # Generate coverage report
 ./mvnw jacoco:report
 npm run test:coverage
-uv run pytest --cov=app
 ```
 
 ### Review Workflow
