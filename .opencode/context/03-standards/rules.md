@@ -27,3 +27,5 @@ Based on the [PRD.md](../../PRD.md) and architectural constraints, the following
 - **Main Backend:** Adhere to the **Modular Monolith** model. Code is decomposed into independent modules (packages) based on features (Feature-based packaging).
 - **Development Process:** Apply **Test-Driven Development (TDD)**. **Always write tests before writing code.** Write unit tests to define behavior before writing the actual processing code.
 - **Food Database Updates:** The core food database must be designed to support regular updates from Admins/Nutritionists.
+- **Prompt History Logging:** Every time the user submits a new prompt, the agent must document it in the `HISTORY_PROMPTS.md` file at the repository root to track context, history, and development steps.
+
