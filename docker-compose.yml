@@ -22,7 +22,7 @@ services:
       TZ: Asia/Ho_Chi_Minh
     command: ["postgres", "-c", "timezone=UTC"]
     ports:
-      - "5433:5432" # chỗ này nhớ map tới 5432 
+      - "5433:5432" # outside docker network dùng port 5433, inside docker network dùng port 5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
