@@ -45,6 +45,9 @@ public class Logs implements Serializable {
     @Column(name = "total_calories", nullable = false)
     private BigDecimal totalCalories;
 
+    @Column(name = "goal_calories")
+    private Integer goalCalories;
+
     @OneToMany(mappedBy = "logs", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LogFoods> logFoods = new ArrayList<>();
 }

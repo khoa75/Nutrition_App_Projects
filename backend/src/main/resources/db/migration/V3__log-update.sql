@@ -1,0 +1,2 @@
+ALTER TABLE logs
+ADD COLUMN goal_calories INTEGER;
