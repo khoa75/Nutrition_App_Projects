@@ -1,5 +1,7 @@
 package com.example.backend.entity;
 
+import com.example.backend.enums.ActivityLevelEnum;
+import com.example.backend.enums.BmiStatusEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,13 +59,15 @@ public class Users implements Serializable {
     @Column(name = "goal_calories")
     private Long goalCalories;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "activity_level")
-    private String activityLevel;
+    private ActivityLevelEnum activityLevel;
 
     @Column(name = "bmi")
     private BigDecimal bmi;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "bmi_status")
-    private String bmiStatus;
+    private BmiStatusEnum bmiStatus;
 
 }
