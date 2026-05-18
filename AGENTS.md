@@ -1,58 +1,63 @@
 # Nutrition App – OpenCode Agent Guide
 
-**Purpose** – Compact, high‑signal guidance so agents start productive and avoid common pitfalls.
+**Purpose** – Compact, high‑signal guidance to ensure all OpenCode agents start productive and avoid runtime pitfalls.
 
 ---
 
-## Runtime Essentials
-- **Backend only** is runnable now. Start with the Maven wrapper from the `backend/` directory (requires Java 21; the wrapper will download the correct JDK if missing):
-  ```bash
-  cd backend && ./mvnw spring-boot:run
-  ```
-  *Uses Java 21, defaults to MongoDB at `mongodb://localhost:27017/nutrition_db` unless `MONGODB_URI` is set.*
-- **Tests** – Run with `./mvnw test` inside `backend/`. No tests exist yet.
-- **Docker** – `docker compose up -d postgres backend` from the repo root. The compose file still points to Mongo; update `docker‑compose.yml` before a full stack launch.
-- **Frontend / Admin dashboard** – No `package.json` or source scaffolding yet; `npm`/`react‑native` commands will fail until those are created.
+## 1. Runtime Essentials
+
+- **Backend (Spring Boot & Java 21):**
+  - Run with `./mvnw spring-boot:run` in `backend/`. Unit tests: `./mvnw test`.
+  - Connects to PostgreSQL 15. Local: `jdbc:postgresql://localhost:5433/nutrion` (User: `appuser`, Pass: `apppass`). Override via `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`.
+  - Flyway manages schemas automatically under `backend/src/main/resources/db/migration/`.
+- **Docker Stack:**
+  - Launch PostgreSQL using `docker compose up -d postgres` from root (runs on port `5433` host / `5432` container).
+- **Frontends (Mobile & Admin):**
+  - No scaffolding exists yet. `npm` / `react-native` commands will fail until `package.json` and folders are created.
+  - Mobile: React-Native (TS) + React Native Paper. Web Admin: React.js (TS) + Tailwind CSS + Ant Design.
 
 ---
 
-## Project Structure & Boundaries
-- **Backend entry point:** `backend/src/main/java/com/nutrition/NutritionApplication.java` (Mongo auditing enabled).
-- **Active Java packages:** `auth`, `userprofile`, `common`.
-- **Empty package trees (placeholders):** `foodcatalog`, `nutritionplan`, `mealtracking`, `dashboard`, `admin`.
-- **Controller contract:** All controllers return `ApiResponse<T>` with fields `success`, `message`, `data`, `timestamp`.
-- **Security:** `SecurityConfig` permits `/api/v1/auth/**` and `/actuator/**`; all other endpoints require auth, but the JWT filter is not wired – mock tokens are accepted.
-- **Business logic:** Currently lives in `UserProfileServiceImpl` (BMI/BMR/TDEE calculations).
+## 2. Architecture & Boundaries
+
+- **Pattern:** Strict Modular Monolith using Controller $\rightarrow$ Service $\rightarrow$ Repository.
+- **Entry Point:** `backend/src/main/java/com/example/backend/BackendApplication.java`
+- **Active Packages (under `com.example.backend`):** `controller`, `entity`, `repository`, `dto`, `enums`, `exception`.
+- **Integration Rule:** Zero cross-module repository access. Controllers must return standard `ApiResponse<T>` (fields: `success`, `message`, `data`, `timestamp`).
+- **Database Schema:** Tables are `users`, `foods`, `logs`, and `log_foods` (many-to-many intermediate table with `LogFoodsId` composite key).
 
 ---
 
-## Data Migration Note
-- Existing Mongo collections: `users`, `user_profiles`.
-- When switching to PostgreSQL, map JPA entities to tables `users` and `user_profiles` using `@Column(name = "snake_case")` for any non‑standard column names.
+## 3. Core Business Rules (Calorie-Only)
+
+The app operates on a **strict calorie-only model** (no imperial units or AI vision):
+- **BMI:** `weight (kg) / height (m)²` (<18.5: Underweight, 18.5-24.9: Normal, 25-29.9: Overweight, ≥30: Obese).
+- **BMR (Mifflin-St Jeor):** 
+  - Male: `(10 * weight_kg) + (6.25 * height_cm) - (5 * age) + 5`
+  - Female: `(10 * weight_kg) + (6.25 * height_cm) - (5 * age) - 161`
+- **TDEE:** `BMR * Activity Factor` (Low: 1.2, Average: 1.55, High: 1.725).
+- **Daily Target:** Weight Loss: `TDEE - (300 to 500)`, Gain: `TDEE + (300 to 500)`, Maintain: `TDEE`.
+- **Dish Substitution:** Calorie difference must be `< 50 kcal`.
 
 ---
 
-## Important Docs & Sources
-- **OpenCode config:** `.opencode/opencode.json` – the single source of truth for agent instructions.
-- **Contextual docs:** `.opencode/context/` (e.g., API contracts in `07‑api‑contracts`).
-- **History log:** `HISTORY_PROMPTS.md` – records of prior prompts.
-- **Root README:** Out‑of‑date; do **not** rely on it for current setup.
+## 4. Agent Architecture & Delegation
+
+All tasks are orchestrated by the **Project Lead** (who never writes code directly) and delegated to specialized subagents:
+- **Planner:** Sprint planning & breakdowns.
+- **Backend Dev:** Java API and JPA implementation.
+- **React Native Dev / React Dev:** Mobile and Admin dashboard interfaces.
+- **DevOps:** Docker and database configurations.
+- **Reviewer:** Code quality, security (<2s API response, >80% test coverage).
+- **Docs Writer:** Maintaining `.opencode/context/` specs and `HISTORY_PROMPTS.md`.
 
 ---
 
-## Common Gotchas
-- `npm ci` or any `react‑native` command will error until `package.json` and source directories exist under `admin-dashboard/` and `frontend/`.
-- Docker compose expects a Mongo service; launching without updating the compose file leads to DB connection failures.
-- No test files under `backend/src/test/java/`; add tests before CI becomes useful.
-- JWT authentication is a placeholder – any token passes the filter.
+## 5. Reference & Common Gotchas
+
+- **Sources of Truth:** Config in `.opencode/opencode.json`, specs in `.opencode/context/`.
+- **Port Gotcha:** Spring Boot runs locally on port `8080` but connects to the database via port `5433` (external port).
+- **JWT Key:** Default HMAC key configured in `application.properties`; override in production.
 
 ---
-
-## Quick Reference Commands
-- **Backend dev:** `cd backend && ./mvnw spring-boot:run`
-- **Backend test:** `cd backend && ./mvnw test`
-- **Docker stack:** `docker compose up -d postgres backend`
-
----
-
-*Keep this file up‑to‑date as the repo evolves; it is the primary onboarding guide for OpenCode agents.*
+*Keep this file up‑to‑date as the repository architecture and features evolve.*
