@@ -26,6 +26,13 @@ public class LogFoods implements Serializable {
     @EmbeddedId
     private LogFoodsId id;
 
+    @MapsId("logId")
     @ManyToOne
+    @JoinColumn(name = "log_id", nullable = false)
     private Logs logs;
+
+    @MapsId("foodId")
+    @ManyToOne
+    @JoinColumn(name = "food_id", nullable = false)
+    private Foods food;
 }

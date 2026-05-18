@@ -20,7 +20,7 @@
 - **Backend entry point:** `backend/src/main/java/com/nutrition/NutritionApplication.java` (Mongo auditing enabled).
 - **Active Java packages:** `auth`, `userprofile`, `common`.
 - **Empty package trees (placeholders):** `foodcatalog`, `nutritionplan`, `mealtracking`, `dashboard`, `admin`.
-- **Controller contract:** All controllers return `ResponseEntity<ApiResponse<T>>` with fields `success`, `message`, `data`, `timestamp`.
+- **Controller contract:** All controllers return `ApiResponse<T>` with fields `success`, `message`, `data`, `timestamp`.
 - **Security:** `SecurityConfig` permits `/api/v1/auth/**` and `/actuator/**`; all other endpoints require auth, but the JWT filter is not wired – mock tokens are accepted.
 - **Business logic:** Currently lives in `UserProfileServiceImpl` (BMI/BMR/TDEE calculations).
 

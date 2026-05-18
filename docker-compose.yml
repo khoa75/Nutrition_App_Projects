@@ -19,7 +19,7 @@ services:
       POSTGRES_DB: nutrion
       POSTGRES_USER: appuser
       POSTGRES_PASSWORD: apppass
-      TZ: Asia/Ho_Chi_Minh
+      TZ: UTC
     command: [ "postgres", "-c", "timezone=UTC" ]
     ports:
       - "5433:5432" # outside docker network dùng port 5433, inside docker network dùng port 5432
@@ -30,21 +30,21 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  # backend:
-  #   build: ./backend
-  #   container_name: nutrition-backend
-  #   ports:
-  #     - "8080:8080"
-  #   env_file:
-  #     - .env
-  #   environment:
-  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/nutrion?options=-c%20timezone=UTC
-  #     - SPRING_DATASOURCE_USERNAME=appuser
-  #     - SPRING_DATASOURCE_PASSWORD=apppass
-  #     - JAVA_TOOL_OPTIONS=-Duser.timezone=UTC
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
+  backend:
+    build: ./backend
+    container_name: nutrition-backend
+    ports:
+      - "8080:8080"
+    # env_file:
+    #   - .env
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/nutrion?options=-c%20timezone=UTC
+      - SPRING_DATASOURCE_USERNAME=appuser
+      - SPRING_DATASOURCE_PASSWORD=apppass
+      - JAVA_TOOL_OPTIONS=-Duser.timezone=UTC
+    depends_on:
+      postgres:
+        condition: service_healthy
 
 volumes:
   postgres_data:
