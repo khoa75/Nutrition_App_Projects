@@ -28,25 +28,7 @@
         ".java"
       ]
     },
-    "python": {
-      "command": [
-        "pyright-langserver",
-        "--stdio"
-      ],
-      "extensions": [
-        ".py"
-      ]
-    },
-    "dart": {
-      "command": [
-        "dart",
-        "language-server",
-        "--protocol=lsp"
-      ],
-      "extensions": [
-        ".dart"
-      ]
-    },
+
     "typescript": {
       "command": [
         "typescript-language-server",
@@ -155,14 +137,6 @@
     }
   },
   "mcp": {
-    "mongodb": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "mongodb-mcp-server@latest"
-      ]
-    },
     "filesystem": {
       "type": "local",
       "command": [
@@ -171,18 +145,13 @@
         "@modelcontextprotocol/server-filesystem"
       ]
     },
-    "docker": {
+    "memory": {
       "type": "local",
       "command": [
-        "docker",
-        "mcp",
-        "gateway",
-        "run"
-      ],
-      "enable": true,
-      "env": {
-        "DOCKER_COMPOSE_FILE": "docker-compose.yml"
-      }
+        "npx",
+        "-x",
+        "@modelcontextprotocol/server-memory"
+      ]
     }
   }
 }
