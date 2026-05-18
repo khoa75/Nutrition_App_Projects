@@ -20,17 +20,16 @@ services:
       POSTGRES_USER: appuser
       POSTGRES_PASSWORD: apppass
       TZ: Asia/Ho_Chi_Minh
-    command: ["postgres", "-c", "timezone=UTC"]
+    command: [ "postgres", "-c", "timezone=UTC" ]
     ports:
       - "5433:5432" # outside docker network dùng port 5433, inside docker network dùng port 5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U appuser -d nutrion"]
+      test: [ "CMD-SHELL", "pg_isready -U appuser -d nutrion" ]
       interval: 10s
       timeout: 5s
       retries: 5
-
   # backend:
   #   build: ./backend
   #   container_name: nutrition-backend

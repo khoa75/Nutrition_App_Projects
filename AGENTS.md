@@ -1,38 +1,58 @@
-# Nutrition App Agent Guidance
+# Nutrition App – OpenCode Agent Guide
 
-## Core Runtime Facts
-- **Backend** is the only runnable component now. Run with `./mvnw spring-boot:run` from `backend/`. It defaults to `mongodb://localhost:27017/nutrition_db` unless `MONGODB_URI` is set.
-- **Tests**: `./mvnw test` from `backend/` (no tests yet).
-- **Docker**: `docker compose up -d postgres backend` from repo root (docker‑compose still points to Mongo; update required before full stack).
-- **Python scripts**: `uv sync` then run the seed script from `scripts/` (ensure the script exists first).
-- **Admin dashboard** and **frontend** lack package manifests; they must be scaffolded before any `npm`/`react-native` commands.
+**Purpose** – Compact, high‑signal guidance so agents start productive and avoid common pitfalls.
 
-## Module Landscape
-- Active Java packages: `auth`, `userprofile`, `common`.
-- Empty package trees: `foodcatalog`, `nutritionplan`, `mealtracking`, `dashboard`, `admin`.
-- Entry point: `backend/src/main/java/com/nutrition/NutritionApplication.java` (Mongo auditing enabled).
-- Controllers return `ResponseEntity<ApiResponse<T>>` with fields `success`, `message`, `data`, `timestamp`.
-- Security: `SecurityConfig` permits `/api/v1/auth/**` and `/actuator/**`; all other routes require auth, but JWT filter is not wired yet (mock tokens returned).
-- Business logic lives in `UserProfileServiceImpl` (BMI/BMR/TDEE).
+---
+
+## Runtime Essentials
+- **Backend only** is runnable now. Start with the Maven wrapper from the `backend/` directory (requires Java 21; the wrapper will download the correct JDK if missing):
+  ```bash
+  cd backend && ./mvnw spring-boot:run
+  ```
+  *Uses Java 21, defaults to MongoDB at `mongodb://localhost:27017/nutrition_db` unless `MONGODB_URI` is set.*
+- **Tests** – Run with `./mvnw test` inside `backend/`. No tests exist yet.
+- **Docker** – `docker compose up -d postgres backend` from the repo root. The compose file still points to Mongo; update `docker‑compose.yml` before a full stack launch.
+- **Frontend / Admin dashboard** – No `package.json` or source scaffolding yet; `npm`/`react‑native` commands will fail until those are created.
+
+---
+
+## Project Structure & Boundaries
+- **Backend entry point:** `backend/src/main/java/com/nutrition/NutritionApplication.java` (Mongo auditing enabled).
+- **Active Java packages:** `auth`, `userprofile`, `common`.
+- **Empty package trees (placeholders):** `foodcatalog`, `nutritionplan`, `mealtracking`, `dashboard`, `admin`.
+- **Controller contract:** All controllers return `ResponseEntity<ApiResponse<T>>` with fields `success`, `message`, `data`, `timestamp`.
+- **Security:** `SecurityConfig` permits `/api/v1/auth/**` and `/actuator/**`; all other endpoints require auth, but the JWT filter is not wired – mock tokens are accepted.
+- **Business logic:** Currently lives in `UserProfileServiceImpl` (BMI/BMR/TDEE calculations).
+
+---
 
 ## Data Migration Note
-- Current Mongo collections: `users`, `user_profiles`. When migrating to PostgreSQL, map JPA entities to tables `users` and `user_profiles` using `@Column(name = "snake_case")` where needed.
+- Existing Mongo collections: `users`, `user_profiles`.
+- When switching to PostgreSQL, map JPA entities to tables `users` and `user_profiles` using `@Column(name = "snake_case")` for any non‑standard column names.
 
-## Important Docs & Locations
-- OpenCode config: `.opencode/opencode.json` (this file is the sole instruction source).
-- Contextual docs: `.opencode/context/` (e.g., API contracts in `07-api-contracts`).
-- History logging: `HISTORY_PROMPTS.md` (record each prompt with timestamp).
-- **Do not trust** the root `README.md` for current setup status; it is outdated.
+---
+
+## Important Docs & Sources
+- **OpenCode config:** `.opencode/opencode.json` – the single source of truth for agent instructions.
+- **Contextual docs:** `.opencode/context/` (e.g., API contracts in `07‑api‑contracts`).
+- **History log:** `HISTORY_PROMPTS.md` – records of prior prompts.
+- **Root README:** Out‑of‑date; do **not** rely on it for current setup.
+
+---
 
 ## Common Gotchas
-- Running `npm ci` or `react-native` commands will fail until `package.json` and source directories are created in `admin-dashboard/` and `frontend/`.
-- Docker compose currently expects a Mongo service; attempting to start the stack without updating `docker-compose.yml` will cause backend DB connection failures.
-- No test files exist under `backend/src/test/java/`; adding tests is required before CI can be useful.
-- JWT authentication is placeholder; any auth‑protected endpoint will accept the mock token.
+- `npm ci` or any `react‑native` command will error until `package.json` and source directories exist under `admin-dashboard/` and `frontend/`.
+- Docker compose expects a Mongo service; launching without updating the compose file leads to DB connection failures.
+- No test files under `backend/src/test/java/`; add tests before CI becomes useful.
+- JWT authentication is a placeholder – any token passes the filter.
+
+---
 
 ## Quick Reference Commands
-- **Backend dev**: `cd backend && ./mvnw spring-boot:run`
-- **Backend test**: `cd backend && ./mvnw test`
-- **Docker stack**: `docker compose up -d postgres backend`
-- **Python env**: `cd scripts && uv sync`
-- **Seed data**: `cd scripts && python <seed_script>.py` (verify script name first)
+- **Backend dev:** `cd backend && ./mvnw spring-boot:run`
+- **Backend test:** `cd backend && ./mvnw test`
+- **Docker stack:** `docker compose up -d postgres backend`
+
+---
+
+*Keep this file up‑to‑date as the repo evolves; it is the primary onboarding guide for OpenCode agents.*
