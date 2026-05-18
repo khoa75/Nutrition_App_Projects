@@ -3,11 +3,21 @@
   "provider": {
     "openrouter": {
       "baseUrl": "${OPENROUTER_BASE_URL}",
-      "apiKey": "${OPENROUTER_API_KEY}"
+      "apiKey": "${OPENROUTER_API_KEY}" 
     }
   },
+  "tools": {
+    "github-triage": false,
+    "github-pr-search": false
+  },
   "instructions": [
-    "AGENTS.md"
+    "AGENTS.md",
+    ".opencode/context/01-project/project_overview.md",
+    ".opencode/context/01-project/architecture.md",
+    ".opencode/context/01-project/tech-stack.md",
+    ".opencode/context/02-requirements/user_stories.md",
+    ".opencode/context/03-standards/coding-standards.md",
+    ".opencode/context/06-glossary/glossary.md"
   ],
   "lsp": {
     "java": {
@@ -72,88 +82,107 @@
   },
   "agent": {
     "plan": {
-      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "models": "openai/gpt-oss-120b:free",
       "description": "Plan architecture, break down features, design implementation strategy",
       "temperature": 0.1,
       "mode": "primary"
     },
     "build": {
-      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "models": "openai/gpt-oss-120b:free",
       "description": "Implement features, write code, run tests — orchestrates backend_dev, frontend_dev, ai_engineer",
       "temperature": 0.1,
       "mode": "primary"
     },
     "explore": {
-      "model": "openrouter/google/gemini-2.0-flash-001",
+      "models": "openai/gpt-oss-120b:free",
       "description": "Quick codebase exploration, search files, understand project structure",
       "temperature": 0.1,
       "mode": "primary"
     },
     "general": {
-      "model": "openrouter/google/gemini-2.0-flash-001",
+      "models": "openai/gpt-oss-120b:free",
       "description": "General-purpose tasks, research, multi-step problem solving",
       "temperature": 0.2,
       "mode": "primary"
     },
     "project_lead": {
-      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.1,
-      "description": "Orchestrate sub-agents, maintain architectural integrity, coordinate cross-module work — uses git-advanced-workflows for version control",
+      "description": "Project Lead and Architect — coordinates all development activities, maintains architectural integrity, orchestrates subagents. Enforces Modular Monolith principles, manages cross-module communication via Service Interfaces. References: .opencode/agents/project_lead.md",
       "mode": "primary"
     },
-    "backend_dev": {
-      "model": "openrouter/anthropic/claude-sonnet-20241022",
+    "planner": {
+      "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.1,
-      "description": "Spring Boot 3 / Java 21 backend — auth, user_profile, food_catalog, meal_tracking, dashboard, admin modules. Uses java-springboot skill for Controller→Service→Repository pattern, package-by-feature structure, and @Async non-blocking tasks",
+      "description": "Project Planner — sprint planning, task breakdown, dependency mapping, milestone tracking. Translates 4-phase roadmap into concrete sprint plans with deliverables. References: .opencode/agents/planner/planner.md",
       "mode": "subagent"
     },
-    "frontend_dev": {
-      "model": "openrouter/openai/gpt-4o-2024-11-20",
+    "backend_dev": {
+      "models": "deepseek/deepseek-v4-flash:free",
+      "temperature": 0.1,
+      "description": "Senior Backend Developer — Spring Boot 3 / Java 21, MongoDB, JWT, BCrypt. Implements auth, user_profile, food_catalog, meal_tracking, nutrition_plan, dashboard, admin modules. Enforces Controller→Service→Repository pattern, zero cross-module repository access. References: .opencode/agents/backend/backend_dev.md",
+      "mode": "subagent"
+    },
+    "flutter_dev": {
+      "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.2,
-      "description": "Flutter mobile app + React admin dashboard — screens, Riverpod state management, API integration. Uses typescript-react-reviewer for React TSX functional components with hooks",
+      "description": "Flutter Developer — Flutter (Dart 3.0+), Riverpod state management, GoRouter, Dio, Clean Architecture. Builds mobile app for iOS/Android with Material Design UI. References: .opencode/agents/front-end/flutter_dev.md",
+      "mode": "subagent"
+    },
+    "react_dev": {
+      "models": "deepseek/deepseek-v4-flash:free",
+      "temperature": 0.2,
+      "description": "React Developer — React 18+ TypeScript only, Redux Toolkit, React Router v6, Axios, Ant Design, Tailwind CSS. Builds Admin Dashboard with functional components and hooks. References: .opencode/agents/front-end/react_dev.md",
       "mode": "subagent"
     },
     "ai_engineer": {
-      "model": "openrouter/anthropic/claude-sonnet-20241022",
+      "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.2,
-      "description": "FastAPI + PyTorch — food recognition model, calorie estimation, image processing pipeline. Uses fastapi-python skill for REST endpoint design, async request handling, and Pydantic models",
-      "mode": "subagent"
-    },
-    "devops_engineer": {
-      "model": "openrouter/google/gemini-2.0-flash-001",
-      "temperature": 0.1,
-      "description": "Docker Compose, CI/CD pipelines, cloud deployment, monitoring, infrastructure-as-code — multi-service orchestration for backend, ai-service, MongoDB",
+      "description": "AI Engineer — FastAPI (Python 3.10+), PyTorch, computer vision, food recognition model, calorie estimation. Builds image processing pipeline with inference < 2 seconds. Uses uv package manager. References: .opencode/agents/ai-services/ai_engineer.md",
       "mode": "subagent"
     },
     "reviewer": {
-      "model": "openrouter/openai/gpt-4o-2024-11-20",
+      "models": "nvidia/nemotron-3-nano-30b-a3b:free",
       "temperature": 0.05,
-      "description": "Code review, security audit, quality assurance — enforces JWT auth (jwt-security skill), BCrypt passwords, RBAC roles (USER/ADMIN), account lockout after 5 failed attempts, 80%+ test coverage",
+      "description": "Code Reviewer — enforces Modular Monolith principles, security (JWT, BCrypt, RBAC), performance (< 2s API response), clean code, >80% test coverage. Reviews Backend, Frontend, AI Service. References: .opencode/agents/quality-assurance/reviewer.md",
       "mode": "subagent"
     },
     "docs_writer": {
-      "model": "openrouter/google/gemini-2.0-flash-001",
+      "models": "minimax/minimax-m2.5:free",
       "temperature": 0.3,
-      "description": "Documentation, API docs, README, project memory, changelogs — maintains HISTORY_PROMPTS.md and .opencode/context/ specs",
+      "description": "Technical Writer — maintains project memory, API docs, architecture docs, decision logs, meeting notes, release notes. Updates .opencode/context/ specs and HISTORY_PROMPTS.md. References: .opencode/agents/documentation/docs_writer.md",
       "mode": "subagent"
+    }
+  },
+  "mcp": {
+    "mongodb": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-y",
+        "mongodb-mcp-server@latest"
+      ]
     },
-    "database_admin": {
-      "model": "openrouter/anthropic/claude-sonnet-20241022",
-      "temperature": 0.1,
-      "description": "MongoDB schema design, compound indexes, aggregation pipelines, query optimization — manages nutrition_db collections with snake_case field naming",
-      "mode": "subagent"
+    "filesystem": {
+      "type": "local",
+      "command": [
+        "npx",
+        "-x",
+        "@modelcontextprotocol/server-filesystem"
+      ]
     },
-    "qa_tester": {
-      "model": "openrouter/openai/gpt-4o-2024-11-20",
-      "temperature": 0.1,
-      "description": "TDD workflow — writes tests before implementation. Enforces 90% service coverage, 80% controller coverage. Runs ./mvnw test, flutter test, and npm test across all modules",
-      "mode": "subagent"
-    },
-    "security_auditor": {
-      "model": "openrouter/anthropic/claude-sonnet-20241022",
-      "temperature": 0.05,
-      "description": "Security audit — JWT token validation, refresh token rotation, password policy enforcement, API endpoint protection, .env secrets management, OWASP vulnerability checks",
-      "mode": "subagent"
+    "docker": {
+      "type": "local",
+      "command": [
+        "docker",
+        "mcp",
+        "gateway",
+        "run"
+      ],
+      "enable": true,
+      "env": {
+        "DOCKER_COMPOSE_FILE": "docker-compose.yml"
+      }
     }
   }
 }
