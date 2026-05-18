@@ -10,6 +10,8 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * $table.getTableComment()
@@ -30,8 +32,9 @@ public class Logs implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private Users user;
 
     @Column(name = "logged_at", nullable = false)
     private LocalDateTime loggedAt;
@@ -42,4 +45,6 @@ public class Logs implements Serializable {
     @Column(name = "total_calories", nullable = false)
     private BigDecimal totalCalories;
 
+    @OneToMany(mappedBy = "logs", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LogFoods> logFoods = new ArrayList<>();
 }

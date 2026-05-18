@@ -47,7 +47,8 @@ public class Foods implements Serializable {
     @Column(name = "calories_per_100g", nullable = false)
     private BigDecimal caloriesPer100g;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
 
 }

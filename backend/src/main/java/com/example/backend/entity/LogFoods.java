@@ -1,9 +1,6 @@
 package com.example.backend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,12 +23,9 @@ public class LogFoods implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @Column(name = "log_id", nullable = false)
-    private Long logId;
+    @EmbeddedId
+    private LogFoodsId id;
 
-    @Id
-    @Column(name = "food_id", nullable = false)
-    private Long foodId;
-
+    @ManyToOne
+    private Logs logs;
 }

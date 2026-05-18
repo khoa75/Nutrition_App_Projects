@@ -8,5 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/logs")
 public class LogsController {
+    //user add log of day
+
 
 }

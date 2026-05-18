@@ -12,6 +12,8 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * $table.getTableComment()
@@ -69,5 +71,8 @@ public class Users implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "bmi_status")
     private BmiStatusEnum bmiStatus;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Foods> foods = new ArrayList<>();
 
 }

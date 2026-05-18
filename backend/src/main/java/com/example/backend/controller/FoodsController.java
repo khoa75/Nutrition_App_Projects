@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/foods")
 public class FoodsController {
-    //create food
+    //create food (admin): không cần thêm FK user_id
 
-    //get add
+    //create food (user): thêm FK user_id
+
+    //get all food
 
     //get by id
 
