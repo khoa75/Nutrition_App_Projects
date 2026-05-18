@@ -18,9 +18,9 @@ Based on the [PRD.md](../../PRD.md) and architectural constraints, the following
 
 ## 3. Functional Business Rules
 - **Health Metric Calculation:** Mandatory use of international standard formulas. Specifically for BMI: `BMI = Weight (kg) / (Height (m))²`.
-- **Unit System:** The App must support flexible data entry and conversion between two systems:
-  - Weight: **kg** and **pounds (lbs)**.
-  - Height: **cm** and **feet/inches**.
+- **Unit System:** The App uses the standard metric system for all data entry and display:
+  - Weight: **kg**.
+  - Height: **cm**.
 - **Audit Logging:** Every Admin intervention in user data (creation, modification, locking/unlocking) must be fully recorded (Audit Log).
 
 ## 4. Architecture & Coding Principles
