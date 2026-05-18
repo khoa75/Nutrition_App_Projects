@@ -11,9 +11,9 @@
 *   Top Workspace Row: Title "Food Catalog Management" + **"Add New Food" Primary Button (Deep Indigo #303F9F, solid style, text white, 4px corner radius)**.
 *   Control Filters Row:
     *   Left: Search input bar "Search by food name...".
-    *   Right: Category selector dropdown filter menu.
+    *   Right: *Empty / Spacing placeholder* (Category filter completely removed).
 *   Data Table Container (12px Rounded Card, Surface #FFFFFF):
-    *   Column Headers: [Food Image | Name | Category | Calories | Macros (P/C/F) | Actions]
+    *   Column Headers: [Food Image | Name | Calories | Macros (P/C/F) | Actions]
     *   Row Items: Food Image is a small square thumb with 4px rounded corners. Macros column displays values grouped neatly. Actions column has an [Edit] icon button.
 
 ## Popup Component: Food Form Modal (Create/Read/Update)
@@ -21,7 +21,7 @@
 *   Container: Centered 12px Rounded Dialog box over blurred light background layer.
 *   Form Layout:
     *   Left Column: Dashed border card container slot with an "Upload food image" icon label for image picker.
-    *   Right Column Input Stack: Food Name input, Category selection menu, Ingredients rich text-area field, Calories (kcal input), Protein (grams), Carb (grams), Fat (grams).
+    *   Right Column Input Stack: Food Name input, Ingredients rich text-area field, Calories (kcal input), Protein (grams), Carb (grams), Fat (grams). *(Category selection menu completely removed)*.
 *   Footer Actions: [Discard] text button + [Confirm Template] filled Deep Indigo button.
 
 ## ⚡ Interaction & State Triggers
