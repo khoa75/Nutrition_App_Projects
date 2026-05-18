@@ -1,93 +1,51 @@
 # Nutrition App – Docker Compose (Complete Development Environment)
 # ────────────────────────────────────────────────────────────────────────────
 # Usage:
+#   docker compose up -d --build             # Build images and start all services
 #   docker compose up -d                     # Start all services
-#   docker compose up -d mongodb backend     # Start specific services
+#   docker compose up -d backend             # Start backend services
 #   docker compose logs -f backend           # Follow logs
 #   docker compose down                      # Stop everything
 #   docker compose down -v                   # Stop + delete volumes (WARNING: loses data)
 # ────────────────────────────────────────────────────────────────────────────
 
-services:
+version: "3.9"
 
-  # ── Database ────────────────────────────────────────────────────────────
-  mongodb:
-    image: mongo:7
-    container_name: nutrition_mongodb
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
+services:
+  postgres:
+    image: postgres:15
+    container_name: nutrition-database
     environment:
-      MONGO_INITDB_DATABASE: nutrition_db
+      POSTGRES_DB: nutrion
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: apppass
+      TZ: Asia/Ho_Chi_Minh
+    command: ["postgres", "-c", "timezone=UTC"]
+    ports:
+      - "5433:5432" # chỗ này nhớ map tới 5432 
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh --quiet
+      test: ["CMD-SHELL", "pg_isready -U appuser -d nutrion"]
       interval: 10s
       timeout: 5s
       retries: 5
-    restart: unless-stopped
-    networks:
-      - nutrition_net
 
-  # ── Backend API (Spring Boot 3, Java 21) ────────────────────────────────
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: nutrition_backend
-    ports:
-      - "8080:8080"
-    depends_on:
-      mongodb:
-        condition: service_healthy
-    env_file:
-      - .env
-    environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/nutrition_db
-      SPRING_PROFILES_ACTIVE: docker
-    restart: unless-stopped
-    networks:
-      - nutrition_net
+  # backend:
+  #   build: ./backend
+  #   container_name: nutrition-backend
+  #   ports:
+  #     - "8080:8080"
+  #   env_file:
+  #     - .env
+  #   environment:
+  #     - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/nutrion?options=-c%20timezone=UTC
+  #     - SPRING_DATASOURCE_USERNAME=appuser
+  #     - SPRING_DATASOURCE_PASSWORD=apppass
+  #     - JAVA_TOOL_OPTIONS=-Duser.timezone=UTC
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
 
-  # ── AI Service (FastAPI, PyTorch) ───────────────────────────────────────
-  ai-service:
-    build:
-      context: ./ai-service
-      dockerfile: Dockerfile
-    container_name: nutrition_ai
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
-    environment:
-      MODEL_CACHE_DIR: /models
-    volumes:
-      - model_cache:/models
-    restart: unless-stopped
-    networks:
-      - nutrition_net
-
-  # ── Admin Dashboard (React, TypeScript, Tailwind) ──────────────────────
-  admin-dashboard:
-    build:
-      context: ./admin-dashboard
-      dockerfile: Dockerfile
-    container_name: nutrition_admin
-    ports:
-      - "3000:3000"
-    depends_on:
-      - backend
-    restart: unless-stopped
-    networks:
-      - nutrition_net
-
-# ── Volumes ────────────────────────────────────────────────────────────────
 volumes:
-  mongodb_data:
-  model_cache:
-
-# ── Networks ───────────────────────────────────────────────────────────────
-networks:
-  nutrition_net:
-    name: nutrition_network
-    driver: bridge
+  postgres_data:
