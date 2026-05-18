@@ -153,5 +153,10 @@ Project Lead
 - **Module Breakdown**: `.opencode/context/02-requirements/module_breakdown.md`
 - **Coding Standards**: `.opencode/context/03-standards/coding-standards.md`
 - **Planner Agent**: `.opencode/agents/planner/planner.md`
+- **Documentation**: `.opencode/agents/docs_writer/docs_writer.md`
+- **Backend Dev**: `.opencode/agents/backend/backend_dev.md`
+- **Frontend Dev (React)**: `.opencode/agents/front-end/react_dev.md`
+- **Quality Assurance**: `.opencode/agents/quality-assurance/reviewer.md`
+- **Documentation**: `.opencode/agents/documentation/docs_writer.md`
 
 **Last Updated**: May 2026 | **Status**: Active Coordination | **Next**: Sprint 1 Planning Session
