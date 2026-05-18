@@ -1,6 +1,6 @@
 package com.example.backend.exception;
 
-import com.example.backend.dto.ApiResponse;
+import com.example.backend.dto.response.ApiResponse;
 import com.example.backend.enums.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
