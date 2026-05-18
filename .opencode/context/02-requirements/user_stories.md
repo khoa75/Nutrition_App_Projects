@@ -25,81 +25,84 @@ Extracted from the [PRD.md](../../PRD.md) document.
 
 **US-1.2: Initial Health Information Entry**
 - **Role:** New user (after successful registration)
-- **Goal:** Provide basic data for the system to personalize the experience
+- **Goal:** Provide detailed health metrics for personalized calorie targets
 - **Acceptance Criteria:**
-  - Enter full information: full name, date of birth, weight, height, gender, exercise intensity, weight goal.
-  - System calculates and displays current BMI immediately after entry.
-  - Data is stored securely.
+  - Enter personal information: Full name, Email, Gender, Date of Birth, Height, Weight, Activity Level.
+  - Enter fitness goals: Goal (Lose, Maintain, Gain), Target Weight, Desired Weight Loss Rate.
+  - System calculates and displays current BMI and recommended daily Calorie target immediately after entry.
+  - Data is securely stored.
 
 **US-2: Receive personalized nutrition plans**
 - **Role:** User with an account
-- **Goal:** Receive an eating plan suitable for their goals and BMI
+- **Goal:** Receive a daily eating plan suitable for their weight goals
 - **Acceptance Criteria:**
-  - Plan is created based on BMI and weight goals.
-  - Can choose timeframe (day/week/month/year).
-  - Can replace suggested dishes with others of similar calories.
+  - Plan is created based on BMI and total daily calorie targets.
+  - Can choose timeframe (day/week/month).
+  - Can replace suggested dishes with alternatives to meet the daily calorie target.
 
-**US-3: Record meals using image recognition**
+**US-3: Food and Ingredient Search & Portion Customization**
 - **Role:** User
-- **Goal:** Quickly record meals by taking a photo instead of manual entry
+- **Goal:** Search for Vietnamese foods and customize portion sizes to track accurate calorie intake
 - **Acceptance Criteria:**
-  - Can take a photo or select from gallery.
-  - System recognizes dish name and ingredients.
-  - Displays estimated total calories.
-  - Can edit recognition results if necessary.
+  - Can search the database by food name or keywords (e.g., Phở bò, Cơm tấm).
+  - System displays Calories, Protein, Carbohydrates, Fat, and an illustrative image for the selected food.
+  - Can customize portion size (e.g., 100g, 200g, or custom).
+  - System automatically recalculates nutritional values based on the custom portion size.
 
-**US-4: View Progress Dashboard**
+**US-4: Log Daily Meals**
 - **Role:** User
-- **Goal:** Track weight loss/gain progress and calorie consumption through visual charts
+- **Goal:** Keep a daily record of consumed foods to track calorie intake
 - **Acceptance Criteria:**
-  - Dashboard displays total calorie consumption for the day.
-  - Displays variance from target.
-  - Weight trend charts by day/week/month.
-  - Weight goal progress displayed as a progress bar.
-  - Real-time data updates.
+  - Can add searched foods/ingredients to daily meal logs.
+  - System automatically calculates the total consumed calories for the day.
+  - Can view meal eating history and food search history.
 
-**US-5: Daily weight updates**
+**US-5: View Progress Dashboard**
 - **Role:** User
-- **Goal:** Record daily weight to track progress
+- **Goal:** Track weight trends and calorie consumption through visual charts
 - **Acceptance Criteria:**
-  - Can update weight once or multiple times a day.
-  - System stores weight change history.
-  - Displays change trends.
+  - Dashboard visually compares actual consumed calories against recommended daily calorie targets based on BMI and goals.
+  - Displays data visualization charts (by week, by month).
+  - Charts show daily calories, calorie differences, and progress towards weight targets.
 
-**US-6: Manual meal entry**
+**US-6: Daily Weight Updates**
 - **Role:** User
-- **Goal:** Manually enter meal information when image recognition cannot be used
+- **Goal:** Record weight changes to trigger target recalculations
 - **Acceptance Criteria:**
-  - Can search and add dishes from a list.
-  - Can manually enter dish name and serving size.
-  - System displays calorie estimate.
-  - Can view meal history.
+  - Can update current weight over time.
+  - System automatically recalculates BMI and daily calorie targets based on the new weight.
+  - Weight trends are reflected on the progress dashboard.
 
 ## For Admins:
 
-**US-7: View user list**
+**US-7: View and filter user list**
 - **Role:** Admin
-- **Goal:** View a list of all users in the system
+- **Goal:** View and search all registered users in the system
 - **Acceptance Criteria:**
-  - Displays full list with information: name, email, gender, age, status, weight goal.
-  - Can search by name, email, status, goal.
-  - Can paginate or load more.
+  - Displays a comprehensive list with: Name, Email, Gender, Age, Account Status, Weight Goal.
+  - Advanced search by name or email.
+  - Can filter users by active status or weight goals.
 
 **US-8: Manage user accounts**
 - **Role:** Admin
-- **Goal:** Create, edit, lock/unlock user accounts
+- **Goal:** Create, edit, and control access for user accounts
 - **Acceptance Criteria:**
-  - Can create new accounts.
-  - Can edit personal information of users.
-  - Can lock/unlock accounts.
-  - History of actions is recorded.
+  - Can manually create new accounts.
+  - Can edit users' personal information.
+  - Can lock/unlock user accounts.
+  - Can track user activity history to detect anomalies.
 
-**US-9: View user activity history**
+**US-9: Manage Food Database**
 - **Role:** Admin
-- **Goal:** Track user activity history to detect abnormal behavior
+- **Goal:** Curate and maintain a comprehensive database of Vietnamese dishes and ingredients
 - **Acceptance Criteria:**
-  - View login times.
-  - View information update history.
-  - View weight change history.
-  - View nutritional record history.
-  - Can filter by date and activity type.
+  - Can perform CRUD operations for food items: Name, Type (Soup, Fried, Grilled, Vegetarian, Snack, Drink), Ingredients, Calories, Macros (Protein, Carbs, Fat).
+  - Can upload and update food images via Cloud Storage integration.
+  - Can use advanced search and filtering (by name, calories, type) to find specific foods.
+
+**US-10: Food Data Quality Control**
+- **Role:** Admin
+- **Goal:** Ensure the nutritional database is accurate and highly reliable
+- **Acceptance Criteria:**
+  - Can run duplicate checking tools to identify redundant food entries.
+  - Can review and moderate food data before publishing it to end users.

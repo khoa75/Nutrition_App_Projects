@@ -41,9 +41,6 @@ public class Foods implements Serializable {
     @Column(name = "fats", nullable = false)
     private BigDecimal fats;
 
-    @Column(name = "fiber", nullable = false)
-    private BigDecimal fiber;
-
     @Column(name = "calories_per_100g", nullable = false)
     private BigDecimal caloriesPer100g;
 

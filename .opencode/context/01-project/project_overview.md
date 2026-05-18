@@ -1,44 +1,43 @@
 # Project Overview & Core Objectives
 
-**Nutrition App** is a comprehensive health management application designed to help users track diet, manage weight goals, and receive AI-powered nutritional guidance through food image recognition technology.
+**Nutrition App** is a comprehensive health management application designed to help users track diet, manage weight goals, and receive personalized nutritional guidance.
 
 ## 🎯 Core Mission
 Provide a convenient, accurate, and intelligent solution for daily diet tracking with personalized nutritional recommendations based on individual health metrics and goals.
 
 ## 📊 Business Context & Market Need
 - **Problem**: Manual diet tracking is time-consuming and prone to inaccuracy
-- **Solution**: AI-powered food recognition + automated calorie analysis with personalized meal planning
+- **Solution**: Comprehensive searchable food database + automated calorie analysis with personalized meal planning
 - **Target Users**: Health-conscious individuals seeking weight management and nutritional optimization
 
 ## 🏗️ System Architecture Overview
 
 ### High-Level Architecture
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Flutter App   │    │   React Admin   │    │   FastAPI AI    │
-│   (Mobile)      │◄──►│  Dashboard      │◄──►│   Service       │
-│                 │    │                 │    │                 │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         └───────────────────────┼───────────────────────┘
-                                 │
-                    ┌─────────────────┐
-                    │ Spring Boot API │
-                    │ (Backend)      │
-                    │                 │
-                    └─────────────────┘
-                                 │
-                    ┌─────────────────┐
-                    │  MongoDB Atlas  │
-                    │  (Database)     │
-                    │                 │
-                    └─────────────────┘
+┌─────────────────┐    ┌─────────────────┐
+│React-Native App │    │   React Admin   │
+│ (Mobile-Android)│◄──►│  Dashboard      │
+│                 │    │                 │
+└─────────────────┘    └─────────────────┘
+         │                       │
+         └───────────┬───────────┘
+                     │
+            ┌─────────────────┐
+            │ Spring Boot API │
+            │ (Backend)      │
+            │                 │
+            └─────────────────┘
+                     │
+            ┌─────────────────┐
+            │   PostgreSQL    │
+            │  (Database)     │
+            │                 │
+            └─────────────────┘
 ```
 
 ### Component Responsibilities
 - **Backend (Spring Boot)**: Business logic, data coordination, API endpoints
-- **AI Service (FastAPI)**: Image recognition, calorie estimation, ML processing
-- **Mobile Client (Flutter)**: User-facing app with camera integration
+- **Mobile Client (React-Native)**: User-facing app for Android
 - **Admin Dashboard (React)**: System management and monitoring interface
 
 ## 📋 Core Feature Set
@@ -50,9 +49,8 @@ Provide a convenient, accurate, and intelligent solution for daily diet tracking
    - Goal setting (weight loss/gain/maintenance)
 
 2. **Food & Meal Tracking**
-   - AI-powered food image recognition with confidence scoring
-   - Manual food database search and entry
-   - Meal logging with automatic calorie calculation
+   - Comprehensive food database search and entry for Vietnamese foods
+   - Meal logging with customizable portion sizes and automatic calorie calculation
    - Food replacement suggestions based on nutritional equivalence
 
 3. **Personalized Nutrition Planning**
@@ -64,7 +62,6 @@ Provide a convenient, accurate, and intelligent solution for daily diet tracking
 4. **Progress Analytics**
    - Daily/weekly/monthly calorie consumption tracking
    - Weight trend charts with goal progress indicators
-   - Macronutrient breakdown (protein, carbs, fat)
    - Achievement progress visualization
 
 ### Administrative Features
@@ -89,13 +86,12 @@ Provide a convenient, accurate, and intelligent solution for daily diet tracking
 - **Basic Dashboard**: Weight tracking and calorie summary display
 - **Meal Tracking**: Manual meal logging with calorie calculation
 
-### Phase 2: AI Integration
-**Timeline**: Sprint 4-6 | **Focus**: Intelligent automation
-- **AI Service Development**: PyTorch model training and deployment
-- **Food Recognition**: Image-to-food-name mapping with confidence scoring
-- **Calorie Estimation**: Portion size estimation and macronutrient analysis
-- **Smart Meal Planning**: Algorithm-driven meal generation
-- **Integration**: Seamless AI-to-backend API communication
+### Phase 2: Enhanced Tracking & Personalization
+**Timeline**: Sprint 4-6 | **Focus**: Intelligent planning and data expansion
+- **Food Catalog Expansion**: Comprehensive database of Vietnamese foods and ingredients
+- **Portion Customization**: Dynamic calorie recalculation based on serving sizes
+- **Smart Meal Planning**: Algorithm-driven meal generation based on BMI and goals
+- **Integration**: Advanced caching and search optimizations
 
 ### Phase 3: Scaling & Administration
 **Timeline**: Sprint 7-9 | **Focus**: System management and optimization
@@ -109,14 +105,13 @@ Provide a convenient, accurate, and intelligent solution for daily diet tracking
 **Timeline**: Future | **Focus**: Enhanced user experience
 - **Device Integration**: Smartwatch, health app synchronization
 - **Social Features**: Community challenges and sharing
-- **Advanced AI**: Multi-food recognition, dietary pattern analysis
+- **Advanced Analytics**: Dietary pattern analysis and insights
 - **Mobile Optimization**: Push notifications, offline mode
 
 ## 🔧 Technical Constraints & Requirements
 
 ### Performance Targets
 - **API Response Time**: < 2 seconds for all endpoints
-- **Recognition Accuracy**: > 85% for food image classification
 - **System Availability**: ≥ 99.5% uptime
 - **Concurrent Users**: Scaled for 100,000+ users
 
@@ -125,7 +120,7 @@ Provide a convenient, accurate, and intelligent solution for daily diet tracking
 - **Communication**: Internal Service Interfaces only (no cross-module DB access)
 - **Testing**: TDD approach with 80%+ code coverage
 - **Security**: JWT refresh tokens, BCrypt encryption, rate limiting
-- **Database**: MongoDB with compound indexes for performance
+- **Database**: PostgreSQL with B-tree indexes for performance
 
 ### Quality Standards
 - **Code Organization**: Package-by-feature with clear boundaries
@@ -137,13 +132,13 @@ Provide a convenient, accurate, and intelligent solution for daily diet tracking
 
 ### Design Philosophy
 - **Simplicity**: Streamlined workflows for daily use
-- **Accuracy**: Multiple verification methods for food recognition
+- **Accuracy**: Precise logging with customizable portion sizes
 - **Personalization**: Adaptive recommendations based on user progress
 - **Engagement**: Visual feedback and achievement milestones
 
 ### Key User Journeys
 1. **Onboarding**: Profile setup → Initial meal tracking → Goal setting
-2. **Daily Use**: Quick photo logging → Real-time feedback → Progress visualization
+2. **Daily Use**: Quick manual logging → Real-time feedback → Progress visualization
 3. **Planning**: Weekly meal preview → Food substitution → Calorie adjustment
 4. **Review**: Historical analysis → Trend identification → Goal refinement
 
@@ -163,14 +158,13 @@ Provide a convenient, accurate, and intelligent solution for daily diet tracking
 
 ### Technical Performance Metrics
 - **API response time percentiles (p90, p95, p99)**
-- **Food recognition accuracy**
 - **Database query performance**
 - **Error rates and system reliability**
 
 ## 🚀 Innovation Points
 
 ### Technical Innovation
-1. **Hybrid Recognition System**: Combines computer vision with nutritional databases
+1. **Dynamic Nutritional Engine**: Instant calorie recalculations based on exact portion sizes
 2. **Context-Aware Recommendations**: Adapts meal plans based on user behavior patterns
 3. **Real-time Calorie Tracking**: Immediate feedback with estimated portion sizes
 
@@ -185,7 +179,6 @@ Provide a convenient, accurate, and intelligent solution for daily diet tracking
 - **A/B Testing**: Meal plan algorithm variations
 - **User Feedback**: Feature request prioritization
 - **Performance Monitoring**: Real-time system health tracking
-- **Model Retraining**: Continuous improvement of AI recognition accuracy
 
 ### Scalability Planning
 - **Database Sharding**: Geographic distribution for performance

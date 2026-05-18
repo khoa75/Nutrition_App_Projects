@@ -2,6 +2,8 @@ package com.example.backend.entity;
 
 import com.example.backend.enums.ActivityLevelEnum;
 import com.example.backend.enums.BmiStatusEnum;
+import com.example.backend.enums.UserStatus;
+import com.example.backend.enums.WeightGoal;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,8 +42,8 @@ public class Users implements Serializable {
     @Column(name = "dob")
     private LocalDate dob;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
     @Column(name = "hash_password", nullable = false)
     private String hashPassword;
@@ -59,7 +61,7 @@ public class Users implements Serializable {
     private String gender;
 
     @Column(name = "goal_calories")
-    private Long goalCalories;
+    private Integer goalCalories; //số calo ăn trong 1 tuần
 
     @Enumerated(EnumType.STRING)
     @Column(name = "activity_level")
@@ -71,6 +73,17 @@ public class Users implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "bmi_status")
     private BmiStatusEnum bmiStatus;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private UserStatus status = UserStatus.ACTIVE;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "goal_type")
+    private WeightGoal goalType;
+
+    @Column(name = "kg_per_week")
+    private BigDecimal kgPerWeek; //mục tiêu kg cần tăng/giảm trong tuần, nếu 0.0 là giữ
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Foods> foods = new ArrayList<>();

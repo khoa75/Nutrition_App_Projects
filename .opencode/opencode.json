@@ -3,7 +3,7 @@
   "provider": {
     "openrouter": {
       "baseUrl": "${OPENROUTER_BASE_URL}",
-      "apiKey": "${OPENROUTER_API_KEY}" 
+      "apiKey": "${OPENROUTER_API_KEY}"
     }
   },
   "tools": {
@@ -26,25 +26,6 @@
       ],
       "extensions": [
         ".java"
-      ]
-    },
-    "python": {
-      "command": [
-        "pyright-langserver",
-        "--stdio"
-      ],
-      "extensions": [
-        ".py"
-      ]
-    },
-    "dart": {
-      "command": [
-        "dart",
-        "language-server",
-        "--protocol=lsp"
-      ],
-      "extensions": [
-        ".dart"
       ]
     },
     "typescript": {
@@ -75,7 +56,7 @@
   },
   "permission": {
     "bash": "ask",
-    "edit": "ask",
+    "edit": "allow",
     "grep": "allow",
     "read": "allow",
     "lsp": "allow"
@@ -108,81 +89,63 @@
     "project_lead": {
       "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.1,
-      "description": "Project Lead and Architect — coordinates all development activities, maintains architectural integrity, orchestrates subagents. Enforces Modular Monolith principles, manages cross-module communication via Service Interfaces. References: .opencode/agents/project_lead.md",
+      "description": "Project Lead and Architect — coordinates all development activities, maintains architectural integrity, orchestrates primary . Enforces Modular Monolith principles, manages cross-module communication via Service Interfaces. References: .opencode/agents/project_lead.md",
       "mode": "primary"
     },
     "planner": {
       "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.1,
       "description": "Project Planner — sprint planning, task breakdown, dependency mapping, milestone tracking. Translates 4-phase roadmap into concrete sprint plans with deliverables. References: .opencode/agents/planner/planner.md",
-      "mode": "subagent"
+      "mode": "primary"
     },
     "backend_dev": {
       "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.1,
       "description": "Senior Backend Developer — Spring Boot 3 / Java 21, MongoDB, JWT, BCrypt. Implements auth, user_profile, food_catalog, meal_tracking, nutrition_plan, dashboard, admin modules. Enforces Controller→Service→Repository pattern, zero cross-module repository access. References: .opencode/agents/backend/backend_dev.md",
-      "mode": "subagent"
+      "mode": "primary"
     },
-    "flutter_dev": {
+    "react_native_dev": {
       "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.2,
-      "description": "Flutter Developer — Flutter (Dart 3.0+), Riverpod state management, GoRouter, Dio, Clean Architecture. Builds mobile app for iOS/Android with Material Design UI. References: .opencode/agents/front-end/flutter_dev.md",
-      "mode": "subagent"
+      "description": "React-Native Developer — React-Native (TypeScript), Redux Toolkit/Zustand, React Native Paper. Builds mobile client for Android/iOS with calorie tracking dashboards. References: .opencode/agents/front-end/react_native_dev.md",
+      "mode": "primary"
     },
     "react_dev": {
       "models": "deepseek/deepseek-v4-flash:free",
       "temperature": 0.2,
       "description": "React Developer — React 18+ TypeScript only, Redux Toolkit, React Router v6, Axios, Ant Design, Tailwind CSS. Builds Admin Dashboard with functional components and hooks. References: .opencode/agents/front-end/react_dev.md",
-      "mode": "subagent"
-    },
-    "ai_engineer": {
-      "models": "deepseek/deepseek-v4-flash:free",
-      "temperature": 0.2,
-      "description": "AI Engineer — FastAPI (Python 3.10+), PyTorch, computer vision, food recognition model, calorie estimation. Builds image processing pipeline with inference < 2 seconds. Uses uv package manager. References: .opencode/agents/ai-services/ai_engineer.md",
-      "mode": "subagent"
+      "mode": "primary"
     },
     "reviewer": {
       "models": "nvidia/nemotron-3-nano-30b-a3b:free",
       "temperature": 0.05,
       "description": "Code Reviewer — enforces Modular Monolith principles, security (JWT, BCrypt, RBAC), performance (< 2s API response), clean code, >80% test coverage. Reviews Backend, Frontend, AI Service. References: .opencode/agents/quality-assurance/reviewer.md",
-      "mode": "subagent"
+      "mode": "primary"
     },
     "docs_writer": {
       "models": "minimax/minimax-m2.5:free",
       "temperature": 0.3,
       "description": "Technical Writer — maintains project memory, API docs, architecture docs, decision logs, meeting notes, release notes. Updates .opencode/context/ specs and HISTORY_PROMPTS.md. References: .opencode/agents/documentation/docs_writer.md",
-      "mode": "subagent"
+      "mode": "primary"
     }
   },
   "mcp": {
-    "mongodb": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "mongodb-mcp-server@latest"
-      ]
-    },
     "filesystem": {
       "type": "local",
       "command": [
         "npx",
         "-x",
-        "@modelcontextprotocol/server-filesystem"
+        "@modelcontextprotocol/server-filesystem",
+        "."
       ]
     },
-    "docker": {
+    "memory": {
       "type": "local",
       "command": [
-        "docker",
-        "mcp",
-        "gateway",
-        "run"
-      ],
-      "enable": true,
-      "env": {
-        "DOCKER_COMPOSE_FILE": "docker-compose.yml"
-      }
+        "npx",
+        "-x",
+        "@modelcontextprotocol/server-memory"
+      ]
     }
   }
 }

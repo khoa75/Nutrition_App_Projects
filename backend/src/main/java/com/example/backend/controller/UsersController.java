@@ -17,10 +17,11 @@ public class UsersController {
 
     //get all
 
-    //update (put)
+    //create user (admin)
+
+    //update (put): note: mỗi khi update (height, weight) nhớ tự tính bmi lại
 
     //delete
 
-
-    //update target calo (put)
+    //caculate goal (user nhập form để tính goal calories theo tuần)
 }
