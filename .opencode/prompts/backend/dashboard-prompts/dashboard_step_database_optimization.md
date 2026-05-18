@@ -1,0 +1,21 @@
+---
+name: dashboard_step_database_optimization
+description: >
+  Prompt: Build Dashboard Module (Statistics & Visualization) - Step 2: Database Optimization
+license: Apache-2.0
+compatibility: opencode
+---
+
+# Prompt: Build Dashboard Module (Statistics & Visualization) - Step 2: Database Optimization
+
+## 1. Context & Constraints
+- `.opencode/context/02-requirements/module_breakdown.md` (Module `dashboard` section)
+- `.opencode/prompts/front-end/SKILL.md` (How to use Charts in React-Native/React)
+- `.opencode/context/03-standards/rules.md` (Dashboard query speed < 2s)
+
+## 2. Task: Database Optimization
+1. Ensure the `logs` table has B-tree indexes on `user_id` and `logged_at` fields to prevent query slowdown as data grows.
+
+## 3. Acceptance Criteria
+- Dashboard loads all data in under 2 seconds even with a large number of logs.
+- UI redraws charts smoothly without lag (use appropriate caching in React-Native).

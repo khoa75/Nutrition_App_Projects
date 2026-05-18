@@ -17,17 +17,16 @@ Automatically triggered upon a **Pull Request (PR)** to the `main` or `develop` 
 1. **Checkout Code**: Retrieve the latest code.
 2. **Linting & Code Style**:
    - Backend (Spring Boot): Run Spotless / Checkstyle.
-   - Frontend (React/Flutter): Run ESLint / Prettier / Dart Analyze.
-   - AI (FastAPI): Run Flake8 / Black.
+   - Frontend (React-Native/React): Run ESLint / Prettier / TypeScript Check.
 3. **Unit & Integration Testing**:
    - Run the entire test suites for all services.
-   - Check **Code Coverage** (must achieve > 80% according to `.opencode/rules/testing_guidelines.md`).
+   - Check **Code Coverage** (minimum 90% for Service layer, 80% for Controller layer).
 4. **Security Scan** (Optional): Run checks for security vulnerabilities in libraries (Dependabot, SonarQube).
 
 ## 4. Continuous Deployment (CD) Process
 Automatically triggered when code is **Merged** into `main` or `staging`:
 1. **Build Docker Images**:
-   - Package the Spring Boot API, FastAPI, and React Admin Dashboard into independent Docker Images.
+   - Package the Spring Boot API and React Admin Dashboard into independent Docker Images.
 2. **Push to Registry**: Push images to Docker Hub or AWS ECR.
 3. **Deploy**:
    - Pull the latest image to the corresponding server.
