@@ -7,5 +7,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 public class UsersController {
+    //register
 
+    //login
+
+    //logout
+
+    //get by id
+
+    //get all
+
+    //update (put)
+
+    //delete
 }

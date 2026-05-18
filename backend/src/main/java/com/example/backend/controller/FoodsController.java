@@ -8,5 +8,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/foods")
 public class FoodsController {
+    //create food
 
+    //get add
+
+    //get by id
+
+    //update
+
+    //delete
 }
