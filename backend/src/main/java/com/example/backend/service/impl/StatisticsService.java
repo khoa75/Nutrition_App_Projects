@@ -94,7 +94,7 @@ public class StatisticsService {
 
         int defaultGoal = user.getGoalCalories() != null ? user.getGoalCalories() : 0;
 
-        // 2. Tính khoảng thời gian cả tháng (Từ ngày 1 tháng đó 00:00:00 đến hết ngày cuối cùng của tháng)
+        // 2. Tính khoảng thời gian cả tháng
         YearMonth yearMonth = YearMonth.of(year, month);
         LocalDate startDate = yearMonth.atDay(1);
         LocalDate endDate = yearMonth.atEndOfMonth();
@@ -105,7 +105,7 @@ public class StatisticsService {
         // 3. Lấy danh sách Logs từ DB
         List<Logs> logs = logsRepository.findByUserIdAndLoggedAtBetween(userId, startDateTime, endDateTime);
 
-        // 4. Group dữ liệu: Tính tổng calo thực tế theo từng ngày (LocalDate)
+        // 4. Group dữ liệu: Tính tổng calo thực tế theo từng ngày
         Map<LocalDate, Integer> caloriesByDate = logs.stream()
                 .collect(Collectors.groupingBy(
                         log -> log.getLoggedAt().toLocalDate(),
@@ -113,7 +113,6 @@ public class StatisticsService {
                 ));
 
         // 5. Group dữ liệu: Tìm goalCalories của từng ngày từ Logs
-        // Sắp xếp lấy log mới nhất trong ngày để lấy mục tiêu chuẩn nhất của ngày hôm đó
         Map<LocalDate, Integer> goalByDate = logs.stream()
                 .collect(Collectors.groupingBy(
                         log -> log.getLoggedAt().toLocalDate(),
@@ -128,16 +127,14 @@ public class StatisticsService {
         List<Integer> calories = new ArrayList<>();
         List<Integer> goals = new ArrayList<>();
 
-        // 7. Loop đủ tất cả các ngày trong tháng
-        for (int day = 1; day <= endDate.getDayOfMonth(); day++) {
-            LocalDate currentDay = startDate.withDayOfMonth(day);
+        // 7. Loop đủ tất cả các ngày trong tháng (Sửa đổi an toàn tại đây)
+        int totalDaysInMonth = yearMonth.lengthOfMonth();
+        for (int day = 1; day <= totalDaysInMonth; day++) {
+            LocalDate currentDay = yearMonth.atDay(day);
 
             labels.add(String.valueOf(day));
             calories.add(caloriesByDate.getOrDefault(currentDay, 0));
 
-            // Logic check Goal:
-            // Nếu trong Map có lưu goal của ngày đó -> Lấy từ Map
-            // Nếu Map trả về null hoặc ngày đó không có log -> Lấy defaultGoal từ User profile
             Integer dayGoal = goalByDate.get(currentDay);
             if (dayGoal == null) {
                 dayGoal = defaultGoal;
