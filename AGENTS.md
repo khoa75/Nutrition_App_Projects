@@ -1,63 +1,30 @@
-# Nutrition App – OpenCode Agent Guide
+# Nutrition App - OpenCode Agent Guide
 
-**Purpose** – Compact, high‑signal guidance to ensure all OpenCode agents start productive and avoid runtime pitfalls.
+## Current Reality (Verify First)
+- This repo is backend-first right now: only `backend/` is runnable; there is no app `package.json`, `pyproject.toml`, or `pubspec.yaml` in product folders.
+- Root `README.md` is stale (mentions Mongo/Flutter/FastAPI scaffold); trust executable config in `backend/` and `docker-compose.yml` instead.
+- OpenCode always loads this file plus `.opencode/context/*` via `.opencode/opencode.json`.
 
----
+## Commands That Actually Work
+- Run API locally: `cd backend && ./mvnw spring-boot:run`
+- Run full backend tests: `cd backend && ./mvnw test`
+- Run one test class: `cd backend && ./mvnw -Dtest=AuthenticationServiceImplTest test`
+- Run one test method: `cd backend && ./mvnw -Dtest=AuthenticationServiceImplTest#login_ShouldReturnTokens_WhenCredentialsValid test`
+- Start DB + backend in Docker: `docker compose up -d postgres backend`
 
-## 1. Runtime Essentials
+## Runtime and Data Quirks
+- Backend is PostgreSQL + Flyway, not Mongo. JDBC defaults come from `backend/src/main/resources/application.properties`.
+- Default local DB port is `5433` (`DB_PORT`), and compose maps `5433:5432`; many tools assume `5432` and will fail unless overridden.
+- Default database name is `nutrion` (typo is intentional in current config and compose).
+- `spring.jpa.hibernate.ddl-auto=validate`; schema must match Flyway migrations under `backend/src/main/resources/db/migration`.
+- App and DB are configured for UTC (`TimeZone.setDefault("UTC")`, Hibernate timezone, and Docker `JAVA_TOOL_OPTIONS`).
 
-- **Backend (Spring Boot & Java 21):**
-  - Run with `./mvnw spring-boot:run` in `backend/`. Unit tests: `./mvnw test`.
-  - Connects to PostgreSQL 15. Local: `jdbc:postgresql://localhost:5433/nutrion` (User: `appuser`, Pass: `apppass`). Override via `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USERNAME`, `DB_PASSWORD`.
-  - Flyway manages schemas automatically under `backend/src/main/resources/db/migration/`.
-- **Docker Stack:**
-  - Launch PostgreSQL using `docker compose up -d postgres` from root (runs on port `5433` host / `5432` container).
-- **Frontends (Mobile & Admin):**
-  - No scaffolding exists yet. `npm` / `react-native` commands will fail until `package.json` and folders are created.
-  - Mobile: React-Native (TS) + React Native Paper. Web Admin: React.js (TS) + Tailwind CSS + Ant Design.
+## Backend Map (Real Entry Points)
+- Spring Boot entry point: `backend/src/main/java/com/example/backend/BackendApplication.java`.
+- Security wiring: `backend/src/main/java/com/example/backend/config/SecurityConfig.java` permits `/auth/**`, `/api/auth/**`, and Swagger docs; everything else requires auth.
+- API response wrapper is standardized as `ApiResponse<T>` in `backend/src/main/java/com/example/backend/dto/response/ApiResponse.java`.
+- Current implemented surface is centered around auth + core entities (`Users`, `Foods`, `Logs`, `LogFoods`), not modular feature packages described in planning docs.
 
----
-
-## 2. Architecture & Boundaries
-
-- **Pattern:** Strict Modular Monolith using Controller $\rightarrow$ Service $\rightarrow$ Repository.
-- **Entry Point:** `backend/src/main/java/com/example/backend/BackendApplication.java`
-- **Active Packages (under `com.example.backend`):** `controller`, `entity`, `repository`, `dto`, `enums`, `exception`.
-- **Integration Rule:** Zero cross-module repository access. Controllers must return standard `ApiResponse<T>` (fields: `success`, `message`, `data`, `timestamp`).
-- **Database Schema:** Tables are `users`, `foods`, `logs`, and `log_foods` (many-to-many intermediate table with `LogFoodsId` composite key).
-
----
-
-## 3. Core Business Rules (Calorie-Only)
-
-The app operates on a **strict calorie-only model** (no imperial units or AI vision):
-- **BMI:** `weight (kg) / height (m)²` (<18.5: Underweight, 18.5-24.9: Normal, 25-29.9: Overweight, ≥30: Obese).
-- **BMR (Mifflin-St Jeor):** 
-  - Male: `(10 * weight_kg) + (6.25 * height_cm) - (5 * age) + 5`
-  - Female: `(10 * weight_kg) + (6.25 * height_cm) - (5 * age) - 161`
-- **TDEE:** `BMR * Activity Factor` (Low: 1.2, Average: 1.55, High: 1.725).
-- **Daily Target:** Weight Loss: `TDEE - (300 to 500)`, Gain: `TDEE + (300 to 500)`, Maintain: `TDEE`.
-- **Dish Substitution:** Calorie difference must be `< 50 kcal`.
-
----
-
-## 4. Agent Architecture & Delegation
-
-All tasks are orchestrated by the **Project Lead** (who never writes code directly) and delegated to specialized subagents:
-- **Planner:** Sprint planning & breakdowns.
-- **Backend Dev:** Java API and JPA implementation.
-- **React Native Dev / React Dev:** Mobile and Admin dashboard interfaces.
-- **DevOps:** Docker and database configurations.
-- **Reviewer:** Code quality, security (<2s API response, >80% test coverage).
-- **Docs Writer:** Maintaining `.opencode/context/` specs and `HISTORY_PROMPTS.md`.
-
----
-
-## 5. Reference & Common Gotchas
-
-- **Sources of Truth:** Config in `.opencode/opencode.json`, specs in `.opencode/context/`.
-- **Port Gotcha:** Spring Boot runs locally on port `8080` but connects to the database via port `5433` (external port).
-- **JWT Key:** Default HMAC key configured in `application.properties`; override in production.
-
----
-*Keep this file up‑to‑date as the repository architecture and features evolve.*
+## Testing and Workflow Notes
+- There are existing tests in `backend/src/test/java` (service + controller + app context); do not assume test tree is empty.
+- No CI workflow is present under `.github/workflows`; run relevant Maven tests locally before handing off.

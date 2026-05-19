@@ -23,8 +23,3 @@ This document summarizes concepts, formulas, and business logic related to healt
 - **Weight Gain:** `TDEE + (300 to 500 calories)`
 - **Maintenance:** `TDEE`
 
-## 4. Macronutrients (Informational Only)
-- **Protein:** 1g = 4 calories
-- **Carbs:** 1g = 4 calories
-- **Fat:** 1g = 9 calories
-*Note: The application only suggests daily consumption targets based on total calories, not specific macronutrient percentages.*
