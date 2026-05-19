@@ -20,4 +20,12 @@ public interface LogsRepository extends JpaRepository<Logs, Long>, JpaSpecificat
     Optional<Logs> findByIdAndUserEmail(Long id, String email);
 
     List<Logs> findByUserIdAndLoggedAtBetweenOrderByLoggedAtDesc(Long userId, LocalDateTime start, LocalDateTime end);
+  
+    @Query("SELECT l FROM Logs l WHERE l.user.id = :userId AND l.loggedAt BETWEEN :start AND :end")
+    List<Logs> findByUserIdAndLoggedAtBetween(
+            @Param("userId") Long userId,
+            @Param("start") LocalDateTime start,
+            @Param("end") LocalDateTime end
+    );
 }
+
