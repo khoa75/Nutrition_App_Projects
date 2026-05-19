@@ -18,6 +18,7 @@ This file tracks the prompts provided by the user during the development of the 
 | 2026-05-18 22:09 | Trong folder /home/khoa/Projects/Nutrition_App/Nutrition_App_Projects/.opencode/prompts/backend. Hãy chỉnh sửa prompts sao cho mọi API đều phải dùng API Respone trong file backend/src/main/java/com/example/backend/dto/ApiResponse.java để bọc các API lại. Hãy cập nhật thay đổi này vào prompts |
 | 2026-05-18 22:10 | Explain what this problem is and help me fix it: Property apiKey is not allowed. @[/home/khoa/Projects/Nutrition_App/Nutrition_App_Projects/.opencode/opencode.json:L6] |
 | 2026-05-18 22:22 | Dựa vào các tài liệu hiện tại trong folder .opencode/context hãy cập nhật lại các prompts cho agents giúp tôi |
+| 2026-05-19 00:00 | Build Auth Module (Authentication & Authorization) - Step 3: Frontend Integration - Implement React-Native mobile app and React admin dashboard with TDD, secure token storage, and 90%+ test coverage |
 
 
 
