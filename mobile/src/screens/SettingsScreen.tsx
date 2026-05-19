@@ -1,35 +1,24 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '../theme/colors';
 
-const SettingsScreen = () => {
-  const theme = useTheme();
-
-  return (
-    <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
-      <Text style={[styles.title, { color: theme.colors.text }]}>Settings</Text>
-      <Text style={[styles.subtitle, { color: theme.colors.onSurface }]}>
-        App settings and preferences.
-      </Text>
+const SettingsScreen: React.FC = () => (
+  <SafeAreaView style={styles.safe}>
+    <View style={styles.container}>
+      <Ionicons name="settings" size={48} color={Colors.primary} />
+      <Text style={styles.title}>Settings</Text>
+      <Text style={styles.body}>App settings and preferences.</Text>
     </View>
-  );
-};
+  </SafeAreaView>
+);
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 16,
-  },
-  subtitle: {
-    fontSize: 16,
-    textAlign: 'center',
-  },
+  safe: { flex: 1, backgroundColor: Colors.background },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 32 },
+  title: { fontSize: 24, fontWeight: '700', color: Colors.textDark, marginTop: 16 },
+  body: { fontSize: 14, color: Colors.textSecondary, textAlign: 'center', marginTop: 12 },
 });
 
 export default SettingsScreen;

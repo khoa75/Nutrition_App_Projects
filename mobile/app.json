@@ -1,5 +1,28 @@
 {
-  "plugins": [
-    "expo-secure-store"
-  ]
+  "expo": {
+    "name": "Vitality",
+    "slug": "vitality-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "backgroundColor": "#F2F2F2",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.vitality.mobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#F2F2F2"
+      },
+      "package": "com.vitality.mobile"
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
+  }
 }
