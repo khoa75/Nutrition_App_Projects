@@ -34,7 +34,7 @@ class AdminUserServiceImplTest {
         Users user = Users.builder().id(10L).email("u1@test.com").status(UserStatus.ACTIVE).failedLoginAttempts(0).build();
         when(usersRepository.findById(10L)).thenReturn(Optional.of(user));
 
-        var response = adminUserService.updateUserStatus(10L, "LOCK", "admin@nutrition.local");
+        var response = adminUserService.updateUserStatus(10L, "LOCK", "admin@nutrition.local", "127.0.0.1");
 
         assertEquals(UserStatus.LOCK, response.getStatus());
         verify(usersRepository).save(user);
@@ -46,7 +46,7 @@ class AdminUserServiceImplTest {
         Users user = Users.builder().id(10L).email("u1@test.com").status(UserStatus.LOCK).failedLoginAttempts(3).build();
         when(usersRepository.findById(10L)).thenReturn(Optional.of(user));
 
-        var response = adminUserService.updateUserStatus(10L, "UNLOCK", "admin@nutrition.local");
+        var response = adminUserService.updateUserStatus(10L, "UNLOCK", "admin@nutrition.local", "127.0.0.1");
 
         assertEquals(UserStatus.ACTIVE, response.getStatus());
         verify(usersRepository).save(user);
@@ -59,7 +59,7 @@ class AdminUserServiceImplTest {
         when(usersRepository.findById(10L)).thenReturn(Optional.of(user));
 
         assertThrows(IllegalArgumentException.class,
-                () -> adminUserService.updateUserStatus(10L, "INVALID", "admin@nutrition.local"));
+                () -> adminUserService.updateUserStatus(10L, "INVALID", "admin@nutrition.local", "127.0.0.1"));
         verify(auditLogRepository, never()).save(any());
     }
 }
