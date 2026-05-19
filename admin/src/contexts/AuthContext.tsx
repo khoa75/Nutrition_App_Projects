@@ -39,7 +39,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         } catch (error) {
           console.error('Failed to get user profile:', error);
           // Tokens might be invalid, clear them
-          await adminAuthService.clearAuth();
+          await adminAuthService.logout();
           setIsAuthenticated(false);
           setUser(null);
         }

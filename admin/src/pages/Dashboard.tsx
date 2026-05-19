@@ -17,7 +17,7 @@ const Dashboard: React.FC = () => {
           <Card>
             <Statistic
               title="Total Users"
-              value={1,234}
+              value={1234}
               prefix={<UserOutlined />}
               valueStyle={{ color: '#3B82F6' }}
             />

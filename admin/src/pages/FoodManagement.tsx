@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Table, Typography, Space, Button, Tag, Input, Select, Modal, Form } from 'antd';
+import { Card, Table, Typography, Space, Button, Tag, Input, Select, Modal, Form, Row, Col } from 'antd';
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 
@@ -85,9 +85,9 @@ const FoodManagement: React.FC = () => {
     {
       title: 'Macros',
       key: 'macros',
-      render: (_, record: Food) => (
+      render: (_: any, record: Food) => (
         <Space>
-          <Text>P: {record.g}g</Text>
+          <Text>P: {record.protein}g</Text>
           <Text>C: {record.carbs}g</Text>
           <Text>F: {record.fats}g</Text>
         </Space>
@@ -106,7 +106,7 @@ const FoodManagement: React.FC = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record: Food) => (
+      render: (_: any, record: Food) => (
         <Space>
           <Button
             type="text"
@@ -198,7 +198,7 @@ const FoodManagement: React.FC = () => {
           </Button>
         }
       >
-        <Space style={{ marginBottom: 16 }} direction="vertical" size="middle" style={{ display: 'flex' }}>
+        <Space direction="vertical" size="middle" style={{ display: 'flex', marginBottom: 16 }}>
           <Space>
             <Search
               placeholder="Search by food name..."
