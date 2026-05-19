@@ -9,6 +9,7 @@ public class RegisterResponse {
     private Long userId;
     private String email;
     private String phone;
-    private String socialProvider;
+    private Integer goalCaloriesDaily;
+    private Integer goalCaloriesWeekly;
     private String message;
 }

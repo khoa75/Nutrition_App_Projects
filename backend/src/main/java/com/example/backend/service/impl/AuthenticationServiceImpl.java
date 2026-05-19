@@ -12,6 +12,8 @@ import com.example.backend.enums.UserStatus;
 import com.example.backend.exception.AppException;
 import com.example.backend.repository.UsersRepository;
 import com.example.backend.service.AuthenticationService;
+import com.example.backend.service.DailyCaloriePlanService;
+import com.example.backend.service.HealthMetricsService;
 import com.example.backend.service.TokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +21,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 @Service
@@ -32,13 +37,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final UsersRepository usersRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    private final HealthMetricsService healthMetricsService;
+    private final DailyCaloriePlanService dailyCaloriePlanService;
 
     public AuthenticationServiceImpl(UsersRepository usersRepository,
                                      PasswordEncoder passwordEncoder,
-                                     TokenService tokenService) {
+                                     TokenService tokenService,
+                                     HealthMetricsService healthMetricsService,
+                                     DailyCaloriePlanService dailyCaloriePlanService) {
         this.usersRepository = usersRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
+        this.healthMetricsService = healthMetricsService;
+        this.dailyCaloriePlanService = dailyCaloriePlanService;
     }
 
     @Override
@@ -56,30 +67,49 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
         }
 
-        if (hasText(request.getSocialProvider()) && hasText(request.getSocialId())
-                && usersRepository.existsBySocialProviderAndSocialId(request.getSocialProvider(), request.getSocialId())) {
-            throw new AppException(ErrorCode.USER_ALREADY_EXISTS);
-        }
+        int age = Period.between(request.getDob(), LocalDate.now()).getYears();
+        BigDecimal bmi = healthMetricsService.calculateBmi(request.getCurrentWeight(), request.getHeight());
+        int goalCaloriesPerDay = healthMetricsService.calculateGoalCalories(
+                request.getCurrentWeight(),
+                request.getHeight(),
+                age,
+                request.getGender(),
+                request.getActivityLevel(),
+                request.getGoalType(),
+                request.getKgPerWeek()
+        ).intValue();
 
         Users user = Users.builder()
-                .name(hasText(request.getName()) ? request.getName() : "User")
+                .name(request.getName().trim())
                 .email(normalizeText(request.getEmail()))
                 .phone(normalizeText(request.getPhone()))
-                .socialProvider(normalizeText(request.getSocialProvider()))
-                .socialId(normalizeText(request.getSocialId()))
                 .hashPassword(passwordEncoder.encode(request.getPassword()))
+                .dob(request.getDob())
+                .gender(normalizeText(request.getGender()))
+                .currentWeight(request.getCurrentWeight())
+                .targetWeight(request.getTargetWeight())
+                .height(request.getHeight())
+                .activityLevel(request.getActivityLevel())
+                .goalType(request.getGoalType())
+                .kgPerWeek(request.getKgPerWeek())
+                .bmi(bmi)
+                .bmiStatus(healthMetricsService.classifyBmi(bmi))
+                .goalCalories(goalCaloriesPerDay)
                 .failedLoginAttempts(0)
                 .status(UserStatus.ACTIVE)
                 .build();
 
         Users saved = usersRepository.save(user);
-        logger.info("Registered user id={} email={}", saved.getId(), saved.getEmail());
+        dailyCaloriePlanService.generatePlanForUser(saved, LocalDate.now(), 30);
+
+        logger.info("Registered user id={} email={} with dailyGoalCalories={}", saved.getId(), saved.getEmail(), saved.getGoalCalories());
 
         return RegisterResponse.builder()
                 .userId(saved.getId())
                 .email(saved.getEmail())
                 .phone(saved.getPhone())
-                .socialProvider(saved.getSocialProvider())
+                .goalCaloriesDaily(saved.getGoalCalories())
+                .goalCaloriesWeekly(saved.getGoalCalories() * 7)
                 .message("Register successfully")
                 .build();
     }

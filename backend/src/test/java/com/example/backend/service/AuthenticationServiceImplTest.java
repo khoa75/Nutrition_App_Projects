@@ -19,11 +19,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -36,6 +40,11 @@ class AuthenticationServiceImplTest {
     @Mock
     private TokenService tokenService;
 
+    @Mock
+    private HealthMetricsService healthMetricsService;
+    @Mock
+    private DailyCaloriePlanService dailyCaloriePlanService;
+
     @InjectMocks
     private AuthenticationServiceImpl authenticationService;
 
@@ -47,12 +56,24 @@ class AuthenticationServiceImplTest {
         registerRequest.setEmail("test@example.com");
         registerRequest.setPassword("Password@123");
         registerRequest.setName("Tester");
+        registerRequest.setDob(LocalDate.of(2000, 1, 1));
+        registerRequest.setGender("MALE");
+        registerRequest.setCurrentWeight(new BigDecimal("70"));
+        registerRequest.setTargetWeight(new BigDecimal("65"));
+        registerRequest.setHeight(new BigDecimal("175"));
+        registerRequest.setActivityLevel(com.example.backend.enums.ActivityLevelEnum.ACTIVE);
+        registerRequest.setGoalType(com.example.backend.enums.WeightGoal.LOSE);
+        registerRequest.setKgPerWeek(new BigDecimal("0.5"));
     }
 
     @Test
     void register_ShouldSaveUser_WhenValidRequest() {
         when(usersRepository.existsByEmail("test@example.com")).thenReturn(false);
         when(passwordEncoder.encode("Password@123")).thenReturn("encoded-pass");
+        when(healthMetricsService.calculateBmi(any(), any())).thenReturn(new BigDecimal("22.86"));
+        when(healthMetricsService.classifyBmi(any())).thenReturn(com.example.backend.enums.BmiStatusEnum.NORMAL);
+        when(healthMetricsService.calculateGoalCalories(any(), any(), anyInt(), any(), any(), any(), any()))
+                .thenReturn(new BigDecimal("2200"));
         when(usersRepository.save(any(Users.class))).thenAnswer(invocation -> {
             Users user = invocation.getArgument(0);
             user.setId(1L);
@@ -63,7 +84,10 @@ class AuthenticationServiceImplTest {
 
         assertEquals(1L, response.getUserId());
         assertEquals("test@example.com", response.getEmail());
+        assertEquals(2200, response.getGoalCaloriesDaily());
+        assertEquals(15400, response.getGoalCaloriesWeekly());
         verify(usersRepository, times(1)).save(any(Users.class));
+        verify(dailyCaloriePlanService).generatePlanForUser(any(Users.class), any(LocalDate.class), eq(30));
     }
 
     @Test
