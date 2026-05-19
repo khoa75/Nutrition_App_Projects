@@ -8,6 +8,7 @@ import com.example.backend.enums.ErrorCode;
 import com.example.backend.exception.AppException;
 import com.example.backend.repository.UserWeightLogRepository;
 import com.example.backend.repository.UsersRepository;
+import com.example.backend.service.DailyCaloriePlanService;
 import com.example.backend.service.HealthMetricsService;
 import com.example.backend.service.UserProfileService;
 import org.slf4j.Logger;
@@ -27,22 +28,36 @@ public class UserProfileServiceImpl implements UserProfileService {
     private final UsersRepository usersRepository;
     private final UserWeightLogRepository userWeightLogRepository;
     private final HealthMetricsService healthMetricsService;
+    private final DailyCaloriePlanService dailyCaloriePlanService;
 
     public UserProfileServiceImpl(UsersRepository usersRepository,
                                   UserWeightLogRepository userWeightLogRepository,
-                                  HealthMetricsService healthMetricsService) {
+                                  HealthMetricsService healthMetricsService,
+                                  DailyCaloriePlanService dailyCaloriePlanService) {
         this.usersRepository = usersRepository;
         this.userWeightLogRepository = userWeightLogRepository;
         this.healthMetricsService = healthMetricsService;
+        this.dailyCaloriePlanService = dailyCaloriePlanService;
+    }
+
+    @Override
+    @Transactional
+    public UserProfileResponse updateProfile(String email, GoalCaloriesRequest request) {
+        return updateAndRecalculateProfile(email, request);
     }
 
     @Override
     @Transactional
     public UserProfileResponse updateGoalCalories(String email, GoalCaloriesRequest request) {
+        return updateAndRecalculateProfile(email, request);
+    }
+
+    private UserProfileResponse updateAndRecalculateProfile(String email, GoalCaloriesRequest request) {
         Users user = usersRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         logger.info("Updating goal calories for userId={} email={}", user.getId(), user.getEmail());
 
+        user.setDob(request.getDob());
         user.setCurrentWeight(request.getCurrentWeight());
         user.setHeight(request.getHeight());
         user.setTargetWeight(request.getTargetWeight());
@@ -87,6 +102,9 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
 
         usersRepository.save(user);
+
+        dailyCaloriePlanService.generatePlanForUser(user, LocalDate.now(), 30);
+
         return toResponse(user);
     }
 

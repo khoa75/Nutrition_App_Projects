@@ -38,7 +38,6 @@ CREATE TABLE foods (
   protein VARCHAR(255),
   carbs VARCHAR(255),
   fats VARCHAR(255),
-  fiber VARCHAR(255),
   calories_per_100g VARCHAR(255),
   user_id BIGINT REFERENCES users(id)
 );
