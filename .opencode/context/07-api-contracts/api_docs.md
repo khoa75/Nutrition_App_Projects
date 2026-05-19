@@ -172,6 +172,37 @@ The project uses a standard `ApiResponse<T>` format for all API responses.
 ### PUT /foods/{id}
 *(Endpoint dùng để cập nhật thông tin món ăn, tương tự cấu trúc POST)*
 
+### POST /api/v1/foods
+**Request:**
+```json
+{
+  "name": "Chicken Breast",
+  "protein": 31,
+  "carbs": 0,
+  "fats": 3.6,
+  "caloriesPer100g": 165,
+  "userId": null
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Food created successfully",
+  "data": {
+    "id": 101,
+    "name": "Chicken Breast",
+    "protein": 31,
+    "carbs": 0,
+    "fats": 3.6,
+    "caloriesPer100g": 165,
+    "userId": null
+  },
+  "timestamp": "2026-05-19T07:42:00Z"
+}
+```
+
 ---
 
 ## 4. LOGS
@@ -264,6 +295,57 @@ The project uses a standard `ApiResponse<T>` format for all API responses.
 }
 ```
 
+### POST /api/v1/logs
+**Request:**
+```json
+{
+  "foodId": 101,
+  "gram": 200,
+  "loggedAt": "2026-05-19T07:30:00"
+}
+```
+*Notes: `userId` is resolved from authenticated Bearer token (not accepted in request body).*
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Create log success",
+  "data": {
+    "id": 1001,
+    "userId": 1,
+    "foodId": 101,
+    "foodName": "Chicken Breast",
+    "gram": 200,
+    "totalCalories": 330.00,
+    "goalCalories": 2200,
+    "remainingCalories": 1870.00,
+    "loggedAt": "2026-05-19T07:30:00"
+  },
+  "timestamp": "2026-05-19T07:42:00Z"
+}
+```
+
+### GET /api/v1/logs/daily-summary
+**Query:**
+`/api/v1/logs/daily-summary?userId=1&date=2026-05-19`
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Get daily summary success",
+  "data": {
+    "userId": 1,
+    "date": "2026-05-19",
+    "targetCalories": 2200,
+    "consumedCalories": 980.50,
+    "remainingCalories": 1219.50
+  },
+  "timestamp": "2026-05-19T07:42:00Z"
+}
+```
+
 ---
 
 ## 5. STATISTIC
@@ -295,5 +377,32 @@ The project uses a standard `ApiResponse<T>` format for all API responses.
     "calories": [1800, 2100, 2200, 1900, 2400, 2000, 1750],
     "goals": [2100, 2100, 2100, 2100, 2100, 2100, 2100]
   }
+}
+```
+
+---
+
+## 6. NUTRITION PLANS
+
+### POST /api/v1/nutrition-plans/daily-target
+**Request:**
+```json
+{
+  "tdee": 2300,
+  "goalType": "LOSE"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Calculate daily target success",
+  "data": {
+    "targetCalories": 1800,
+    "calorieDelta": 500,
+    "goalType": "LOSE"
+  },
+  "timestamp": "2026-05-19T07:42:00Z"
 }
 ```

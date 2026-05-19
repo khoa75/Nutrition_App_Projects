@@ -15,7 +15,7 @@ compatibility: opencode
 
 ## 2. Task: Build Food Catalog
 1. **Write unit tests for the expected business logic before writing the actual source code (Test-First).**
-2. Create the `foods` JPA Entity containing `name`, `calories_per_100g`, and macros (`protein`, `carbs`, `fats`, `fiber`). Allow `user_id` to be nullable (null = admin food).
+2. Create the `foods` JPA Entity containing `name`, `calories_per_100g`, and macros (`protein`, `carbs`, `fats`). Allow `user_id` to be nullable (null = admin food).
 3. Set up a **B-tree Index** on the `name` column to support fast name-based search (< 1s).
 4. Implement API `GET /api/v1/foods?name=...&page=...&size=...` supporting partial name matching and pagination.
 5. **API Response Envelope**: All API endpoints must return `ApiResponse<T>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.

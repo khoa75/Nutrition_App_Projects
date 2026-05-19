@@ -30,6 +30,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  redis:
+    image: redis:7-alpine
+    container_name: nutrition-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   backend:
     build: ./backend
     container_name: nutrition-backend
@@ -41,9 +51,13 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/nutrion?options=-c%20timezone=UTC
       - SPRING_DATASOURCE_USERNAME=appuser
       - SPRING_DATASOURCE_PASSWORD=apppass
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
       - JAVA_TOOL_OPTIONS=-Duser.timezone=UTC
     depends_on:
       postgres:
+        condition: service_healthy
+      redis:
         condition: service_healthy
 
 volumes:

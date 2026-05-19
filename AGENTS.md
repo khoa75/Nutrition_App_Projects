@@ -1,30 +1,32 @@
-# Nutrition App - OpenCode Agent Guide
+# Nutrition App - Agent Notes
 
-## Current Reality (Verify First)
-- This repo is backend-first right now: only `backend/` is runnable; there is no app `package.json`, `pyproject.toml`, or `pubspec.yaml` in product folders.
-- Root `README.md` is stale (mentions Mongo/Flutter/FastAPI scaffold); trust executable config in `backend/` and `docker-compose.yml` instead.
-- OpenCode always loads this file plus `.opencode/context/*` via `.opencode/opencode.json`.
+## Ground truth first
+- The only runnable product code is `backend/` (Spring Boot + Maven wrapper). `ui/` currently contains mock images, not executable frontend apps.
+- Root `README.md` is stale (mentions Mongo/Flutter/FastAPI scaffold). Trust executable config: `backend/pom.xml`, `backend/src/main/resources/application.properties`, `docker-compose.yml`.
+- OpenCode auto-loads this file and many `.opencode/context/*` docs via `.opencode/opencode.json`; treat those docs as planning context, not always implementation truth.
 
-## Commands That Actually Work
-- Run API locally: `cd backend && ./mvnw spring-boot:run`
-- Run full backend tests: `cd backend && ./mvnw test`
-- Run one test class: `cd backend && ./mvnw -Dtest=AuthenticationServiceImplTest test`
-- Run one test method: `cd backend && ./mvnw -Dtest=AuthenticationServiceImplTest#login_ShouldReturnTokens_WhenCredentialsValid test`
-- Start DB + backend in Docker: `docker compose up -d postgres backend`
+## Commands you should actually run
+- PowerShell (repo root): `backend\mvnw.cmd spring-boot:run`
+- POSIX shell (repo root): `./backend/mvnw spring-boot:run`
+- Full tests: `backend\mvnw.cmd test`
+- Single class: `backend\mvnw.cmd -Dtest=AuthenticationServiceImplTest test`
+- Single method: `backend\mvnw.cmd -Dtest=AuthenticationServiceImplTest#login_ShouldReturnTokens_WhenCredentialsValid test`
+- Start local DB + backend containers: `docker compose up -d postgres backend`
 
-## Runtime and Data Quirks
-- Backend is PostgreSQL + Flyway, not Mongo. JDBC defaults come from `backend/src/main/resources/application.properties`.
-- Default local DB port is `5433` (`DB_PORT`), and compose maps `5433:5432`; many tools assume `5432` and will fail unless overridden.
-- Default database name is `nutrion` (typo is intentional in current config and compose).
-- `spring.jpa.hibernate.ddl-auto=validate`; schema must match Flyway migrations under `backend/src/main/resources/db/migration`.
-- App and DB are configured for UTC (`TimeZone.setDefault("UTC")`, Hibernate timezone, and Docker `JAVA_TOOL_OPTIONS`).
+## Runtime quirks that break people
+- DB is PostgreSQL + Flyway (not Mongo).
+- Default DB port is `5433` on host (`docker-compose.yml` maps `5433:5432`); many tools default to `5432` and fail.
+- DB name default is `nutrion` (intentional typo in current config); keep it unchanged unless you migrate all references.
+- Hibernate is `ddl-auto=validate`; schema changes must go through Flyway migrations in `backend/src/main/resources/db/migration`.
+- Timezone is forced to UTC in app + DB (`BackendApplication`, Hibernate timezone property, container `JAVA_TOOL_OPTIONS`).
 
-## Backend Map (Real Entry Points)
-- Spring Boot entry point: `backend/src/main/java/com/example/backend/BackendApplication.java`.
-- Security wiring: `backend/src/main/java/com/example/backend/config/SecurityConfig.java` permits `/auth/**`, `/api/auth/**`, and Swagger docs; everything else requires auth.
-- API response wrapper is standardized as `ApiResponse<T>` in `backend/src/main/java/com/example/backend/dto/response/ApiResponse.java`.
-- Current implemented surface is centered around auth + core entities (`Users`, `Foods`, `Logs`, `LogFoods`), not modular feature packages described in planning docs.
+## Code map (real entrypoints)
+- App entry: `backend/src/main/java/com/example/backend/BackendApplication.java`
+- Security rules: `backend/src/main/java/com/example/backend/config/SecurityConfig.java`
+- Response envelope: `backend/src/main/java/com/example/backend/dto/response/ApiResponse.java`
+- Main implemented verticals today: auth, user profile/metrics, foods, logs, weight logs (`controller`, `service`, `repository`, `entity` packages).
 
-## Testing and Workflow Notes
-- There are existing tests in `backend/src/test/java` (service + controller + app context); do not assume test tree is empty.
-- No CI workflow is present under `.github/workflows`; run relevant Maven tests locally before handing off.
+## Testing and workflow constraints
+- Tests already exist under `backend/src/test/java` (service + controller); extend focused suites instead of assuming greenfield.
+- There is currently no CI workflow under `.github/workflows`; run relevant Maven tests locally before handoff.
+- Project rule in this repo: append every user prompt to `HISTORY_PROMPTS.md`.
