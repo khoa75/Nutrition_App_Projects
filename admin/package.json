@@ -12,20 +12,22 @@
     "lint:fix": "eslint src --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
+    "@hookform/resolvers": "^3.3.2",
+    "ajv": "^8.20.0",
+    "ajv-keywords": "^5.1.0",
+    "antd": "^5.12.8",
+    "axios": "^1.6.0",
+    "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.48.2",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.20.1",
     "react-scripts": "5.0.1",
-    "antd": "^5.12.8",
-    "@ant-design/icons": "^5.2.6",
-    "axios": "^1.6.0",
-    "zustand": "^4.4.7",
-    "react-hook-form": "^7.48.2",
-    "@hookform/resolvers": "^3.3.2",
-    "zod": "^3.22.4",
-    "dayjs": "^1.11.10",
     "recharts": "^2.8.0",
-    "react-query": "^3.39.3"
+    "zod": "^3.22.4",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
@@ -49,6 +51,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:8080"
+  }
 }
