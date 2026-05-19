@@ -24,6 +24,9 @@ public class AuditLog {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "ip_address", nullable = false)
+    private String ipAddress;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
@@ -72,6 +75,14 @@ public class AuditLog {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 
     public Instant getCreatedAt() {

@@ -67,7 +67,7 @@ public class AdminUserServiceImpl implements AdminUserService {
 
     @Override
     @Transactional
-    public AdminUserStatusUpdateResponse updateUserStatus(Long userId, String action, String actorEmail) {
+    public AdminUserStatusUpdateResponse updateUserStatus(Long userId, String action, String actorEmail, String ipAddress) {
         Users user = usersRepository.findById(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
 
@@ -89,7 +89,8 @@ public class AdminUserServiceImpl implements AdminUserService {
         auditLog.setActorEmail(actorEmail);
         auditLog.setTargetUserId(user.getId());
         auditLog.setAction(normalizedAction);
-        auditLog.setDescription("Admin changed user status to " + user.getStatus());
+        auditLog.setDescription("Admin " + actorEmail + " changed userId=" + user.getId() + " status to " + user.getStatus());
+        auditLog.setIpAddress(ipAddress == null || ipAddress.isBlank() ? "unknown" : ipAddress);
         auditLogRepository.save(auditLog);
 
         AdminUserStatusUpdateResponse response = new AdminUserStatusUpdateResponse();

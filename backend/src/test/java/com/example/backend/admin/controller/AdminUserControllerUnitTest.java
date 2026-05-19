@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import java.util.List;
@@ -42,13 +43,16 @@ class AdminUserControllerUnitTest {
         AdminUserStatusUpdateResponse data = new AdminUserStatusUpdateResponse();
         data.setUserId(1L);
         data.setStatus(UserStatus.LOCK);
-        when(service.updateUserStatus(eq(1L), eq("LOCK"), eq("admin@nutrition.local"))).thenReturn(data);
+        when(service.updateUserStatus(eq(1L), eq("LOCK"), eq("admin@nutrition.local"), eq("10.1.1.9"))).thenReturn(data);
 
         AdminUpdateUserStatusRequest request = new AdminUpdateUserStatusRequest();
         request.setAction("LOCK");
         var auth = new UsernamePasswordAuthenticationToken("admin@nutrition.local", null);
 
-        ApiResponse<AdminUserStatusUpdateResponse> response = controller.updateUserStatus(1L, request, auth);
+        MockHttpServletRequest httpServletRequest = new MockHttpServletRequest();
+        httpServletRequest.addHeader("X-Forwarded-For", "10.1.1.9");
+
+        ApiResponse<AdminUserStatusUpdateResponse> response = controller.updateUserStatus(1L, request, auth, httpServletRequest);
 
         assertTrue(response.isSuccess());
         assertEquals(UserStatus.LOCK, response.getData().getStatus());

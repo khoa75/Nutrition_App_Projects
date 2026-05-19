@@ -9,5 +9,5 @@ import org.springframework.data.domain.Page;
 public interface AdminUserService {
     Page<AdminUserSummaryResponse> getUsers(String search, UserStatus status, WeightGoal goal, int page, int size);
 
-    AdminUserStatusUpdateResponse updateUserStatus(Long userId, String action, String actorEmail);
+    AdminUserStatusUpdateResponse updateUserStatus(Long userId, String action, String actorEmail, String ipAddress);
 }

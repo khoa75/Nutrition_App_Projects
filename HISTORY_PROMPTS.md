@@ -65,5 +65,14 @@ This file tracks the prompts provided by the user during the development of the 
 | 2026-05-19 12:55 | lỗi gì
 | 2026-05-19 13:00 | lỗi trong docker 2026-05-19 18:39:40 2026-05-19T11:39:40.595Z  WARN 1 --- [backend] [nio-8080-exec-1] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "uq_daily_plan_user_date" Detail: Key (user_id, plan_date)=(2, 2026-05-19) already exists.
 | 2026-05-19 13:05 | sửa lại Không xóa rồi insert hàng loạt nữa. Đổi sang upsert theo từng ngày: - nếu (user_id, plan_date) đã có -> update baseTargetCalories/targetCalories/remainingCalories - chưa có -> insert mới Như vậy sẽ không đụng unique key.
+| 2026-05-19 14:00 | Create or update `AGENTS.md` for this repository.
+| 2026-05-19 14:20 | # Spring Boot Best Practices ... sửa lại phần đăng kí cho nhập đủ các trường ngoại trừ socialId và social provider rồi tự động tính calo mục tiêu hằng ngày/tuần luôn
+| 2026-05-19 14:35 | sao trong dto vẫn có @Size(max = 50, message = "Social provider max length is 50") private String socialProvider; @Size(max = 255, message = "Social id max length is 255") private String socialId;
+| 2026-05-19 14:45 | gửi cho tôi json để test
+| 2026-05-19 14:50 | hiện tại có những api nào cho admin
+| 2026-05-19 15:00 | lên kế hoạch thực hiện theo prompt .opencode\prompts\backend\admin-prompts\admin_step_build_audit_logging.md
+| 2026-05-19 15:10 | hãy thực hiện theo kế hoạch
+| 2026-05-19 15:20 | sao ko dc [Image 1]
+| 2026-05-19 15:30 | [Image 1] [Image 2] ko dc
 
 
