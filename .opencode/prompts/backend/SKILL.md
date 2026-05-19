@@ -29,7 +29,7 @@ public interface UserProfileService {
 
 ## 3. Controller Templates
 - `@RestController`, `@RequestMapping("/api/v1/{module}")`
-- All endpoints return `ResponseEntity<ApiResponse<T>>`
+- All endpoints must return `ResponseEntity<ApiResponse<T>>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java`.
 - No business logic in controllers — delegate to Service immediately
 - Use `@Valid` for DTO validation
 
@@ -44,10 +44,24 @@ public interface UserProfileService {
 | admin | /api/v1/admin | — | RBAC: ADMIN role only |
 
 ## 5. API Response Envelope
+All API responses must use the class `com.example.backend.dto.ApiResponse<T>` located in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data:
 ```java
-public record ApiResponse<T>(boolean success, String message, T data, LocalDateTime timestamp) {}
+package com.example.backend.dto;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class ApiResponse<T> {
+    String message;
+    T data;
+}
 ```
-Always wrap in this format. Error responses use same envelope with `data = null`.
+All endpoints must return `ResponseEntity<ApiResponse<T>>`.
 
 ## 6. JPA/PostgreSQL Repository Patterns
 - `JpaRepository<T, Long>` for CRUD
