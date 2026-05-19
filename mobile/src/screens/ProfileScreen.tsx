@@ -222,7 +222,7 @@ const ProfileScreen: React.FC = () => {
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-        
+
         {/* SECTION 1: Personal Information */}
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Personal Information</Text>
@@ -411,7 +411,7 @@ const ProfileScreen: React.FC = () => {
         {/* SECTION 4: Daily Activity Level */}
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Daily Activity Level</Text>
-          
+
           <View style={styles.activityGrid}>
             {(['SEDENTARY', 'LIGHT_ACTIVE', 'ACTIVE', 'VERY_ACTIVE'] as const).map((level) => (
               <TouchableOpacity
