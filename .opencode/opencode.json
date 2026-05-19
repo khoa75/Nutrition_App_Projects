@@ -16,8 +16,23 @@
     ".opencode/context/01-project/architecture.md",
     ".opencode/context/01-project/tech-stack.md",
     ".opencode/context/02-requirements/user_stories.md",
+    ".opencode/context/02-requirements/business-rules.md",
+    ".opencode/context/02-requirements/module_breakdown.md",
     ".opencode/context/03-standards/coding-standards.md",
-    ".opencode/context/06-glossary/glossary.md"
+    ".opencode/context/03-standards/rules.md",
+    ".opencode/context/04-ui-ux/global_design_system.md",
+    ".opencode/context/04-ui-ux/global_ui_loading_states.md",
+    ".opencode/context/04-ui-ux/global_ui_error_states.md",
+    ".opencode/context/04-ui-ux/global_ui_success_states.md",
+    ".opencode/context/04-ui-ux/global_ui_popup_notifications.md",
+    ".opencode/context/04-ui-ux/admin_p1_login.md",
+    ".opencode/context/04-ui-ux/admin_p2_user_management.md",
+    ".opencode/context/04-ui-ux/admin_p3_food_management.md",
+    ".opencode/context/05-infrastructure/ci_cd.md",
+    ".opencode/context/06-glossary/glossary.md",
+    ".opencode/context/07-api-contracts/api_docs.md",
+    ".opencode/context/08-qa/core_test_cases.md",
+    ".opencode/memory/memory.md"
   ],
   "lsp": {
     "java": {
