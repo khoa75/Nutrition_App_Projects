@@ -72,7 +72,17 @@ export class AdminUserService {
       throw new Error(error.message || 'Failed to update food');
     }
   }
+
+  async registerUser(userData: any): Promise<any> {
+    try {
+      const response = await adminAuthService.apiClient.post<ApiResponse<any>>('/auth/register', userData);
+      return response.data.data;
+    } catch (error: any) {
+      throw new Error(error.message || 'Failed to register user');
+    }
+  }
 }
 
 export const adminUserService = new AdminUserService();
+
 

@@ -161,6 +161,7 @@ const UserManagement: React.FC = () => {
         <CreateUserModal 
           visible={isModalVisible} 
           onClose={() => setIsModalVisible(false)} 
+          onSuccess={fetchUsers}
         />
       )}
     </div>
