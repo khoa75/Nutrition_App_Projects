@@ -13,15 +13,14 @@
     *   Left: Search input bar "Search by food name...".
     *   Right: *Empty / Spacing placeholder* (Category filter completely removed).
 *   Data Table Container (12px Rounded Card, Surface #FFFFFF):
-    *   Column Headers: [Food Image | Name | Calories | Macros (P/C/F) | Actions]
-    *   Row Items: Food Image is a small square thumb with 4px rounded corners. Macros column displays values grouped neatly. Actions column has an [Edit] icon button.
+    *   Column Headers: [ Name | Calories | Macros (P/C/F) | Actions]
+    *   Row Items: Macros column displays values grouped neatly. Actions column has an [Edit] icon button.
 
 ## Popup Component: Food Form Modal (Create/Read/Update)
 *   **Initial State: Hidden by default (`isOpen = false`)**. The main Food Management dashboard must be fully visible and rendered first; this modal and its background overlay must not appear on initial page load.
 *   Container: Centered 12px Rounded Dialog box over blurred light background layer.
 *   Form Layout:
-    *   Left Column: Dashed border card container slot with an "Upload food image" icon label for image picker.
-    *   Right Column Input Stack: Food Name input, Ingredients rich text-area field, Calories (kcal input), Protein (grams), Carb (grams), Fat (grams). *(Category selection menu completely removed)*.
+        *  Column Input Stack: Food Name input, Calories (kcal input), Protein (grams), Carb (grams), Fat (grams). *(Category selection menu completely removed)*.
 *   Footer Actions: [Discard] text button + [Confirm Template] filled Deep Indigo button.
 
 ## ⚡ Interaction & State Triggers
