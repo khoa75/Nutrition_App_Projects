@@ -11,6 +11,9 @@ public enum ErrorCode {
     ACCOUNT_LOCKED(1003, "Account is temporarily locked", HttpStatus.LOCKED),
     INVALID_CREDENTIALS(1004, "Invalid credentials", HttpStatus.UNAUTHORIZED),
     INVALID_PASSWORD_STRENGTH(1005, "Password does not meet strength requirements", HttpStatus.BAD_REQUEST),
+    FOOD_NOT_FOUND(1006, "Food not found", HttpStatus.NOT_FOUND),
+    LOG_NOT_FOUND(1007, "Log not found", HttpStatus.NOT_FOUND),
+    DAILY_PLAN_NOT_FOUND(1008, "Daily plan not found", HttpStatus.NOT_FOUND),
     ;
 
     private int code;

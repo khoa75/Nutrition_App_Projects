@@ -3,7 +3,6 @@ package com.example.backend.controller;
 import com.example.backend.dto.request.userprofile.GoalCaloriesRequest;
 import com.example.backend.dto.response.ApiResponse;
 import com.example.backend.dto.response.UserResponse;
-import com.example.backend.dto.response.userprofile.GoalCaloriesResponse;
 import com.example.backend.dto.response.userprofile.UserProfileResponse;
 import com.example.backend.enums.ErrorCode;
 import com.example.backend.enums.UserStatus;
@@ -30,13 +29,24 @@ public class UserProfileController {
     }
 
     @PutMapping("/me/goal-calories")
-    public ApiResponse<GoalCaloriesResponse> updateGoalCalories(Principal principal,
-                                                                 @Valid @RequestBody GoalCaloriesRequest request) {
+    public ApiResponse<UserProfileResponse> updateGoalCalories(Principal principal,
+                                                                  @Valid @RequestBody GoalCaloriesRequest request) {
         UserProfileResponse profile = userProfileService.updateGoalCalories(requireEmail(principal), request);
 
-        return ApiResponse.<GoalCaloriesResponse>builder()
-                .data(GoalCaloriesResponse.builder().goalCalories(profile.getGoalCalories()).build())
+        return ApiResponse.<UserProfileResponse>builder()
+                .data(profile)
                 .message("Goal calories updated successfully")
+                .build();
+    }
+
+    @PutMapping("/me/profile")
+    public ApiResponse<UserProfileResponse> updateProfile(Principal principal,
+                                                          @Valid @RequestBody GoalCaloriesRequest request) {
+        UserProfileResponse profile = userProfileService.updateProfile(requireEmail(principal), request);
+
+        return ApiResponse.<UserProfileResponse>builder()
+                .data(profile)
+                .message("Profile updated successfully")
                 .build();
     }
 

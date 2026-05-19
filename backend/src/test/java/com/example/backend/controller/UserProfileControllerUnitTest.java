@@ -3,7 +3,6 @@ package com.example.backend.controller;
 import com.example.backend.dto.request.userprofile.GoalCaloriesRequest;
 import com.example.backend.dto.response.ApiResponse;
 import com.example.backend.dto.response.UserResponse;
-import com.example.backend.dto.response.userprofile.GoalCaloriesResponse;
 import com.example.backend.dto.response.userprofile.UserProfileResponse;
 import com.example.backend.enums.ErrorCode;
 import com.example.backend.enums.UserStatus;
@@ -14,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.security.Principal;
 import java.util.List;
 
@@ -38,16 +38,42 @@ class UserProfileControllerUnitTest {
 
         Principal principal = () -> "john@example.com";
         GoalCaloriesRequest request = GoalCaloriesRequest.builder()
+                .dob(LocalDate.of(2000, 1, 1))
                 .currentWeight(BigDecimal.valueOf(70))
                 .height(BigDecimal.valueOf(175))
                 .targetWeight(BigDecimal.valueOf(65))
                 .gender("MALE")
                 .build();
 
-        ApiResponse<GoalCaloriesResponse> response = controller.updateGoalCalories(principal, request);
+        ApiResponse<UserProfileResponse> response = controller.updateGoalCalories(principal, request);
 
         assertTrue(response.isSuccess());
         assertEquals(2200, response.getData().getGoalCalories());
+    }
+
+    @Test
+    void updateProfile_ShouldWrapResponseInApiResponse() {
+        UserProfileResponse profileResponse = UserProfileResponse.builder()
+                .email("john@example.com")
+                .dob(LocalDate.of(2001, 2, 3))
+                .goalCalories(2200)
+                .build();
+
+        when(userProfileService.updateProfile(any(), any())).thenReturn(profileResponse);
+
+        Principal principal = () -> "john@example.com";
+        GoalCaloriesRequest request = GoalCaloriesRequest.builder()
+                .dob(LocalDate.of(2001, 2, 3))
+                .currentWeight(BigDecimal.valueOf(70))
+                .height(BigDecimal.valueOf(175))
+                .targetWeight(BigDecimal.valueOf(65))
+                .gender("MALE")
+                .build();
+
+        ApiResponse<UserProfileResponse> response = controller.updateProfile(principal, request);
+
+        assertTrue(response.isSuccess());
+        assertEquals(LocalDate.of(2001, 2, 3), response.getData().getDob());
     }
 
     @Test
