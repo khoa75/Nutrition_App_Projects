@@ -18,7 +18,7 @@ Please read the following files before writing code:
 1. Implement `HealthMetricsService` to accurately calculate BMI and TDEE according to the formulas in `business-rules.md`.
 2. API `PUT /api/v1/users/me/goal-calories`: Accepts health metrics (weight, height, gender, activity level, goal type, kg/week) and returns calculated `goalCalories`.
 3. API `GET /api/v1/users/me`: Returns the full user profile including computed BMI, BMI status, and goal calories.
-4. **API Response Envelope**: All API endpoints must return `ResponseEntity<ApiResponse<T>>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.
+4. **API Response Envelope**: All API endpoints must return `ApiResponse<T>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.
 
 ## 3. Acceptance Criteria
 - All API responses are wrapped in `ApiResponse<T>` from `backend/src/main/java/com/example/backend/dto/ApiResponse.java`.

@@ -17,7 +17,7 @@ compatibility: opencode
 1. Create an algorithm (Service) that takes `TDEE` and the user's `goal` (weight gain/loss) as input.
 2. Generate a daily meal plan (Breakfast, Lunch, Dinner) such that total calories approximately match `Target Calories` (TDEE +/- 500 calories).
 3. Implement API `POST /api/v1/foods`: Add food and `POST /api/v1/logs` to log a meal with gram input, auto-calculating total calories (`gram / 100 * calories_per_100g`).
-4. **API Response Envelope**: All API endpoints must return `ResponseEntity<ApiResponse<T>>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.
+4. **API Response Envelope**: All API endpoints must return `ApiResponse<T>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.
 
 ## 3. Acceptance Criteria
 - All API responses are wrapped in `ApiResponse<T>` from `backend/src/main/java/com/example/backend/dto/ApiResponse.java`.

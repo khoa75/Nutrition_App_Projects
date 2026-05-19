@@ -29,7 +29,7 @@ public interface UserProfileService {
 
 ## 3. Controller Templates
 - `@RestController`, `@RequestMapping("/api/v1/{module}")`
-- All endpoints must return `ResponseEntity<ApiResponse<T>>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java`.
+- All endpoints must return `ApiResponse<T>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java`.
 - No business logic in controllers — delegate to Service immediately
 - Use `@Valid` for DTO validation
 
@@ -61,7 +61,7 @@ public class ApiResponse<T> {
     T data;
 }
 ```
-All endpoints must return `ResponseEntity<ApiResponse<T>>`.
+All endpoints must return `ApiResponse<T>`.
 
 ## 6. JPA/PostgreSQL Repository Patterns
 - `JpaRepository<T, Long>` for CRUD

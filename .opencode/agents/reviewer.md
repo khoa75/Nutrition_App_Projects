@@ -160,10 +160,10 @@ public User createUser(@RequestBody User user) {
 
 // ✅ CORRECT: Proper validation and sanitization
 @PostMapping("/api/users")
-public ResponseEntity<ApiResponse<User>> createUser(@Valid @RequestBody UserCreateRequest request) {
+public ApiResponse<User> createUser(@Valid @RequestBody UserCreateRequest request) {
     // Input validation handled by @Valid
     User user = userService.createUser(request);
-    return ResponseEntity.ok(ApiResponse.success(user));
+    return ApiResponse.success(user);
 }
 ```
 

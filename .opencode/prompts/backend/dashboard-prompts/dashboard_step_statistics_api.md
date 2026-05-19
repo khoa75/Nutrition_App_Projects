@@ -18,7 +18,7 @@ compatibility: opencode
 2. In the `com.nutrition.dashboard` package, implement API `GET /api/dashboard/summary?date=YYYY-MM-DD`.
 3. Extract data from tables (`users`, `logs`) to return: `goal_calories`, `total_calories` consumed.
 4. Implement API `GET /api/v1/statistics/weekly` and `GET /api/v1/statistics/monthly`: Retrieve time-series calorie data grouped by day using PostgreSQL native SQL queries (`GROUP BY DATE(logged_at)`).
-5. **API Response Envelope**: All API endpoints must return `ResponseEntity<ApiResponse<T>>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.
+5. **API Response Envelope**: All API endpoints must return `ApiResponse<T>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.
 
 ## 3. Acceptance Criteria
 - All API responses are wrapped in `ApiResponse<T>` from `backend/src/main/java/com/example/backend/dto/ApiResponse.java`.

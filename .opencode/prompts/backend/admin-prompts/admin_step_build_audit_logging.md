@@ -16,7 +16,7 @@ compatibility: opencode
 ## 2. Task: Build Audit Logging
 1. Every time an Admin modifies a user's status, save a log to the `audit_logs` table (time, action, description, IP).
 2. Implement API `GET /api/admin/audit-logs` to display this history for Super Admins.
-3. **API Response Envelope**: All API endpoints must return `ResponseEntity<ApiResponse<T>>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.
+3. **API Response Envelope**: All API endpoints must return `ApiResponse<T>` using the class `com.example.backend.dto.ApiResponse<T>` defined in `backend/src/main/java/com/example/backend/dto/ApiResponse.java` to wrap response data.
 
 ## 3. Acceptance Criteria
 - All API responses are wrapped in `ApiResponse<T>` from `backend/src/main/java/com/example/backend/dto/ApiResponse.java`.

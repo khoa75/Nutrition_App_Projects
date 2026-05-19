@@ -17,8 +17,8 @@ Please read the following files before writing code:
 ## 2. Task: Design Model & DTO (Spring Boot)
 1. **Write unit tests for the expected business logic before writing the actual source code (Test-First).**
 2. Create the `com.nutrition.userprofile` package.
-3. Create the `User` JPA Entity for PostgreSQL. Use `@Column(name = "snake_case")` for all field mappings.
-4. Create DTOs requiring input for `name`, `dob`, `gender`, `current_weight`, `target_weight`, `height`, `activity_level`, `goal_type`, and `kg_per_week`.
+3. Create the `User` JPA Entity for PostgreSQL. Use `@Column(name = "snake_case")` for all field mappings.ing input for `name`, `dob`, `gender`, `current_weight`, `target_weight`, `height`, `activity_level
+4. Create DTOs requir`, `goal_type`, and `kg_per_week`.
 
 ## 3. Acceptance Criteria
 - BMI and TDEE metrics must match standard formulas exactly.

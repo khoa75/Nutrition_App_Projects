@@ -103,8 +103,8 @@ public class MealLog {
 public class StandardResponseController {
     
     @GetMapping("/api/health")
-    public ResponseEntity<ApiResponse<HealthStatus>> getHealth() {
-        return ResponseEntity.ok(
+    public \ApiResponse<HealthStatus>>\ getHealth() {
+        return 
             ApiResponse.success(healthService.getStatus())
         );
     }
