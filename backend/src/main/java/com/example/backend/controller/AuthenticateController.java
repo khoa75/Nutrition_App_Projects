@@ -9,7 +9,7 @@ import com.example.backend.dto.response.AuthTokenResponse;
 import com.example.backend.dto.response.RegisterResponse;
 import com.example.backend.service.AuthenticationService;
 import jakarta.validation.Valid;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
