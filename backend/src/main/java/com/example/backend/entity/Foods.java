@@ -19,7 +19,9 @@ import java.math.BigDecimal;
 @ToString
 @SuperBuilder
 @NoArgsConstructor
-@Table(name = "foods")
+@Table(name = "foods", indexes = {
+        @Index(name = "idx_foods_name", columnList = "name")
+})
 public class Foods implements Serializable {
 
     private static final long serialVersionUID = 1L;
