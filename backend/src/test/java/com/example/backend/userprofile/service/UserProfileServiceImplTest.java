@@ -63,6 +63,7 @@ class UserProfileServiceImplTest {
         GoalCaloriesRequest request = GoalCaloriesRequest.builder()
                 .currentWeight(BigDecimal.valueOf(72))
                 .height(BigDecimal.valueOf(176))
+                .targetWeight(BigDecimal.valueOf(65))
                 .gender("MALE")
                 .activityLevel(ActivityLevelEnum.ACTIVE)
                 .goalType(WeightGoal.LOSE)
@@ -80,6 +81,7 @@ class UserProfileServiceImplTest {
 
         assertEquals(2300, response.getGoalCalories());
         assertEquals(new BigDecimal("23.24"), response.getBmi());
+        assertEquals(BigDecimal.valueOf(65), response.getTargetWeight());
         verify(userWeightLogRepository).save(any(UserWeightLog.class));
         verify(usersRepository).save(user);
     }
@@ -89,6 +91,7 @@ class UserProfileServiceImplTest {
         GoalCaloriesRequest request = GoalCaloriesRequest.builder()
                 .currentWeight(BigDecimal.valueOf(72))
                 .height(BigDecimal.valueOf(176))
+                .targetWeight(BigDecimal.valueOf(65))
                 .gender("MALE")
                 .activityLevel(ActivityLevelEnum.ACTIVE)
                 .goalType(WeightGoal.LOSE)

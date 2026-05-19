@@ -25,6 +25,10 @@ public class GoalCaloriesRequest {
     @Positive
     private BigDecimal height;
 
+    @NotNull
+    @Positive
+    private BigDecimal targetWeight;
+
     @NotBlank
     private String gender;
 

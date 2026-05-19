@@ -45,6 +45,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         user.setCurrentWeight(request.getCurrentWeight());
         user.setHeight(request.getHeight());
+        user.setTargetWeight(request.getTargetWeight());
         user.setGender(request.getGender());
         user.setActivityLevel(request.getActivityLevel());
         user.setGoalType(request.getGoalType());

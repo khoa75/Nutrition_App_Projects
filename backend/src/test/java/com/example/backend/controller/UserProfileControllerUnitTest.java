@@ -40,6 +40,7 @@ class UserProfileControllerUnitTest {
         GoalCaloriesRequest request = GoalCaloriesRequest.builder()
                 .currentWeight(BigDecimal.valueOf(70))
                 .height(BigDecimal.valueOf(175))
+                .targetWeight(BigDecimal.valueOf(65))
                 .gender("MALE")
                 .build();
 
@@ -104,6 +105,7 @@ class UserProfileControllerUnitTest {
         GoalCaloriesRequest request = GoalCaloriesRequest.builder()
                 .currentWeight(BigDecimal.valueOf(70))
                 .height(BigDecimal.valueOf(175))
+                .targetWeight(BigDecimal.valueOf(65))
                 .gender("MALE")
                 .build();
 
