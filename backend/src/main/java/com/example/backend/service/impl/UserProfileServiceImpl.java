@@ -42,11 +42,22 @@ public class UserProfileServiceImpl implements UserProfileService {
 
     @Override
     @Transactional
+    public UserProfileResponse updateProfile(String email, GoalCaloriesRequest request) {
+        return updateAndRecalculateProfile(email, request);
+    }
+
+    @Override
+    @Transactional
     public UserProfileResponse updateGoalCalories(String email, GoalCaloriesRequest request) {
+        return updateAndRecalculateProfile(email, request);
+    }
+
+    private UserProfileResponse updateAndRecalculateProfile(String email, GoalCaloriesRequest request) {
         Users user = usersRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         logger.info("Updating goal calories for userId={} email={}", user.getId(), user.getEmail());
 
+        user.setDob(request.getDob());
         user.setCurrentWeight(request.getCurrentWeight());
         user.setHeight(request.getHeight());
         user.setTargetWeight(request.getTargetWeight());

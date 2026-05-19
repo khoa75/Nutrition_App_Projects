@@ -281,8 +281,20 @@ The project uses a standard `ApiResponse<T>` format for all API responses.
 **Response:**
 ```json
 {
+  "success": true,
   "message": "Update log success",
-  "data": null
+  "data": {
+    "id": 1001,
+    "userId": 1,
+    "foodId": 101,
+    "foodName": "Chicken Breast",
+    "gram": 300,
+    "totalCalories": 495.00,
+    "goalCalories": 2200,
+    "remainingCalories": 1705.00,
+    "loggedAt": "2026-05-19T07:30:00"
+  },
+  "timestamp": "2026-05-19T07:42:00Z"
 }
 ```
 

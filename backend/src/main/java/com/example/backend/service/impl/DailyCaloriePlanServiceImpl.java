@@ -40,23 +40,24 @@ public class DailyCaloriePlanServiceImpl implements DailyCaloriePlanService {
         int days = totalDays > 0 ? totalDays : DEFAULT_PLAN_DAYS;
         int baseTarget = user.getGoalCalories() != null ? user.getGoalCalories() : MIN_TARGET_CALORIES;
 
-        dailyCaloriePlanRepository.deleteByUserIdAndPlanDateGreaterThanEqual(user.getId(), startDate);
-
-        List<DailyCaloriePlan> plans = new ArrayList<>(days);
+        List<DailyCaloriePlan> plansToUpsert = new ArrayList<>(days);
         for (int i = 0; i < days; i++) {
             LocalDate planDate = startDate.plusDays(i);
-            plans.add(DailyCaloriePlan.builder()
-                    .user(user)
-                    .planDate(planDate)
-                    .baseTargetCalories(baseTarget)
-                    .targetCalories(baseTarget)
-                    .consumedCalories(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP))
-                    .remainingCalories(BigDecimal.valueOf(baseTarget).setScale(2, RoundingMode.HALF_UP))
-                    .build());
-        }
-        dailyCaloriePlanRepository.saveAll(plans);
+            DailyCaloriePlan plan = dailyCaloriePlanRepository.findByUserIdAndPlanDate(user.getId(), planDate)
+                    .orElseGet(() -> DailyCaloriePlan.builder()
+                            .user(user)
+                            .planDate(planDate)
+                            .consumedCalories(BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP))
+                            .build());
 
-        logger.info("Generated {} daily calorie plans for userId={} from {}", days, user.getId(), startDate);
+            plan.setBaseTargetCalories(baseTarget);
+            plan.setTargetCalories(baseTarget);
+            plan.setRemainingCalories(BigDecimal.valueOf(baseTarget).subtract(plan.getConsumedCalories()).setScale(2, RoundingMode.HALF_UP));
+            plansToUpsert.add(plan);
+        }
+        dailyCaloriePlanRepository.saveAll(plansToUpsert);
+
+        logger.info("Upserted {} daily calorie plans for userId={} from {}", days, user.getId(), startDate);
     }
 
     @Override

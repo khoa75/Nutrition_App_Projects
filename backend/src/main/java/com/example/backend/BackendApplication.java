@@ -1,14 +1,16 @@
 package com.example.backend;
 
-import jakarta.annotation.PostConstruct;
+import com.example.backend.admin.config.AdminBootstrapProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 
 import java.util.TimeZone;
 
 @SpringBootApplication
 @EnableCaching
+@EnableConfigurationProperties(AdminBootstrapProperties.class)
 public class BackendApplication {
 
 	public static void main(String[] args) {

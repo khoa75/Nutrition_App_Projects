@@ -39,6 +39,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    ResponseEntity<ApiResponse<Object>> handlingIllegalArgumentException(IllegalArgumentException exception) {
+        ApiResponse<Object> apiResponse = ApiResponse.builder()
+                .success(false)
+                .message(exception.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiResponse);
+    }
+
     //các exception chưa được định nghĩa
     @ExceptionHandler(value = RuntimeException.class)
     ResponseEntity<ApiResponse<Object>> handlingRuntimeException(RuntimeException exception) {

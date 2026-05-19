@@ -64,6 +64,7 @@ class UserProfileServiceImplTest {
     @Test
     void updateGoalCalories_ShouldUpdateProfileAndInsertWeightLog_WhenNoSameDayLog() {
         GoalCaloriesRequest request = GoalCaloriesRequest.builder()
+                .dob(LocalDate.of(2000, 1, 2))
                 .currentWeight(BigDecimal.valueOf(72))
                 .height(BigDecimal.valueOf(176))
                 .targetWeight(BigDecimal.valueOf(65))
@@ -83,6 +84,7 @@ class UserProfileServiceImplTest {
         UserProfileResponse response = userProfileService.updateGoalCalories("john@example.com", request);
 
         assertEquals(2300, response.getGoalCalories());
+        assertEquals(LocalDate.of(2000, 1, 2), response.getDob());
         assertEquals(new BigDecimal("23.24"), response.getBmi());
         assertEquals(BigDecimal.valueOf(65), response.getTargetWeight());
         verify(userWeightLogRepository).save(any(UserWeightLog.class));
@@ -93,6 +95,7 @@ class UserProfileServiceImplTest {
     @Test
     void updateGoalCalories_ShouldUpdateWeightLog_WhenSameDayLogExists() {
         GoalCaloriesRequest request = GoalCaloriesRequest.builder()
+                .dob(LocalDate.of(2000, 1, 2))
                 .currentWeight(BigDecimal.valueOf(72))
                 .height(BigDecimal.valueOf(176))
                 .targetWeight(BigDecimal.valueOf(65))
@@ -120,6 +123,33 @@ class UserProfileServiceImplTest {
 
         assertEquals(BigDecimal.valueOf(72), existing.getWeight());
         verify(userWeightLogRepository, never()).save(any(UserWeightLog.class));
+    }
+
+    @Test
+    void updateProfile_ShouldReturnUpdatedProfile() {
+        GoalCaloriesRequest request = GoalCaloriesRequest.builder()
+                .dob(LocalDate.of(1998, 5, 20))
+                .currentWeight(BigDecimal.valueOf(68))
+                .height(BigDecimal.valueOf(175))
+                .targetWeight(BigDecimal.valueOf(64))
+                .gender("MALE")
+                .activityLevel(ActivityLevelEnum.ACTIVE)
+                .goalType(WeightGoal.LOSE)
+                .kgPerWeek(BigDecimal.valueOf(0.3))
+                .build();
+
+        when(usersRepository.findByEmail("john@example.com")).thenReturn(Optional.of(user));
+        when(healthMetricsService.calculateBmi(any(), any())).thenReturn(new BigDecimal("22.20"));
+        when(healthMetricsService.classifyBmi(any())).thenReturn(BmiStatusEnum.NORMAL);
+        when(healthMetricsService.calculateGoalCalories(any(), any(), anyInt(), anyString(), any(), any(), any()))
+                .thenReturn(new BigDecimal("2100.00"));
+        when(userWeightLogRepository.findByUserIdAndLogDate(eq(1L), any(LocalDate.class))).thenReturn(Optional.empty());
+
+        UserProfileResponse response = userProfileService.updateProfile("john@example.com", request);
+
+        assertEquals(LocalDate.of(1998, 5, 20), response.getDob());
+        assertEquals(2100, response.getGoalCalories());
+        verify(usersRepository).save(user);
     }
 
     @Test

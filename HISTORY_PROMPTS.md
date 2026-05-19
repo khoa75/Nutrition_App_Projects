@@ -35,6 +35,34 @@ This file tracks the prompts provided by the user during the development of the 
 | 2026-05-19 00:14 | tôi sẽ mô tả giao diện cho bạn hình dung... hãy lên kế hoạch lại |
 | 2026-05-19 00:15 | đọc prompt trong file và lên kế hoạch .opencode\prompts\backend\food-catalog-plan-prompts\food_catalog_plan_step_performance_optimization.md |
 | 2026-05-19 00:16 | # Spring Boot Best Practices ... hãy thực hiện kế hoạch trên |
-
-
+| 2026-05-19 00:17 | thêm api cho update log nếu lỡ thêm nhầm, chỉ cho update gram |
+| 2026-05-19 09:00 | Create or update `AGENTS.md` for this repository. |
+| 2026-05-19 09:15 | # Spring Boot Best Practices ... viết thêm api search food theo tên và api trả về food detail |
+| 2026-05-19 09:25 | # Spring Boot Best Practices ... làm phần log theo hướng này đc ko |
+| 2026-05-19 09:26 | # Spring Boot Best Practices ... làm phần log theo hướng này đc ko => Daily (1 page, 1 form): search input(name food), gram input, search button... |
+| 2026-05-19 09:30 | ý tôi là nhập tên + gr chứ ko phải nhập id |
+| 2026-05-19 09:40 | giờ luồng hoạt động là như thế nào |
+| 2026-05-19 09:41 | phần log có đang tracking theo ngày ko |
+| 2026-05-19 09:42 | tôi muốn sửa lại cho tracking theo ngày user chọn vì đây là demo ko thể để hệ thống qua ngày mới thêm đc |
+| 2026-05-19 09:50 | thêm API cho phép xóa log |
+| 2026-05-19 10:05 | hiện tại khi chọn mục tiêu nó có tự tạo mục tiêu theo từng ngày trong tuần, tháng ko |
+| 2026-05-19 10:06 | viết thêm cho khi user chọn mục tiêu thì sẽ tự tạo plan theo ngày và tự động điều chỉnh plan nếu vượt / ko đạt target |
+| 2026-05-19 10:20 | có api để generate plan theo tuần tháng ko hay bạn chỉ sửa service |
+| 2026-05-19 10:21 | làm api lấy plan theo ngày tuần tháng |
+| 2026-05-19 10:35 | sửa lại API daily-target nếu ko nhập gì thì tự động gọi ngày hiện tại |
+| 2026-05-19 10:50 | ở trong phần tạo profile đã tự động tính calo theo ngày chưa |
+| 2026-05-19 10:51 | nếu đã tự động tạo khi user nhập thông tin profile rồi thì API daily-target dùng để làm gì |
+| 2026-05-19 11:00 | viết thêm API sửa food |
+| 2026-05-19 11:10 | viết thêm API get log theo ngày |
+| 2026-05-19 11:20 | theo khoảng ngày nữa |
+| 2026-05-19 12:00 | Create or update `AGENTS.md` for this repository.
+| 2026-05-19 12:10 | dựa vào prompt trong file .opencode\prompts\backend\admin-prompts\admin_step_administration_api.md hãy lên kế hoạch
+| 2026-05-19 12:15 | thêm cái tự động tạo tài khoản admin nếu chưa có tài khoản admin nữa
+| 2026-05-19 12:20 | à sửa lại ko thêm role admin hay user gì cả chỉ tạo cứng 1 tài khoản admin nếu nhập đúng thì sử dụng dc các chức năng admin
+| 2026-05-19 12:30 | # Spring Boot Best Practices ... hãy thực hiện theo plan trên
+| 2026-05-19 12:45 | sửa lại API update profile và update goal thêm birthday nữa và cho API update goal trả về response đầy đủ như get profile
+| 2026-05-19 12:50 | cho tôi json để test
+| 2026-05-19 12:55 | lỗi gì
+| 2026-05-19 13:00 | lỗi trong docker 2026-05-19 18:39:40 2026-05-19T11:39:40.595Z  WARN 1 --- [backend] [nio-8080-exec-1] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "uq_daily_plan_user_date" Detail: Key (user_id, plan_date)=(2, 2026-05-19) already exists.
+| 2026-05-19 13:05 | sửa lại Không xóa rồi insert hàng loạt nữa. Đổi sang upsert theo từng ngày: - nếu (user_id, plan_date) đã có -> update baseTargetCalories/targetCalories/remainingCalories - chưa có -> insert mới Như vậy sẽ không đụng unique key.
 

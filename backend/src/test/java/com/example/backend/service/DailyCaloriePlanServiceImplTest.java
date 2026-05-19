@@ -21,6 +21,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -38,10 +39,12 @@ class DailyCaloriePlanServiceImplTest {
     @Test
     void generatePlanForUser_ShouldCreate30DailyPlans() {
         Users user = Users.builder().id(1L).goalCalories(2200).build();
+        when(dailyCaloriePlanRepository.findByUserIdAndPlanDate(eq(1L), any(LocalDate.class)))
+                .thenReturn(Optional.empty());
 
         dailyCaloriePlanService.generatePlanForUser(user, LocalDate.of(2026, 5, 20), 30);
 
-        verify(dailyCaloriePlanRepository).deleteByUserIdAndPlanDateGreaterThanEqual(1L, LocalDate.of(2026, 5, 20));
+        verify(dailyCaloriePlanRepository, never()).deleteByUserIdAndPlanDateGreaterThanEqual(any(Long.class), any(LocalDate.class));
 
         ArgumentCaptor<List<DailyCaloriePlan>> captor = ArgumentCaptor.forClass(List.class);
         verify(dailyCaloriePlanRepository).saveAll(captor.capture());
