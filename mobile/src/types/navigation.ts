@@ -5,7 +5,6 @@ export type AuthStackParamList = {
     registrationData: {
       name: string;
       email: string;
-      phone: string;
       password: string;
     };
   };
@@ -14,9 +13,7 @@ export type AuthStackParamList = {
 export type MainTabParamList = {
   DashboardTab: undefined;
   SearchTab: undefined;
-  MealsTab: undefined;
   ProfileTab: undefined;
-  SettingsTab: undefined;
 };
 
 export type RootStackParamList = {

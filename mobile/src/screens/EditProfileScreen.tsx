@@ -92,8 +92,8 @@ const EditProfileScreen: React.FC = () => {
         }
       }
     } catch (error) {
-      console.error('Fetch profile error in EditProfileScreen:', error);
-      Alert.alert('Error', 'Failed to fetch user profile details.');
+      console.log('Fetch profile error in EditProfileScreen:', error);
+      // Suppress the alert for 403 or general fetch errors to avoid UI disruption
     } finally {
       setLoading(false);
     }
@@ -202,7 +202,7 @@ const EditProfileScreen: React.FC = () => {
         { text: 'OK', onPress: () => navigation.goBack() }
       ]);
     } catch (error: any) {
-      console.error('Update profile error:', error);
+      console.log('Update profile error:', error);
       Alert.alert('Error', error.response?.data?.message || 'Failed to update profile.');
     } finally {
       setSaving(false);

@@ -95,8 +95,8 @@ const ProfileScreen: React.FC = () => {
       setProfile(data);
       initializeForms(data);
     } catch (error) {
-      console.error('Fetch profile error:', error);
-      Alert.alert('Error', 'Failed to fetch profile details.');
+      console.log('Fetch profile error:', error);
+      // Suppress the alert for 403 or general fetch errors to avoid UI disruption
     } finally {
       setLoading(false);
     }
@@ -174,9 +174,9 @@ const ProfileScreen: React.FC = () => {
       setProfile(updatedProfile);
       Alert.alert('Success', 'Personal information updated successfully.');
       setEditPersonalVisible(false);
-    } catch (error: any) {
-      console.error('Update personal details failed:', error);
-      Alert.alert('Error', error.response?.data?.message || 'Failed to update personal details.');
+    } catch (error) {
+      console.log('Update personal details failed:', error);
+      Alert.alert('Error', 'Could not update your personal information.');
     } finally {
       setUpdating(false);
     }
@@ -208,9 +208,9 @@ const ProfileScreen: React.FC = () => {
       setProfile(updatedProfile);
       Alert.alert('Success', 'Goal preferences updated successfully.');
       setAdjustGoalVisible(false);
-    } catch (error: any) {
-      console.error('Update goals failed:', error);
-      Alert.alert('Error', error.response?.data?.message || 'Failed to update goals.');
+    } catch (error) {
+      console.log('Update goals failed:', error);
+      Alert.alert('Error', 'Could not update your goals.');
     } finally {
       setUpdating(false);
     }

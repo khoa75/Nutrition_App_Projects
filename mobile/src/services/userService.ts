@@ -48,4 +48,12 @@ export const userService = {
     );
     return response.data.data;
   },
+
+  searchUsersByEmail: async (email: string): Promise<{ id: number; email: string }[]> => {
+    const response = await apiClient.get<ApiResponse<{ id: number; email: string }[]>>(
+      'users/profiles/search',
+      { params: { email } },
+    );
+    return response.data.data;
+  },
 };

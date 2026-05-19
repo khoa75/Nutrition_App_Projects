@@ -89,4 +89,13 @@ export const logService = {
     });
     return response.data.data;
   },
+
+  updateLogGram: async (id: number, gram: number): Promise<LogResponseData> => {
+    const response = await apiClient.put<ApiResponse<LogResponseData>>(`logs/${id}`, { gram });
+    return response.data.data;
+  },
+
+  deleteLog: async (id: number): Promise<void> => {
+    await apiClient.delete<ApiResponse<void>>(`logs/${id}`);
+  },
 };

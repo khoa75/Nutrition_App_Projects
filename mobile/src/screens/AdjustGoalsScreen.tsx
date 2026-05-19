@@ -63,8 +63,8 @@ const AdjustGoalsScreen: React.FC = () => {
       setActivityLevel((data.activityLevel as 'SEDENTARY' | 'LIGHT_ACTIVE' | 'ACTIVE' | 'VERY_ACTIVE') || 'ACTIVE');
       setGoalCalories(data.goalCalories != null ? data.goalCalories : 2000);
     } catch (error) {
-      console.error('Fetch profile error in AdjustGoalsScreen:', error);
-      Alert.alert('Error', 'Failed to fetch your current goals.');
+      console.log('Fetch profile error in AdjustGoalsScreen:', error);
+      // Suppress the alert for 403 or general fetch errors to avoid UI disruption
     } finally {
       setLoading(false);
     }

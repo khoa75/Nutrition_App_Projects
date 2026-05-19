@@ -5,18 +5,14 @@ import type { MainTabParamList } from '../types/navigation';
 import { Colors } from '../theme/colors';
 import DashboardScreen from '../screens/DashboardScreen';
 import FoodSearchScreen from '../screens/FoodSearchScreen';
-import MealTrackingScreen from '../screens/MealTrackingScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 const tabIcons: Record<keyof MainTabParamList, keyof typeof Ionicons.glyphMap> = {
   DashboardTab: 'home',
   SearchTab: 'search',
-  MealsTab: 'restaurant',
   ProfileTab: 'person',
-  SettingsTab: 'settings',
 };
 
 const MainTabNavigator: React.FC = () => (
@@ -45,9 +41,7 @@ const MainTabNavigator: React.FC = () => (
   >
     <Tab.Screen name="DashboardTab" component={DashboardScreen} options={{ tabBarLabel: 'Home' }} />
     <Tab.Screen name="SearchTab" component={FoodSearchScreen} options={{ tabBarLabel: 'Search' }} />
-    <Tab.Screen name="MealsTab" component={MealTrackingScreen} options={{ tabBarLabel: 'Meals' }} />
     <Tab.Screen name="ProfileTab" component={ProfileScreen} options={{ tabBarLabel: 'Profile' }} />
-    <Tab.Screen name="SettingsTab" component={SettingsScreen} options={{ tabBarLabel: 'Settings' }} />
   </Tab.Navigator>
 );
 

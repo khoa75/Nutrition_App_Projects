@@ -62,7 +62,7 @@ const FoodSearchScreen: React.FC = () => {
       const data = await logService.previewLogByName(foodName.trim(), gramVal);
       setPreviewResult(data);
     } catch (err: any) {
-      console.error('Search food preview error:', err);
+      console.log('Search food preview error:', err);
       // Switch to custom creation UI
       setSearchFailed(true);
       setCustomName(foodName.trim());
@@ -103,13 +103,13 @@ const FoodSearchScreen: React.FC = () => {
             if (navigation.canGoBack()) {
               navigation.goBack();
             } else {
-              navigation.navigate('MealsTab');
+              navigation.navigate('DashboardTab');
             }
           },
         },
       ]);
     } catch (err: any) {
-      console.error('Save log error:', err);
+      console.log('Save log error:', err);
       const msg = err.response?.data?.message || 'Failed to save food log.';
       Alert.alert('Error', msg);
     } finally {
@@ -176,13 +176,13 @@ const FoodSearchScreen: React.FC = () => {
             if (navigation.canGoBack()) {
               navigation.goBack();
             } else {
-              navigation.navigate('MealsTab');
+              navigation.navigate('DashboardTab');
             }
           },
         },
       ]);
     } catch (err: any) {
-      console.error('Create and log food error:', err);
+      console.log('Create and log food error:', err);
       const msg = err.response?.data?.message || 'Failed to create and log food.';
       Alert.alert('Error', msg);
     } finally {

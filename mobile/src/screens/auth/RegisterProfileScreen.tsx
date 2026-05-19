@@ -127,6 +127,7 @@ const RegisterProfileScreen: React.FC<Props> = ({ route, navigation }) => {
     try {
       const payload = {
         ...registrationData,
+        phone: '', // Phone is removed from UI but might be required by backend DTO
         dob,
         gender,
         currentWeight: w,
@@ -146,7 +147,7 @@ const RegisterProfileScreen: React.FC<Props> = ({ route, navigation }) => {
       // Show success modal
       setSuccessVisible(true);
     } catch (error: any) {
-      console.error('Registration error:', error);
+      console.log('Registration error:', error);
       const message = error.response?.data?.message || error.message || 'An error occurred during registration.';
       Alert.alert('Registration Failed', message);
     } finally {
@@ -164,7 +165,7 @@ const RegisterProfileScreen: React.FC<Props> = ({ route, navigation }) => {
         password: registrationData.password,
       });
     } catch (error: any) {
-      console.error('Background login error:', error);
+      console.log('Background login error:', error);
       Alert.alert('Login Failed', 'Account registered but login failed. Please log in manually.');
       navigation.navigate('Login');
     } finally {
