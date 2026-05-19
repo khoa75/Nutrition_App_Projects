@@ -49,7 +49,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       onClick: () => navigate('/admin/settings'),
     },
     {
-      type: 'divider',
+      type: 'divider' as const,
     },
     {
       key: 'logout',
@@ -142,7 +142,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               <Avatar
                 style={{ cursor: 'pointer' }}
                 icon={<UserOutlined />}
-                src={currentUser?.avatar}
               />
             </Dropdown>
           </Space>

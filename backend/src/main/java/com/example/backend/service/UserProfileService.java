@@ -13,5 +13,4 @@ public interface UserProfileService {
 
     UserProfileResponse getMyProfile(String email);
 
-    List<UserResponse> getAllUsers();
 }

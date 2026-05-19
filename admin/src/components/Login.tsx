@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
 import {
   Card,
   Form,
@@ -18,7 +17,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { adminAuthService, LoginRequest } from '../services/adminAuthService';
-import { useAuthStore } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const { Title, Text } = Typography;
 
@@ -35,11 +34,10 @@ interface LoginProps {
 }
 
 const Login: React.FC<LoginProps> = ({ onSuccess }) => {
-  const intl = useIntl();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const { login } = useAuthStore();
+  const { login } = useAuth();
   
   const {
     control,
@@ -65,8 +63,7 @@ const Login: React.FC<LoginProps> = ({ onSuccess }) => {
         rememberMe: data.rememberMe,
       };
 
-      const authResponse = await adminAuthService.login(loginRequest);
-      await login(authResponse);
+      await login(loginRequest);
       
       onSuccess?.();
       navigate('/admin');
