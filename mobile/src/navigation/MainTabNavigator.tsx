@@ -1,0 +1,54 @@
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Ionicons } from '@expo/vector-icons';
+import type { MainTabParamList } from '../types/navigation';
+import { Colors } from '../theme/colors';
+import DashboardScreen from '../screens/DashboardScreen';
+import FoodSearchScreen from '../screens/FoodSearchScreen';
+import MealTrackingScreen from '../screens/MealTrackingScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+
+const Tab = createBottomTabNavigator<MainTabParamList>();
+
+const tabIcons: Record<keyof MainTabParamList, keyof typeof Ionicons.glyphMap> = {
+  DashboardTab: 'home',
+  SearchTab: 'search',
+  MealsTab: 'restaurant',
+  ProfileTab: 'person',
+  SettingsTab: 'settings',
+};
+
+const MainTabNavigator: React.FC = () => (
+  <Tab.Navigator
+    screenOptions={({ route }) => ({
+      headerShown: false,
+      tabBarActiveTintColor: Colors.tabActive,
+      tabBarInactiveTintColor: Colors.tabInactive,
+      tabBarStyle: {
+        backgroundColor: Colors.surface,
+        borderTopWidth: 0,
+        elevation: 12,
+        shadowOpacity: 0.08,
+        shadowRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: -4 },
+        height: 60,
+        paddingBottom: 8,
+        paddingTop: 6,
+      },
+      tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
+      tabBarIcon: ({ color, size }) => (
+        <Ionicons name={tabIcons[route.name]} size={size} color={color} />
+      ),
+    })}
+  >
+    <Tab.Screen name="DashboardTab" component={DashboardScreen} options={{ tabBarLabel: 'Home' }} />
+    <Tab.Screen name="SearchTab" component={FoodSearchScreen} options={{ tabBarLabel: 'Search' }} />
+    <Tab.Screen name="MealsTab" component={MealTrackingScreen} options={{ tabBarLabel: 'Meals' }} />
+    <Tab.Screen name="ProfileTab" component={ProfileScreen} options={{ tabBarLabel: 'Profile' }} />
+    <Tab.Screen name="SettingsTab" component={SettingsScreen} options={{ tabBarLabel: 'Settings' }} />
+  </Tab.Navigator>
+);
+
+export default MainTabNavigator;
