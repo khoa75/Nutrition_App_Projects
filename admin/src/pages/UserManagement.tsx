@@ -1,58 +1,80 @@
-import React, { useState } from 'react';
-import { Typography, Input, Button, Table, Tag, Switch, Space, Radio } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Typography, Input, Button, Table, Tag, Switch, Space, Radio, message, Avatar } from 'antd';
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import CreateUserModal from '../components/CreateUserModal';
+import { adminUserService, AdminUserSummary } from '../services/adminUserService';
 
-const { Title } = Typography;
-
-interface DataType {
-  key: string;
-  user: { name: string; avatar: string };
-  email: string;
-  gender: string;
-  bmi: number;
-  status: 'Active' | 'Locked';
-}
-
-const data: DataType[] = [
-  {
-    key: '1',
-    user: { name: 'Emma Watson', avatar: 'https://i.pravatar.cc/150?img=1' },
-    email: 'emma.w@example.com',
-    gender: 'Female',
-    bmi: 22.4,
-    status: 'Active',
-  },
-  {
-    key: '2',
-    user: { name: 'John Doe', avatar: 'https://i.pravatar.cc/150?img=2' },
-    email: 'john.d@example.com',
-    gender: 'Male',
-    bmi: 28.1,
-    status: 'Locked',
-  },
-  {
-    key: '3',
-    user: { name: 'Sarah Connor', avatar: 'https://i.pravatar.cc/150?img=3' },
-    email: 'sarah.c@example.com',
-    gender: 'Female',
-    bmi: 21.0,
-    status: 'Active',
-  },
-];
+const { Title, Text } = Typography;
 
 const UserManagement: React.FC = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [users, setUsers] = useState<AdminUserSummary[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<AdminUserSummary[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'locked'>('all');
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const data = await adminUserService.getAllUsers();
+      setUsers(data);
+    } catch (err: any) {
+      message.error(err.message || 'Failed to fetch users');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    let filtered = [...users];
+    
+    // Status Filter
+    if (statusFilter === 'active') {
+      filtered = filtered.filter(u => u.status === 'ACTIVE');
+    } else if (statusFilter === 'locked') {
+      filtered = filtered.filter(u => u.status === 'LOCK');
+    }
+
+    // Search Text Filter
+    if (searchText.trim() !== '') {
+      const query = searchText.toLowerCase();
+      filtered = filtered.filter(u => 
+        u.name.toLowerCase().includes(query) || 
+        u.email.toLowerCase().includes(query)
+      );
+    }
+
+    setFilteredUsers(filtered);
+  }, [users, searchText, statusFilter]);
+
+  const handleToggleStatus = async (userId: number, currentStatus: 'ACTIVE' | 'LOCK') => {
+    const action = currentStatus === 'ACTIVE' ? 'LOCK' : 'UNLOCK';
+    try {
+      await adminUserService.updateUserStatus(userId, action);
+      message.success(`User status updated to ${action === 'LOCK' ? 'LOCKED' : 'ACTIVE'} successfully!`);
+      fetchUsers();
+    } catch (err: any) {
+      message.error(err.message || 'Failed to update user status');
+    }
+  };
 
   const columns = [
     {
       title: 'USER',
-      dataIndex: 'user',
-      key: 'user',
-      render: (user: any) => (
+      key: 'name',
+      render: (record: AdminUserSummary) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src={user.avatar} alt={user.name} style={{ width: 32, height: 32, borderRadius: '50%', marginRight: 12 }} />
-          <span>{user.name}</span>
+          <Avatar 
+            src={`https://i.pravatar.cc/150?img=${(record.id % 70) + 1}`} 
+            alt={record.name} 
+            style={{ marginRight: 12 }} 
+          />
+          <span style={{ fontWeight: 500 }}>{record.name}</span>
         </div>
       ),
     },
@@ -62,25 +84,23 @@ const UserManagement: React.FC = () => {
       key: 'email',
     },
     {
-      title: 'GENDER',
-      dataIndex: 'gender',
-      key: 'gender',
-    },
-    {
-      title: 'BMI',
-      dataIndex: 'bmi',
-      key: 'bmi',
+      title: 'GOAL TYPE',
+      dataIndex: 'goalType',
+      key: 'goalType',
+      render: (goalType: string) => goalType ? <Tag color="purple">{goalType}</Tag> : <Text type="secondary">-</Text>,
     },
     {
       title: 'STATUS',
       key: 'status',
       dataIndex: 'status',
-      render: (status: string) => {
-        const color = status === 'Active' ? 'success' : 'error';
+      render: (status: 'ACTIVE' | 'LOCK') => {
+        const isActive = status === 'ACTIVE';
+        const color = isActive ? 'success' : 'error';
+        const label = isActive ? 'Active' : 'Locked';
         return (
-          <Tag color={color} style={{ borderRadius: '12px', padding: '2px 10px', border: 'none', backgroundColor: status === 'Active' ? '#e6f4ea' : '#fce8e6', color: status === 'Active' ? '#1e8e3e' : '#d93025' }}>
-            <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', backgroundColor: status === 'Active' ? '#1e8e3e' : '#d93025', marginRight: 6 }}></span>
-            {status}
+          <Tag color={color} style={{ borderRadius: '12px', padding: '2px 10px', border: 'none', backgroundColor: isActive ? '#e6f4ea' : '#fce8e6', color: isActive ? '#1e8e3e' : '#d93025' }}>
+            <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', backgroundColor: isActive ? '#1e8e3e' : '#d93025', marginRight: 6 }}></span>
+            {label}
           </Tag>
         );
       },
@@ -88,8 +108,12 @@ const UserManagement: React.FC = () => {
     {
       title: 'ACTIONS',
       key: 'actions',
-      render: (_: any, record: DataType) => (
-        <Switch defaultChecked={record.status === 'Active'} style={{ backgroundColor: record.status === 'Active' ? '#4cd964' : '#d9d9d9' }} />
+      render: (_: any, record: AdminUserSummary) => (
+        <Switch 
+          checked={record.status === 'ACTIVE'} 
+          onChange={() => handleToggleStatus(record.id, record.status)}
+          style={{ backgroundColor: record.status === 'ACTIVE' ? '#4cd964' : '#d9d9d9' }} 
+        />
       ),
     },
   ];
@@ -102,11 +126,17 @@ const UserManagement: React.FC = () => {
         <Input 
           prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />} 
           placeholder="Search by Email/Name..." 
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
           style={{ width: 300, borderRadius: '6px' }} 
         />
         
         <Space>
-          <Radio.Group defaultValue="all" buttonStyle="solid">
+          <Radio.Group 
+            value={statusFilter} 
+            onChange={(e) => setStatusFilter(e.target.value)} 
+            buttonStyle="solid"
+          >
             <Radio.Button value="all">All</Radio.Button>
             <Radio.Button value="active">Active</Radio.Button>
             <Radio.Button value="locked">Locked</Radio.Button>
@@ -120,8 +150,10 @@ const UserManagement: React.FC = () => {
 
       <Table 
         columns={columns} 
-        dataSource={data} 
-        pagination={false} 
+        dataSource={filteredUsers} 
+        rowKey="id"
+        loading={loading}
+        pagination={{ pageSize: 10 }}
         style={{ border: '1px solid #f0f0f0', borderRadius: '8px' }}
       />
 
@@ -129,10 +161,11 @@ const UserManagement: React.FC = () => {
         <CreateUserModal 
           visible={isModalVisible} 
           onClose={() => setIsModalVisible(false)} 
+          onSuccess={fetchUsers}
         />
       )}
     </div>
   );
 };
 
-export default UserManagement;
+export default UserManagement;

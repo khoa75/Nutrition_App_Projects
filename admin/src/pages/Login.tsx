@@ -1,17 +1,27 @@
-import React from 'react';
-import { Form, Input, Button, Card, Typography } from 'antd';
+import React, { useState } from 'react';
+import { Form, Input, Button, Card, Typography, message } from 'antd';
 import { LockOutlined, MailOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const { Title, Text } = Typography;
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const { login, isLoading } = useAuth();
+  const [submitting, setSubmitting] = useState(false);
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-    // Dummy login success
-    navigate('/users');
+  const onFinish = async (values: any) => {
+    setSubmitting(true);
+    try {
+      await login({ email: values.email, password: values.password });
+      message.success('Signed in successfully!');
+      navigate('/users');
+    } catch (error: any) {
+      message.error(error.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -48,7 +58,7 @@ const Login: React.FC = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block size="large" style={{ backgroundColor: '#4c3984', borderColor: '#4c3984', marginTop: '10px' }}>
+            <Button type="primary" htmlType="submit" block size="large" loading={submitting || isLoading} style={{ backgroundColor: '#4c3984', borderColor: '#4c3984', marginTop: '10px' }}>
               Sign In
             </Button>
           </Form.Item>
@@ -59,3 +69,4 @@ const Login: React.FC = () => {
 };
 
 export default Login;
+
