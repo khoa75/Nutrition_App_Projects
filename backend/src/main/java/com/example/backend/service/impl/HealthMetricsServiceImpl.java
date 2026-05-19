@@ -36,8 +36,7 @@ public class HealthMetricsServiceImpl implements HealthMetricsService {
         if (bmi.compareTo(new BigDecimal("18.50")) < 0) return BmiStatusEnum.UNDERWEIGHT;
         if (bmi.compareTo(new BigDecimal("25.00")) < 0) return BmiStatusEnum.NORMAL;
         if (bmi.compareTo(new BigDecimal("30.00")) < 0) return BmiStatusEnum.OVERWEIGHT;
-        if (bmi.compareTo(new BigDecimal("35.00")) < 0) return BmiStatusEnum.OBESITY_LEVEL_1;
-        return BmiStatusEnum.OBESITY_LEVEL_2;
+        return BmiStatusEnum.OBESITY_LEVEL_1;
     }
 
     @Override
@@ -67,13 +66,13 @@ public class HealthMetricsServiceImpl implements HealthMetricsService {
 
         BigDecimal activityFactor = switch (activityLevel) {
             case SEDENTARY -> BigDecimal.valueOf(1.2);
-            case LIGHT_ACTIVE -> BigDecimal.valueOf(1.375);
-            case ACTIVE -> BigDecimal.valueOf(1.725);
-            case VERY_ACTIVE -> BigDecimal.valueOf(1.9);
+            case LIGHT_ACTIVE -> BigDecimal.valueOf(1.55);
+            case ACTIVE, VERY_ACTIVE -> BigDecimal.valueOf(1.725);
         };
 
         BigDecimal tdee = bmr.multiply(activityFactor);
-        BigDecimal adjustment = kgPerWeek.multiply(BigDecimal.valueOf(7700)).divide(BigDecimal.valueOf(7), 2, RoundingMode.HALF_UP);
+        BigDecimal calculatedDelta = kgPerWeek.multiply(BigDecimal.valueOf(7700)).divide(BigDecimal.valueOf(7), 2, RoundingMode.HALF_UP);
+        BigDecimal adjustment = calculatedDelta.max(BigDecimal.valueOf(300)).min(BigDecimal.valueOf(500));
 
         BigDecimal goalCalories = switch (goalType) {
             case MAINTAIN -> tdee;

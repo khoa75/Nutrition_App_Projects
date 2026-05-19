@@ -52,7 +52,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         return updateAndRecalculateProfile(email, request);
     }
 
-    private UserProfileResponse updateAndRecalculateProfile(String email, GoalCaloriesRequest request) {
+private UserProfileResponse updateAndRecalculateProfile(String email, GoalCaloriesRequest request) {
         Users user = usersRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         logger.info("Updating goal calories for userId={} email={}", user.getId(), user.getEmail());
@@ -103,7 +103,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         usersRepository.save(user);
 
-        dailyCaloriePlanService.generatePlanForUser(user, LocalDate.now(), 30);
+        LocalDate planStartDate = LocalDate.now().withDayOfMonth(1);
+        LocalDate planEndExclusive = planStartDate.plusMonths(3);
+        int totalPlanDays = (int) ChronoUnit.DAYS.between(planStartDate, planEndExclusive);
+        dailyCaloriePlanService.generatePlanForUser(user, planStartDate, totalPlanDays);
 
         return toResponse(user);
     }

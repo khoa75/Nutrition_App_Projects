@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,7 +22,9 @@ public interface LogsRepository extends JpaRepository<Logs, Long>, JpaSpecificat
     Optional<Logs> findByIdAndUserEmail(Long id, String email);
 
     List<Logs> findByUserIdAndLoggedAtBetweenOrderByLoggedAtDesc(Long userId, LocalDateTime start, LocalDateTime end);
-  
+
+    Page<Logs> findByUserIdAndLoggedAtBetweenOrderByLoggedAtDesc(Long userId, LocalDateTime start, LocalDateTime end, Pageable pageable);
+
     @Query("SELECT l FROM Logs l WHERE l.user.id = :userId AND l.loggedAt BETWEEN :start AND :end")
     List<Logs> findByUserIdAndLoggedAtBetween(
             @Param("userId") Long userId,

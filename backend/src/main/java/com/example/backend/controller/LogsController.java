@@ -8,6 +8,7 @@ import com.example.backend.dto.response.ApiResponse;
 import com.example.backend.dto.response.DailyCaloriesSummaryResponse;
 import com.example.backend.dto.response.LogNutritionPreviewResponse;
 import com.example.backend.dto.response.LogResponse;
+import com.example.backend.dto.response.PageResponse;
 import com.example.backend.enums.ErrorCode;
 import com.example.backend.exception.AppException;
 import com.example.backend.service.LogService;
@@ -83,6 +84,20 @@ public class LogsController {
         logService.deleteLog(requireEmail(principal), logId);
         return ApiResponse.<Void>builder()
                 .message("Delete log success")
+                .build();
+    }
+
+    @GetMapping
+    public ApiResponse<PageResponse<LogResponse>> getLogs(
+            @RequestParam Long userId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        PageResponse<LogResponse> response = logService.getLogs(userId, from, to, page, size);
+        return ApiResponse.<PageResponse<LogResponse>>builder()
+                .message("Get logs success")
+                .data(response)
                 .build();
     }
 

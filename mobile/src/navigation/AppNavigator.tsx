@@ -4,6 +4,8 @@ import type { RootStackParamList } from '../types/navigation';
 import { useAuthStore } from '../store/authStore';
 import AuthNavigator from './AuthNavigator';
 import MainTabNavigator from './MainTabNavigator';
+import EditProfileScreen from '../screens/EditProfileScreen';
+import AdjustGoalsScreen from '../screens/AdjustGoalsScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -13,7 +15,11 @@ const AppNavigator: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {isAuthenticated ? (
-        <Stack.Screen name="Main" component={MainTabNavigator} />
+        <>
+          <Stack.Screen name="Main" component={MainTabNavigator} />
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+          <Stack.Screen name="AdjustGoals" component={AdjustGoalsScreen} />
+        </>
       ) : (
         <Stack.Screen
           name="Auth"

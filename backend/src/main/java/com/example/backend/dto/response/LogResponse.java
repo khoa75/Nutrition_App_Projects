@@ -16,6 +16,10 @@ public class LogResponse {
     private Long foodId;
     private String foodName;
     private BigDecimal gram;
+    private BigDecimal caloriesPer100g;
+    private BigDecimal protein;
+    private BigDecimal carbs;
+    private BigDecimal fats;
     private BigDecimal totalCalories;
     private Integer goalCalories;
     private BigDecimal remainingCalories;

@@ -7,7 +7,6 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
@@ -15,7 +14,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { AuthStackParamList } from '../../types/navigation';
-import { useAuthStore } from '../../store/authStore';
 import { Colors } from '../../theme/colors';
 import Logo from '../../components/ui/Logo';
 import AppInput from '../../components/ui/AppInput';
@@ -25,6 +23,7 @@ const registerSchema = z
   .object({
     name: z.string().min(2, 'Name must be at least 2 characters'),
     email: z.string().min(1, 'Email is required').email('Invalid email address'),
+    phone: z.string().min(8, 'Phone number must be at least 8 digits'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: z.string().min(1, 'Please confirm your password'),
   })
@@ -40,32 +39,24 @@ interface Props {
 }
 
 const RegisterScreen: React.FC<Props> = ({ navigation }) => {
-  const { register, isLoading } = useAuthStore();
-
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
-    defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
+    defaultValues: { name: '', email: '', phone: '', password: '', confirmPassword: '' },
   });
 
-  const onSubmit = async (data: RegisterForm) => {
-    try {
-      await register({
+  const onSubmit = (data: RegisterForm) => {
+    navigation.navigate('RegisterProfile', {
+      registrationData: {
         name: data.name,
         email: data.email,
+        phone: data.phone,
         password: data.password,
-      });
-      Alert.alert('Success', 'Account created! Please log in.', [
-        { text: 'OK', onPress: () => navigation.navigate('Login') },
-      ]);
-    } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : 'Registration failed';
-      Alert.alert('Registration Failed', message);
-    }
+      },
+    });
   };
 
   return (
@@ -126,6 +117,23 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
 
             <Controller
               control={control}
+              name="phone"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <AppInput
+                  label="Phone Number"
+                  placeholder="+84901234567"
+                  value={value}
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  keyboardType="phone-pad"
+                  autoComplete="tel"
+                  error={errors.phone?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
               name="password"
               render={({ field: { onChange, onBlur, value } }) => (
                 <AppInput
@@ -161,9 +169,8 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
 
           {/* Button */}
           <AppButton
-            title="Create Account"
+            title="Next"
             onPress={handleSubmit(onSubmit)}
-            loading={isLoading}
             style={styles.button}
           />
 

@@ -1,6 +1,14 @@
 export type AuthStackParamList = {
   Login: undefined;
   Register: undefined;
+  RegisterProfile: {
+    registrationData: {
+      name: string;
+      email: string;
+      phone: string;
+      password: string;
+    };
+  };
 };
 
 export type MainTabParamList = {
@@ -14,4 +22,6 @@ export type MainTabParamList = {
 export type RootStackParamList = {
   Auth: undefined;
   Main: undefined;
+  EditProfile: undefined;
+  AdjustGoals: undefined;
 };
