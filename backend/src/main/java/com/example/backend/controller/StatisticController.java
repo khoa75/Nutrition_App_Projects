@@ -1,5 +1,6 @@
 package com.example.backend.controller;
 
+import com.example.backend.dto.response.MonthlyStatisticsResponse;
 import com.example.backend.dto.response.WeeklyStatisticsResponse;
 import com.example.backend.service.impl.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,13 @@ public class StatisticController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/monthly")
+    public ResponseEntity<MonthlyStatisticsResponse> getMonthlyStatistics(
+            @RequestParam("userId") Long userId,
+            @RequestParam("year") int year,
+            @RequestParam("month") int month) {
 
+        MonthlyStatisticsResponse response = statisticsService.getMonthlyStatistics(userId, year, month);
+        return ResponseEntity.ok(response);
+    }
 }
