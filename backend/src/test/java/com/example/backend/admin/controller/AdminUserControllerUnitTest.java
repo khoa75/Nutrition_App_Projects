@@ -2,8 +2,10 @@ package com.example.backend.admin.controller;
 
 import com.example.backend.admin.dto.request.AdminUpdateUserStatusRequest;
 import com.example.backend.admin.dto.response.AdminUserStatusUpdateResponse;
+import com.example.backend.admin.dto.response.AdminUserSummaryResponse;
 import com.example.backend.admin.service.AdminUserService;
 import com.example.backend.dto.response.ApiResponse;
+import com.example.backend.dto.response.FoodResponse;
 import com.example.backend.enums.UserStatus;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -16,6 +18,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +37,39 @@ class AdminUserControllerUnitTest {
         assertTrue(response.isSuccess());
         assertEquals("Get admin users successfully", response.getMessage());
         assertEquals(0, response.getData().getTotalElements());
+    }
+
+    @Test
+    void getAllUsers_ShouldWrapApiResponse() {
+        AdminUserService service = Mockito.mock(AdminUserService.class);
+        AdminUserController controller = new AdminUserController(service);
+
+        AdminUserSummaryResponse user = new AdminUserSummaryResponse();
+        user.setId(1L);
+        user.setEmail("u@test.com");
+        when(service.getAllUsers()).thenReturn(List.of(user));
+
+        ApiResponse<List<AdminUserSummaryResponse>> response = controller.getAllUsers();
+
+        assertTrue(response.isSuccess());
+        assertEquals("Get all users successfully", response.getMessage());
+        assertEquals(1, response.getData().size());
+    }
+
+    @Test
+    void getAllFoods_ShouldWrapApiResponse() {
+        AdminUserService service = Mockito.mock(AdminUserService.class);
+        AdminUserController controller = new AdminUserController(service);
+
+        FoodResponse food = FoodResponse.builder().id(1L).name("Rice").build();
+        when(service.getAllFoods()).thenReturn(List.of(food));
+
+        ApiResponse<List<FoodResponse>> response = controller.getAllFoods();
+
+        assertTrue(response.isSuccess());
+        assertEquals("Get all foods successfully", response.getMessage());
+        assertNotNull(response.getData());
+        assertEquals(1, response.getData().size());
     }
 
     @Test

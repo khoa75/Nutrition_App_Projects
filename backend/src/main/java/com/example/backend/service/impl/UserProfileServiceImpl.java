@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class UserProfileServiceImpl implements UserProfileService {
@@ -103,7 +104,10 @@ public class UserProfileServiceImpl implements UserProfileService {
 
         usersRepository.save(user);
 
-        dailyCaloriePlanService.generatePlanForUser(user, LocalDate.now(), 30);
+        LocalDate planStartDate = LocalDate.now().withDayOfMonth(1);
+        LocalDate planEndExclusive = planStartDate.plusMonths(3);
+        int totalPlanDays = (int) ChronoUnit.DAYS.between(planStartDate, planEndExclusive);
+        dailyCaloriePlanService.generatePlanForUser(user, planStartDate, totalPlanDays);
 
         return toResponse(user);
     }

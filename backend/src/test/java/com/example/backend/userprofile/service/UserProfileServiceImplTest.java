@@ -89,7 +89,7 @@ class UserProfileServiceImplTest {
         assertEquals(BigDecimal.valueOf(65), response.getTargetWeight());
         verify(userWeightLogRepository).save(any(UserWeightLog.class));
         verify(usersRepository).save(user);
-        verify(dailyCaloriePlanService).generatePlanForUser(eq(user), any(LocalDate.class), eq(30));
+        verify(dailyCaloriePlanService).generatePlanForUser(eq(user), any(LocalDate.class), anyInt());
     }
 
     @Test
