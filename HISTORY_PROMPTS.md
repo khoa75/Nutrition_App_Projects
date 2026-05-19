@@ -74,5 +74,11 @@ This file tracks the prompts provided by the user during the development of the 
 | 2026-05-19 15:10 | hãy thực hiện theo kế hoạch
 | 2026-05-19 15:20 | sao ko dc [Image 1]
 | 2026-05-19 15:30 | [Image 1] [Image 2] ko dc
+| 2026-05-20 02:31 | Vào đọc giao diện của folder admin, Tôi muốn nó gọi các api của http://localhost:8080/api/admin/users/foods để lấy toàn bộ food, http://localhost:8080/api/admin/users/all để lấy toàn bộ user |
+| 2026-05-20 02:35 | Đồng ý, Api get all foods sẽ response về... còn api get all users... |
+| 2026-05-20 02:41 | mình truy cập vào giao diện như thế nào |
+| 2026-05-20 02:42 | bạn chạy cái frontend giúp tôi |
+| 2026-05-20 02:49 | Bổ sung thêm api thêm food và api update food |
+| 2026-05-20 02:58 | Bỏ giúp tôi cái button delete ở food |
 
 

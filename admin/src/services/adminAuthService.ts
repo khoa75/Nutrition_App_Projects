@@ -30,11 +30,11 @@ export interface ApiResponse<T> {
 }
 
 export class AdminAuthService {
-  private apiClient: AxiosInstance;
+  public apiClient: AxiosInstance;
 
   constructor() {
     this.apiClient = axios.create({
-      baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api/v1',
+      baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8080/api',
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json',
@@ -92,14 +92,43 @@ export class AdminAuthService {
   // Authentication Methods
   async login(credentials: LoginRequest): Promise<LoginResponse> {
     try {
-      const response = await this.apiClient.post<ApiResponse<LoginResponse>>('/auth/admin/login', credentials);
+      const response = await this.apiClient.post<ApiResponse<any>>('/auth/login', credentials);
+      const data = response.data.data;
+      const accessToken = data.jwtToken || data.accessToken;
+      const refreshToken = data.refreshToken;
       
-      if (response.data.data.accessToken && response.data.data.refreshToken) {
-        this.setAuthToken(response.data.data.accessToken);
-        this.setRefreshToken(response.data.data.refreshToken);
+      if (accessToken) {
+        this.setAuthToken(accessToken);
+        this.setEmail(credentials.email);
+      }
+      if (refreshToken) {
+        this.setRefreshToken(refreshToken);
       }
       
-      return response.data.data;
+      // Since the backend does not return user details on login, we fetch them
+      let user: AdminUser = {
+        id: 1,
+        name: 'System Admin',
+        email: credentials.email,
+        role: 'ADMIN',
+        status: 'ACTIVE',
+        createdAt: new Date().toISOString(),
+      };
+      
+      try {
+        const profile = await this.getCurrentUser();
+        if (profile) {
+          user = profile;
+        }
+      } catch (err) {
+        console.warn('Failed to fetch user profile immediately after login:', err);
+      }
+      
+      return {
+        accessToken: accessToken || '',
+        refreshToken: refreshToken || '',
+        user,
+      };
     } catch (error: any) {
       this.handleApiError(error, 'Login failed');
     }
@@ -107,10 +136,11 @@ export class AdminAuthService {
 
   async logout(): Promise<void> {
     try {
-      // Call logout endpoint
-      await this.apiClient.post('/auth/admin/logout');
+      const email = this.getEmail();
+      if (email) {
+        await this.apiClient.post('/auth/logout', { email });
+      }
     } catch (error) {
-      // Ignore errors during logout API call
       console.warn('Logout API call failed:', error);
     } finally {
       this.clearAuth();
@@ -135,9 +165,18 @@ export class AdminAuthService {
     return localStorage.getItem('admin_refresh_token');
   }
 
+  private getEmail(): string | null {
+    return localStorage.getItem('admin_email');
+  }
+
+  private setEmail(email: string): void {
+    localStorage.setItem('admin_email', email);
+  }
+
   private clearAuth(): void {
     localStorage.removeItem('admin_access_token');
     localStorage.removeItem('admin_refresh_token');
+    localStorage.removeItem('admin_email');
   }
 
   // Session Management
@@ -153,12 +192,9 @@ export class AdminAuthService {
 
   validateToken(token: string): boolean {
     try {
-      // Simple validation - check if token exists and is not empty
       if (!token || token.trim() === '') {
         return false;
       }
-      
-      // Additional validation can be added here (e.g., JWT decoding)
       return true;
     } catch (error) {
       return false;
@@ -168,8 +204,16 @@ export class AdminAuthService {
   // User Profile
   async getCurrentUser(): Promise<AdminUser> {
     try {
-      const response = await this.apiClient.get<ApiResponse<AdminUser>>('/admin/users/me');
-      return response.data.data;
+      const response = await this.apiClient.get<ApiResponse<any>>('/users/me');
+      const profile = response.data.data;
+      return {
+        id: profile.id || 1,
+        name: profile.name || 'System Admin',
+        email: profile.email || 'admin@nutrition.local',
+        role: 'ADMIN',
+        status: 'ACTIVE',
+        createdAt: new Date().toISOString(),
+      };
     } catch (error: any) {
       this.handleApiError(error, 'Failed to get user profile');
     }
@@ -179,7 +223,7 @@ export class AdminAuthService {
   async refreshToken(refreshToken: string): Promise<{ accessToken: string; refreshToken: string }> {
     try {
       const response = await this.apiClient.post<ApiResponse<{ accessToken: string; refreshToken: string }>>(
-        '/auth/admin/refresh',
+        '/auth/refresh',
         { refreshToken }
       );
       return response.data.data;
@@ -191,9 +235,7 @@ export class AdminAuthService {
   // Error Handling
   private handleApiError(error: any, defaultMessage: string): never {
     if (error.response) {
-      // Server responded with error status
       const { status, data } = error.response;
-      
       switch (status) {
         case 400:
           throw new Error(data.message || 'Invalid request data');
@@ -213,10 +255,8 @@ export class AdminAuthService {
           throw new Error(data.message || defaultMessage);
       }
     } else if (error.request) {
-      // Request was made but no response received
       throw new Error('Network error. Please check your connection.');
     } else {
-      // Something else happened
       throw new Error(defaultMessage);
     }
   }
@@ -225,12 +265,12 @@ export class AdminAuthService {
   async clearUserData(): Promise<void> {
     try {
       await this.logout();
-      // Add any other user data cleanup here
     } catch (error) {
       console.error('Error clearing user data:', error);
       throw error;
     }
   }
+
 
   // Password validation
   validatePassword(password: string): boolean {

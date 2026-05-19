@@ -5,6 +5,7 @@ import { ConfigProvider } from 'antd';
 import Login from './pages/Login';
 import DashboardLayout from './layouts/DashboardLayout';
 import UserManagement from './pages/UserManagement';
+import FoodManagement from './pages/FoodManagement';
 
 const App: React.FC = () => {
   return (
@@ -23,8 +24,7 @@ const App: React.FC = () => {
           <Route path="/" element={<DashboardLayout />}>
             <Route index element={<Navigate to="/users" replace />} />
             <Route path="users" element={<UserManagement />} />
-            {/* Add more routes here later, like /food */}
-            <Route path="food" element={<div style={{ padding: 24 }}>Food Management Content Goes Here</div>} />
+            <Route path="food" element={<FoodManagement />} />
           </Route>
           
           <Route path="*" element={<Navigate to="/login" replace />} />
@@ -33,5 +33,6 @@ const App: React.FC = () => {
     </ConfigProvider>
   );
 };
+
 
 export default App;
