@@ -5,4 +5,6 @@ import org.springframework.data.domain.Page;
 
 public interface FoodQueryService {
     Page<FoodResponse> searchFoods(String name, int page, int size);
+
+    FoodResponse getFoodDetail(Long foodId);
 }

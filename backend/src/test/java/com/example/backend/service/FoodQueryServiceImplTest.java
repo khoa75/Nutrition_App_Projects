@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.entity.Foods;
+import com.example.backend.exception.AppException;
 import com.example.backend.repository.FoodsRepository;
 import com.example.backend.service.impl.FoodQueryServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -14,8 +15,10 @@ import org.springframework.data.domain.PageRequest;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -70,5 +73,33 @@ class FoodQueryServiceImplTest {
         assertEquals(1, result.getTotalElements());
         assertEquals("Chicken Breast", result.getContent().get(0).getName());
         verify(foodsRepository).findAll(any(PageRequest.class));
+    }
+
+    @Test
+    void getFoodDetail_ShouldReturnFood_WhenFoodExists() {
+        Foods foods = Foods.builder()
+                .id(5L)
+                .name("Boiled Egg")
+                .protein(BigDecimal.valueOf(13.0))
+                .carbs(BigDecimal.valueOf(1.1))
+                .fats(BigDecimal.valueOf(11.0))
+                .caloriesPer100g(BigDecimal.valueOf(155.0))
+                .build();
+
+        when(foodsRepository.findById(5L)).thenReturn(Optional.of(foods));
+
+        var result = foodQueryService.getFoodDetail(5L);
+
+        assertEquals(5L, result.getId());
+        assertEquals("Boiled Egg", result.getName());
+        verify(foodsRepository).findById(5L);
+    }
+
+    @Test
+    void getFoodDetail_ShouldThrowAppException_WhenFoodNotFound() {
+        when(foodsRepository.findById(99L)).thenReturn(Optional.empty());
+
+        assertThrows(AppException.class, () -> foodQueryService.getFoodDetail(99L));
+        verify(foodsRepository).findById(99L);
     }
 }

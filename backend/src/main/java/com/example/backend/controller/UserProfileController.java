@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/users")
 public class UserProfileController {
 
     private final UserProfileService userProfileService;

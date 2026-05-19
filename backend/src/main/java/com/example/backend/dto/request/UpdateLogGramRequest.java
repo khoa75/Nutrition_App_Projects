@@ -5,24 +5,15 @@ import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateLogRequest {
-
-    @NotNull
-    private Long foodId;
+public class UpdateLogGramRequest {
 
     @NotNull
     @Positive
     private BigDecimal gram;
-
-    private LocalDateTime loggedAt;
-
-    private LocalDate logDate;
 }

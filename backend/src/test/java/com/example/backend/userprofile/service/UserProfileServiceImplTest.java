@@ -11,6 +11,7 @@ import com.example.backend.exception.AppException;
 import com.example.backend.repository.UsersRepository;
 import com.example.backend.entity.UserWeightLog;
 import com.example.backend.repository.UserWeightLogRepository;
+import com.example.backend.service.DailyCaloriePlanService;
 import com.example.backend.service.impl.UserProfileServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,8 @@ class UserProfileServiceImplTest {
     private UserWeightLogRepository userWeightLogRepository;
     @Mock
     private com.example.backend.service.HealthMetricsService healthMetricsService;
+    @Mock
+    private DailyCaloriePlanService dailyCaloriePlanService;
 
     @InjectMocks
     private UserProfileServiceImpl userProfileService;
@@ -84,6 +87,7 @@ class UserProfileServiceImplTest {
         assertEquals(BigDecimal.valueOf(65), response.getTargetWeight());
         verify(userWeightLogRepository).save(any(UserWeightLog.class));
         verify(usersRepository).save(user);
+        verify(dailyCaloriePlanService).generatePlanForUser(eq(user), any(LocalDate.class), eq(30));
     }
 
     @Test

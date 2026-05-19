@@ -2,6 +2,8 @@ package com.example.backend.service.impl;
 
 import com.example.backend.dto.response.FoodResponse;
 import com.example.backend.entity.Foods;
+import com.example.backend.enums.ErrorCode;
+import com.example.backend.exception.AppException;
 import com.example.backend.repository.FoodsRepository;
 import com.example.backend.service.FoodQueryService;
 import org.springframework.cache.annotation.Cacheable;
@@ -28,6 +30,15 @@ public class FoodQueryServiceImpl implements FoodQueryService {
                 : foodsRepository.findByNameContainingIgnoreCase(name.trim(), pageRequest);
 
         return foodsPage.map(this::toResponse);
+    }
+
+    @Override
+    @Cacheable(cacheNames = "foodDetail", key = "#foodId")
+    public FoodResponse getFoodDetail(Long foodId) {
+        Foods foods = foodsRepository.findById(foodId)
+                .orElseThrow(() -> new AppException(ErrorCode.FOOD_NOT_FOUND));
+
+        return toResponse(foods);
     }
 
     private FoodResponse toResponse(Foods foods) {

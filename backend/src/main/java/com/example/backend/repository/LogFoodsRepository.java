@@ -5,6 +5,10 @@ import com.example.backend.entity.LogFoodsId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface LogFoodsRepository extends JpaRepository<LogFoods, LogFoodsId>, JpaSpecificationExecutor<LogFoods> {
+import java.util.Optional;
 
+public interface LogFoodsRepository extends JpaRepository<LogFoods, LogFoodsId>, JpaSpecificationExecutor<LogFoods> {
+    Optional<LogFoods> findFirstByLogs_Id(Long logsId);
+
+    void deleteByLogs_Id(Long logsId);
 }

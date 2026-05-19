@@ -30,7 +30,7 @@ public class FoodCommandServiceImpl implements FoodCommandService {
 
     @Override
     @Transactional
-    @CacheEvict(cacheNames = "foodSearch", allEntries = true)
+    @CacheEvict(cacheNames = {"foodSearch", "foodDetail"}, allEntries = true)
     public FoodResponse createFood(CreateFoodRequest request) {
         Users user = null;
         if (request.getUserId() != null) {
@@ -49,6 +49,31 @@ public class FoodCommandServiceImpl implements FoodCommandService {
 
         Foods saved = foodsRepository.save(foods);
         logger.info("Created food id={} name={} userId={}", saved.getId(), saved.getName(), user != null ? user.getId() : null);
+        return toResponse(saved);
+    }
+
+    @Override
+    @Transactional
+    @CacheEvict(cacheNames = {"foodSearch", "foodDetail"}, allEntries = true)
+    public FoodResponse updateFood(Long foodId, CreateFoodRequest request) {
+        Foods foods = foodsRepository.findById(foodId)
+                .orElseThrow(() -> new AppException(ErrorCode.FOOD_NOT_FOUND));
+
+        Users user = null;
+        if (request.getUserId() != null) {
+            user = usersRepository.findById(request.getUserId())
+                    .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
+        }
+
+        foods.setName(request.getName().trim());
+        foods.setProtein(request.getProtein());
+        foods.setCarbs(request.getCarbs());
+        foods.setFats(request.getFats());
+        foods.setCaloriesPer100g(request.getCaloriesPer100g());
+        foods.setUser(user);
+
+        Foods saved = foodsRepository.save(foods);
+        logger.info("Updated food id={} name={} userId={}", saved.getId(), saved.getName(), user != null ? user.getId() : null);
         return toResponse(saved);
     }
 

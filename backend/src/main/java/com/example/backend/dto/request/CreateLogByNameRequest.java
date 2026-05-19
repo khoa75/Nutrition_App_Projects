@@ -1,5 +1,6 @@
 package com.example.backend.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.*;
@@ -13,10 +14,10 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateLogRequest {
+public class CreateLogByNameRequest {
 
-    @NotNull
-    private Long foodId;
+    @NotBlank(message = "foodName must not be blank")
+    private String foodName;
 
     @NotNull
     @Positive
