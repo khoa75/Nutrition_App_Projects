@@ -32,6 +32,7 @@ class HealthMetricsServiceImplTest {
         assertEquals(BmiStatusEnum.NORMAL, healthMetricsService.classifyBmi(new BigDecimal("18.50")));
         assertEquals(BmiStatusEnum.OVERWEIGHT, healthMetricsService.classifyBmi(new BigDecimal("25.00")));
         assertEquals(BmiStatusEnum.OBESITY_LEVEL_1, healthMetricsService.classifyBmi(new BigDecimal("30.00")));
+        assertEquals(BmiStatusEnum.OBESITY_LEVEL_1, healthMetricsService.classifyBmi(new BigDecimal("40.00")));
     }
 
     @Test
@@ -44,8 +45,16 @@ class HealthMetricsServiceImplTest {
                 BigDecimal.valueOf(70), BigDecimal.valueOf(175), 30, "MALE", ActivityLevelEnum.ACTIVE, WeightGoal.GAIN, BigDecimal.valueOf(0.5));
 
         assertEquals(new BigDecimal("2844.09"), maintain);
-        assertEquals(new BigDecimal("2294.09"), lose);
-        assertEquals(new BigDecimal("3394.09"), gain);
+        assertEquals(new BigDecimal("2344.09"), lose);
+        assertEquals(new BigDecimal("3344.09"), gain);
+    }
+
+    @Test
+    void calculateGoalCalories_ShouldUseBusinessActivityFactorForLightActive() {
+        BigDecimal maintain = healthMetricsService.calculateGoalCalories(
+                BigDecimal.valueOf(70), BigDecimal.valueOf(175), 30, "MALE", ActivityLevelEnum.LIGHT_ACTIVE, WeightGoal.MAINTAIN, BigDecimal.ZERO);
+
+        assertEquals(new BigDecimal("2555.56"), maintain);
     }
 
     @Test
