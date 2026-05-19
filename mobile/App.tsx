@@ -1,9 +1,10 @@
+import 'react-native-url-polyfill/auto';
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { PaperProvider } from 'react-native-paper';
-import { useAuth, useIsAuthenticated } from './src/contexts/AuthContext';
-import { SplashScreen } from './src/components/SplashScreen';
+import { AuthProvider, useAuth } from './src/contexts/AuthContext';
+import SplashScreen from './src/components/SplashScreen';
 import LoginScreen from './src/components/LoginScreen';
 import RegisterScreen from './src/components/RegisterScreen';
 import MainTabNavigator from './src/navigation/MainTabNavigator';
@@ -36,7 +37,7 @@ const AuthNavigator = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
   );
 };
 
-const App = () => {
+const MainApp = () => {
   const { isLoading, isAuthenticated } = useAuth();
   const [isAuthenticatedState, setIsAuthenticatedState] = useState(false);
 
@@ -55,13 +56,21 @@ const App = () => {
           {isAuthenticated && isAuthenticatedState ? (
             <Stack.Screen name="Main" component={MainTabNavigator} />
           ) : (
-            <Stack.Screen name="Auth">
+            <Stack.Screen name="AuthStack">
               {() => <AuthNavigator onLoginSuccess={handleLoginSuccess} />}
             </Stack.Screen>
           )}
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
+  );
+};
+
+const App = () => {
+  return (
+    <AuthProvider>
+      <MainApp />
+    </AuthProvider>
   );
 };
 

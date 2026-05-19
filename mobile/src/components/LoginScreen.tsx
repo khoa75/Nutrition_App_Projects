@@ -13,7 +13,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { authService, LoginRequest } from '../services/authService';
-import { useAuthStore } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -24,11 +24,13 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 interface LoginScreenProps {
   onLoginSuccess: () => void;
+  onSwitchToRegister: () => void;
 }
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
+const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess, onSwitchToRegister }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const { login } = useAuthStore();
+  const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
   
   const {
     control,
@@ -45,8 +47,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     try {
-      const authResponse = await authService.login(data);
-      await login(authResponse);
+      await login(data);
       onLoginSuccess();
     } catch (error: any) {
       Alert.alert('Login Failed', error.message || 'Invalid email or password');
@@ -56,7 +57,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       <View style={styles.content}>
         <View style={styles.header}>
           <Text style={styles.title}>Welcome Back!</Text>
@@ -97,15 +98,13 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
                 onChangeText={onChange}
                 mode="outlined"
                 style={styles.input}
-                secureTextEntry
+                secureTextEntry={!showPassword}
                 error={!!errors.password}
                 left={<TextInput.Icon icon="lock" />}
                 right={
                   <TextInput.Icon
-                    icon="eye"
-                    onPress={() => {
-                      // Toggle password visibility would go here
-                    }}
+                    icon={showPassword ? "eye-off" : "eye"}
+                    onPress={() => setShowPassword(!showPassword)}
                   />
                 }
               />
@@ -123,7 +122,9 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
 
           <Button
             mode="contained"
-            onPress={handleSubmit(onSubmit)}
+            onPress={handleSubmit(onSubmit, (err) => {
+              Alert.alert('Validation Error', 'Please check your inputs and try again.');
+            })}
             style={styles.loginButton}
             disabled={isLoading}
             loading={isLoading}
@@ -151,7 +152,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
           <View style={styles.signup}>
             <Text style={styles.signupText}>
               Don't have an account?{' '}
-              <TouchableOpacity onPress={() => {}}>
+              <TouchableOpacity onPress={onSwitchToRegister}>
                 <Text style={styles.signupLink}>Sign Up</Text>
               </TouchableOpacity>
             </Text>

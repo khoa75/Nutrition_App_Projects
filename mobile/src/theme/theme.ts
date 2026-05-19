@@ -1,9 +1,9 @@
-import { DefaultTheme, DarkTheme } from 'react-native-paper';
+import { MD3LightTheme, MD3DarkTheme } from 'react-native-paper';
 
 export const theme = {
-  ...DefaultTheme,
+  ...MD3LightTheme,
   colors: {
-    ...DefaultTheme.colors,
+    ...MD3LightTheme.colors,
     primary: '#2ED5C5', // Mint Green
     primaryContainer: '#E0F7FA',
     secondary: '#3B82F6', // Electric Blue
@@ -19,29 +19,16 @@ export const theme = {
     backdrop: 'rgba(0, 0, 0, 0.5)',
   },
   roundness: 8,
-  fonts: {
-    regular: {
-      fontFamily: 'Inter-Regular',
-      fontWeight: '400' as const,
-    },
-    medium: {
-      fontFamily: 'Inter-Medium',
-      fontWeight: '500' as const,
-    },
-    bold: {
-      fontFamily: 'Inter-Bold',
-      fontWeight: '700' as const,
-    },
-  },
+
   animation: {
     scale: 1.0,
   },
 };
 
 export const darkTheme = {
-  ...DarkTheme,
+  ...MD3DarkTheme,
   colors: {
-    ...DarkTheme.colors,
+    ...MD3DarkTheme.colors,
     primary: '#2ED5C5',
     primaryContainer: '#004D40',
     secondary: '#3B82F6',
@@ -57,20 +44,7 @@ export const darkTheme = {
     backdrop: 'rgba(0, 0, 0, 0.8)',
   },
   roundness: 8,
-  fonts: {
-    regular: {
-      fontFamily: 'Inter-Regular',
-      fontWeight: '400' as const,
-    },
-    medium: {
-      fontFamily: 'Inter-Medium',
-      fontWeight: '500' as const,
-    },
-    bold: {
-      fontFamily: 'Inter-Bold',
-      fontWeight: '700' as const,
-    },
-  },
+
   animation: {
     scale: 1.0,
   },

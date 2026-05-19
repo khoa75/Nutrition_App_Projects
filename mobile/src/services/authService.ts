@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import * as Keychain from 'react-native-keychain';
+import * as SecureStore from 'expo-secure-store';
 
 export interface AuthCredentials {
   email: string;
@@ -42,7 +42,7 @@ export class AuthStorageService {
   private readonly ACCESS_TOKEN_KEY = 'access_token';
   private readonly REFRESH_TOKEN_KEY = 'refresh_token';
 
-  constructor(keychain: any = Keychain, apiClient?: AxiosInstance) {
+  constructor(apiClient?: AxiosInstance) {
     this.apiClient = apiClient || axios.create({
       baseURL: 'http://localhost:8080/api/v1',
       timeout: 10000,
@@ -130,8 +130,8 @@ export class AuthStorageService {
   async logout(): Promise<void> {
     try {
       // Clear tokens from storage
-      await Keychain.resetGenericPassword({ service: this.ACCESS_TOKEN_KEY });
-      await Keychain.resetGenericPassword({ service: this.REFRESH_TOKEN_KEY });
+      await SecureStore.deleteItemAsync(this.ACCESS_TOKEN_KEY);
+      await SecureStore.deleteItemAsync(this.REFRESH_TOKEN_KEY);
       
       // Optionally call logout endpoint
       try {
@@ -149,8 +149,8 @@ export class AuthStorageService {
   // Token Management
   async storeTokens(tokens: Tokens): Promise<void> {
     try {
-      await Keychain.setGenericPassword(this.ACCESS_TOKEN_KEY, tokens.accessToken);
-      await Keychain.setGenericPassword(this.REFRESH_TOKEN_KEY, tokens.refreshToken);
+      await SecureStore.setItemAsync(this.ACCESS_TOKEN_KEY, tokens.accessToken);
+      await SecureStore.setItemAsync(this.REFRESH_TOKEN_KEY, tokens.refreshToken);
     } catch (error) {
       console.error('Error storing tokens:', error);
       throw new Error('Failed to store authentication tokens');
@@ -159,13 +159,13 @@ export class AuthStorageService {
 
   async getStoredTokens(): Promise<Tokens | null> {
     try {
-      const accessToken = await Keychain.getGenericPassword({ service: this.ACCESS_TOKEN_KEY });
-      const refreshToken = await Keychain.getGenericPassword({ service: this.REFRESH_TOKEN_KEY });
+      const accessToken = await SecureStore.getItemAsync(this.ACCESS_TOKEN_KEY);
+      const refreshToken = await SecureStore.getItemAsync(this.REFRESH_TOKEN_KEY);
       
       if (accessToken && refreshToken) {
         return {
-          accessToken: accessToken.password,
-          refreshToken: refreshToken.password
+          accessToken,
+          refreshToken
         };
       }
       

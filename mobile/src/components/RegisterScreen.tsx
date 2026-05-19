@@ -13,7 +13,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { authService, RegisterRequest } from '../services/authService';
-import { useAuthStore } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const registerSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -46,7 +46,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { register } = useAuthStore();
+  const { register } = useAuth();
   
   const {
     control,
@@ -73,8 +73,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({
         dob: data.dob,
       };
       
-      const user = await authService.register(registerData);
-      await register(user);
+      await register(registerData);
       onRegisterSuccess();
     } catch (error: any) {
       Alert.alert('Registration Failed', error.message || 'Failed to create account');
@@ -84,7 +83,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       <View style={styles.content}>
         <View style={styles.header}>
           <Text style={styles.title}>Create Account</Text>
@@ -217,7 +216,9 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({
 
           <Button
             mode="contained"
-            onPress={handleSubmit(onSubmit)}
+            onPress={handleSubmit(onSubmit, (err) => {
+              Alert.alert('Validation Error', 'Please check your inputs and try again.');
+            })}
             style={styles.registerButton}
             disabled={isLoading}
             loading={isLoading}
