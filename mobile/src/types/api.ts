@@ -24,7 +24,7 @@ export interface RegisterRequest {
   phone: string;
   password: string;
   dob: string;
-  gender: 'MALE' | 'FEMALE' | 'OTHER';
+  gender: 'MALE' | 'FEMALE';
   currentWeight: number;
   targetWeight: number;
   height: number;

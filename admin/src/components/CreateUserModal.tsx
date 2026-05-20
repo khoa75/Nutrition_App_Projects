@@ -23,7 +23,6 @@ const CreateUserModal: React.FC<CreateUserModalProps> = ({ visible, onClose, onS
         const formattedData = {
           name: values.fullname,
           email: values.email,
-          phone: values.phone || '',
           password: values.password,
           dob: values.birthdate ? dayjs(values.birthdate).format('YYYY-MM-DD') : '2000-01-01',
           gender: values.gender ? values.gender.charAt(0).toUpperCase() + values.gender.slice(1) : 'Male',
@@ -107,7 +106,7 @@ const CreateUserModal: React.FC<CreateUserModalProps> = ({ visible, onClose, onS
         </Row>
 
         <Row gutter={24}>
-          <Col span={12}>
+          <Col span={24}>
             <Form.Item
               name="password"
               label="Password"
@@ -118,15 +117,6 @@ const CreateUserModal: React.FC<CreateUserModalProps> = ({ visible, onClose, onS
                 size="large"
                 iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
               />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="phone"
-              label="Phone Number"
-              rules={[{ required: true, message: 'Please input phone number!' }]}
-            >
-              <Input placeholder="+84922345671" size="large" />
             </Form.Item>
           </Col>
         </Row>
@@ -141,7 +131,6 @@ const CreateUserModal: React.FC<CreateUserModalProps> = ({ visible, onClose, onS
               <Select placeholder="Select gender" size="large">
                 <Option value="male">Male</Option>
                 <Option value="female">Female</Option>
-                <Option value="other">Other</Option>
               </Select>
             </Form.Item>
           </Col>
@@ -194,11 +183,10 @@ const CreateUserModal: React.FC<CreateUserModalProps> = ({ visible, onClose, onS
               rules={[{ required: true, message: 'Please select activity level!' }]}
             >
               <Select size="large">
-                <Option value="sedentary">SEDENTARY</Option>
-                <Option value="lightly_active">LIGHTLY ACTIVE</Option>
-                <Option value="moderately_active">MODERATELY ACTIVE</Option>
-                <Option value="very_active">VERY ACTIVE</Option>
-                <Option value="super_active">SUPER ACTIVE</Option>
+                <Option value="SEDENTARY">SEDENTARY</Option>
+                <Option value="LIGHT_ACTIVE">LIGHT ACTIVE</Option>
+                <Option value="ACTIVE">ACTIVE</Option>
+                <Option value="VERY_ACTIVE">VERY ACTIVE</Option>
               </Select>
             </Form.Item>
           </Col>

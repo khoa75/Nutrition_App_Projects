@@ -14,7 +14,6 @@ interface Food {
   protein: number;
   carbs: number;
   fats: number;
-  status: string;
 }
 
 const FoodManagement: React.FC = () => {
@@ -40,7 +39,6 @@ const FoodManagement: React.FC = () => {
         protein: Number(f.protein),
         carbs: Number(f.carbs),
         fats: Number(f.fats),
-        status: 'Active',
       }));
       setFoods(mapped);
     } catch (err: any) {
@@ -56,9 +54,9 @@ const FoodManagement: React.FC = () => {
 
   useEffect(() => {
     let filtered = [...foods];
-    
+
     if (searchText.trim() !== '') {
-      filtered = filtered.filter(f => 
+      filtered = filtered.filter(f =>
         f.name.toLowerCase().includes(searchText.toLowerCase())
       );
     }
@@ -104,16 +102,6 @@ const FoodManagement: React.FC = () => {
           <Text>C: <Text strong style={{ color: '#1890ff' }}>{record.carbs}g</Text></Text>
           <Text>F: <Text strong style={{ color: '#fa8c16' }}>{record.fats}g</Text></Text>
         </Space>
-      ),
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status: string) => (
-        <Tag color={status === 'Active' ? 'green' : 'red'}>
-          {status}
-        </Tag>
       ),
     },
     {
@@ -323,4 +311,4 @@ const FoodManagement: React.FC = () => {
   );
 };
 
-export default FoodManagement;
+export default FoodManagement;

@@ -28,8 +28,7 @@ const FULL_MONTHS = [
 
 const GENDER_OPTIONS = [
   { label: 'Male', value: 'MALE' },
-  { label: 'Female', value: 'FEMALE' },
-  { label: 'Other', value: 'OTHER' },
+  { label: 'Female', value: 'FEMALE' }
 ];
 
 const ACTIVITY_OPTIONS = [
@@ -50,7 +49,7 @@ const EditProfileScreen: React.FC = () => {
   // Form fields state
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [gender, setGender] = useState<'MALE' | 'FEMALE' | 'OTHER'>('MALE');
+  const [gender, setGender] = useState<'MALE' | 'FEMALE'>('MALE');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
   const [targetWeight, setTargetWeight] = useState('');
@@ -76,7 +75,7 @@ const EditProfileScreen: React.FC = () => {
 
       setName(data.name || '');
       setEmail(data.email || '');
-      setGender((data.gender as 'MALE' | 'FEMALE' | 'OTHER') || 'MALE');
+      setGender((data.gender as 'MALE' | 'FEMALE') || 'MALE');
       setHeight(data.height ? String(data.height) : '');
       setWeight(data.currentWeight ? String(data.currentWeight) : '');
       setTargetWeight(data.targetWeight ? String(data.targetWeight) : '');
@@ -230,7 +229,7 @@ const EditProfileScreen: React.FC = () => {
       </View>
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        
+
         {/* Full Name */}
         <Text style={styles.label}>Full Name</Text>
         <TextInput
@@ -371,9 +370,9 @@ const EditProfileScreen: React.FC = () => {
 
       {/* --- GENDER SELECTOR MODAL --- */}
       <Modal visible={genderModalVisible} transparent animationType="fade">
-        <TouchableOpacity 
-          style={styles.modalOverlay} 
-          activeOpacity={1} 
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
           onPress={() => setGenderModalVisible(false)}
         >
           <View style={styles.modalContent}>
@@ -401,9 +400,9 @@ const EditProfileScreen: React.FC = () => {
 
       {/* --- ACTIVITY LEVEL SELECTOR MODAL --- */}
       <Modal visible={activityModalVisible} transparent animationType="fade">
-        <TouchableOpacity 
-          style={styles.modalOverlay} 
-          activeOpacity={1} 
+        <TouchableOpacity
+          style={styles.modalOverlay}
+          activeOpacity={1}
           onPress={() => setActivityModalVisible(false)}
         >
           <View style={styles.modalContent}>

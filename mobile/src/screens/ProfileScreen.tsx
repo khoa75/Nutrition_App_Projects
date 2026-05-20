@@ -39,7 +39,7 @@ const ProfileScreen: React.FC = () => {
 
   // --- Edit Personal Info Form State ---
   const [editName, setEditName] = useState('');
-  const [editGender, setEditGender] = useState<'MALE' | 'FEMALE' | 'OTHER'>('MALE');
+  const [editGender, setEditGender] = useState<'MALE' | 'FEMALE'>('MALE');
   const [editDob, setEditDob] = useState<string | null>(null); // YYYY-MM-DD
   const [editHeight, setEditHeight] = useState('');
   const [editWeight, setEditWeight] = useState('');
@@ -62,7 +62,7 @@ const ProfileScreen: React.FC = () => {
   const initializeForms = React.useCallback((data: UserProfileData) => {
     // Personal Info
     setEditName(data.name || '');
-    setEditGender((data.gender as 'MALE' | 'FEMALE' | 'OTHER') || 'MALE');
+    setEditGender((data.gender as 'MALE' | 'FEMALE') || 'MALE');
     setEditDob(data.dob);
     setEditHeight(data.height ? String(data.height) : '');
     setEditWeight(data.currentWeight ? String(data.currentWeight) : '');
@@ -355,7 +355,7 @@ const ProfileScreen: React.FC = () => {
 
               <Text style={styles.modalLabel}>GENDER</Text>
               <View style={styles.genderContainer}>
-                {(['MALE', 'FEMALE', 'OTHER'] as const).map((g) => (
+                {(['MALE', 'FEMALE'] as const).map((g) => (
                   <TouchableOpacity
                     key={g}
                     style={[

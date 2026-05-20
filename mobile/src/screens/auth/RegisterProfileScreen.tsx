@@ -38,7 +38,7 @@ const RegisterProfileScreen: React.FC<Props> = ({ route, navigation }) => {
   const { register, login } = useAuthStore();
 
   // Core profile fields for registration
-  const [gender, setGender] = useState<'MALE' | 'FEMALE' | 'OTHER'>('MALE');
+  const [gender, setGender] = useState<'MALE' | 'FEMALE'>('MALE');
   const [dob, setDob] = useState<string | null>(null); // YYYY-MM-DD
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
@@ -181,7 +181,7 @@ const RegisterProfileScreen: React.FC<Props> = ({ route, navigation }) => {
 
           <Text style={styles.fieldLabel}>GENDER</Text>
           <View style={styles.genderContainer}>
-            {(['MALE', 'FEMALE', 'OTHER'] as const).map((g) => (
+            {(['MALE', 'FEMALE'] as const).map((g) => (
               <TouchableOpacity
                 key={g}
                 style={[
