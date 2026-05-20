@@ -4,7 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 const ACCESS_TOKEN_KEY = 'vitality_access_token';
 
 export const apiClient = axios.create({
-  baseURL: 'http://192.168.71.242:8080/api/',
+  baseURL: 'http://10.115.135.170:8080/api/',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

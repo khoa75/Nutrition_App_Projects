@@ -52,9 +52,9 @@ const ProfileScreen: React.FC = () => {
 
   // --- Temporary Date Picker State ---
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [tempDay, setTempDay] = useState(20);
+  const [tempDay, setTempDay] = useState<number | string>(20);
   const [tempMonth, setTempMonth] = useState(4); // May (0-indexed)
-  const [tempYear, setTempYear] = useState(2000);
+  const [tempYear, setTempYear] = useState<number | string>(2000);
 
   // Submitting state for updating
   const [updating, setUpdating] = useState(false);
@@ -128,9 +128,21 @@ const ProfileScreen: React.FC = () => {
   }, [editDob]);
 
   const handleConfirmDate = () => {
+    const yearNum = typeof tempYear === 'string' ? parseInt(tempYear, 10) : tempYear;
+    const dayNum = typeof tempDay === 'string' ? parseInt(tempDay, 10) : tempDay;
+
+    if (isNaN(yearNum) || yearNum < 1900 || yearNum > 2100) {
+      Alert.alert('Validation Error', 'Year must be between 1900 and 2100.');
+      return;
+    }
+    if (isNaN(dayNum) || dayNum < 1 || dayNum > 31) {
+      Alert.alert('Validation Error', 'Day must be between 1 and 31.');
+      return;
+    }
+
     const formattedMonth = String(tempMonth + 1).padStart(2, '0');
-    const formattedDay = String(tempDay).padStart(2, '0');
-    setEditDob(`${tempYear}-${formattedMonth}-${formattedDay}`);
+    const formattedDay = String(dayNum).padStart(2, '0');
+    setEditDob(`${yearNum}-${formattedMonth}-${formattedDay}`);
     setShowDatePicker(false);
   };
 
@@ -561,8 +573,9 @@ const ProfileScreen: React.FC = () => {
                   keyboardType="numeric"
                   value={String(tempDay)}
                   onChangeText={(val) => {
-                    const parsed = parseInt(val);
-                    if (!isNaN(parsed) && parsed >= 1 && parsed <= 31) setTempDay(parsed);
+                    if (/^\d{0,2}$/.test(val)) {
+                      setTempDay(val);
+                    }
                   }}
                 />
               </View>
@@ -591,8 +604,9 @@ const ProfileScreen: React.FC = () => {
                   keyboardType="numeric"
                   value={String(tempYear)}
                   onChangeText={(val) => {
-                    const parsed = parseInt(val);
-                    if (!isNaN(parsed) && parsed >= 1900 && parsed <= 2100) setTempYear(parsed);
+                    if (/^\d{0,4}$/.test(val)) {
+                      setTempYear(val);
+                    }
                   }}
                 />
               </View>

@@ -62,9 +62,9 @@ const EditProfileScreen: React.FC = () => {
   const [datePickerVisible, setDatePickerVisible] = useState(false);
 
   // Temp date states
-  const [tempDay, setTempDay] = useState(12);
+  const [tempDay, setTempDay] = useState<number | string>(12);
   const [tempMonth, setTempMonth] = useState(9); // Oct (9)
-  const [tempYear, setTempYear] = useState(1992);
+  const [tempYear, setTempYear] = useState<number | string>(1992);
 
   // Fetch initial profile
   const fetchProfile = async () => {
@@ -149,9 +149,21 @@ const EditProfileScreen: React.FC = () => {
   }, [dob]);
 
   const handleConfirmDate = () => {
+    const yearNum = typeof tempYear === 'string' ? parseInt(tempYear, 10) : tempYear;
+    const dayNum = typeof tempDay === 'string' ? parseInt(tempDay, 10) : tempDay;
+
+    if (isNaN(yearNum) || yearNum < 1900 || yearNum > 2100) {
+      Alert.alert('Validation Error', 'Year must be between 1900 and 2100.');
+      return;
+    }
+    if (isNaN(dayNum) || dayNum < 1 || dayNum > 31) {
+      Alert.alert('Validation Error', 'Day must be between 1 and 31.');
+      return;
+    }
+
     const formattedMonth = String(tempMonth + 1).padStart(2, '0');
-    const formattedDay = String(tempDay).padStart(2, '0');
-    setDob(`${tempYear}-${formattedMonth}-${formattedDay}`);
+    const formattedDay = String(dayNum).padStart(2, '0');
+    setDob(`${yearNum}-${formattedMonth}-${formattedDay}`);
     setDatePickerVisible(false);
   };
 
@@ -232,13 +244,17 @@ const EditProfileScreen: React.FC = () => {
 
         {/* Full Name */}
         <Text style={styles.label}>Full Name</Text>
-        <TextInput
-          style={styles.input}
-          value={name}
-          onChangeText={setName}
-          placeholder="Enter full name"
-          placeholderTextColor="#94A3B8"
-        />
+        <View style={styles.disabledInputContainer}>
+          <TextInput
+            style={styles.disabledInput}
+            value={name}
+            editable={false}
+            onChangeText={setName}
+            placeholder="Enter full name"
+            placeholderTextColor="#94A3B8"
+          />
+          <Ionicons name="lock-closed-outline" size={20} color="#94A3B8" />
+        </View>
 
         {/* Email Address (Disabled with lock icon) */}
         <Text style={styles.label}>Email</Text>
@@ -450,8 +466,9 @@ const EditProfileScreen: React.FC = () => {
                   keyboardType="numeric"
                   value={String(tempDay)}
                   onChangeText={(val) => {
-                    const parsed = parseInt(val);
-                    if (!isNaN(parsed) && parsed >= 1 && parsed <= 31) setTempDay(parsed);
+                    if (/^\d{0,2}$/.test(val)) {
+                      setTempDay(val);
+                    }
                   }}
                 />
               </View>
@@ -480,8 +497,9 @@ const EditProfileScreen: React.FC = () => {
                   keyboardType="numeric"
                   value={String(tempYear)}
                   onChangeText={(val) => {
-                    const parsed = parseInt(val);
-                    if (!isNaN(parsed) && parsed >= 1900 && parsed <= 2100) setTempYear(parsed);
+                    if (/^\d{0,4}$/.test(val)) {
+                      setTempYear(val);
+                    }
                   }}
                 />
               </View>
