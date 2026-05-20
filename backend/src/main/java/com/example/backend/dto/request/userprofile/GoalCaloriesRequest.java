@@ -18,6 +18,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class GoalCaloriesRequest {
 
+    private String name;
+
     private LocalDate dob;
 
     @NotNull

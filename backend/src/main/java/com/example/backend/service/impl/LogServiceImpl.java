@@ -22,6 +22,10 @@ import com.example.backend.service.DailyCaloriePlanService;
 import com.example.backend.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.example.backend.dto.response.PageResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -299,6 +303,34 @@ public class LogServiceImpl implements LogService {
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
     }
 
+    @Override
+    public PageResponse<LogResponse> getLogs(Long userId, LocalDate from, LocalDate to, int page, int size) {
+        LocalDateTime start = from.atStartOfDay();
+        LocalDateTime end = to.plusDays(1).atStartOfDay();
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Logs> logsPage = logsRepository.findByUserIdAndLoggedAtBetweenOrderByLoggedAtDesc(userId, start, end, pageable);
+
+        List<LogResponse> content = logsPage.getContent().stream()
+                .map(log -> {
+                    Foods food = logFoodsRepository.findFirstByLogs_Id(log.getId())
+                            .map(LogFoods::getFood)
+                            .orElseThrow(() -> new AppException(ErrorCode.FOOD_NOT_FOUND));
+
+                    Integer targetCalories = log.getGoalCalories() != null ? log.getGoalCalories() : 0;
+                    BigDecimal remainingCalories = BigDecimal.valueOf(targetCalories).subtract(log.getTotalCalories());
+                    return toLogResponse(log, food, targetCalories, remainingCalories);
+                })
+                .toList();
+
+        return PageResponse.<LogResponse>builder()
+                .content(content)
+                .page(logsPage.getNumber())
+                .size(logsPage.getSize())
+                .totalElements(logsPage.getTotalElements())
+                .build();
+    }
+
     private LogResponse toLogResponse(Logs log, Foods food, Integer targetCalories, BigDecimal remainingCalories) {
         return LogResponse.builder()
                 .id(log.getId())
@@ -306,6 +338,10 @@ public class LogServiceImpl implements LogService {
                 .foodId(food.getId())
                 .foodName(food.getName())
                 .gram(log.getGram())
+                .caloriesPer100g(food.getCaloriesPer100g())
+                .protein(food.getProtein())
+                .carbs(food.getCarbs())
+                .fats(food.getFats())
                 .totalCalories(log.getTotalCalories())
                 .goalCalories(targetCalories)
                 .remainingCalories(remainingCalories)

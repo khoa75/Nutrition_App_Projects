@@ -7,7 +7,6 @@ import {
   Platform,
   ScrollView,
   TouchableOpacity,
-  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useForm, Controller } from 'react-hook-form';
@@ -15,7 +14,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import type { AuthStackParamList } from '../../types/navigation';
-import { useAuthStore } from '../../store/authStore';
 import { Colors } from '../../theme/colors';
 import Logo from '../../components/ui/Logo';
 import AppInput from '../../components/ui/AppInput';
@@ -40,8 +38,6 @@ interface Props {
 }
 
 const RegisterScreen: React.FC<Props> = ({ navigation }) => {
-  const { register, isLoading } = useAuthStore();
-
   const {
     control,
     handleSubmit,
@@ -51,21 +47,14 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
     defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
   });
 
-  const onSubmit = async (data: RegisterForm) => {
-    try {
-      await register({
+  const onSubmit = (data: RegisterForm) => {
+    navigation.navigate('RegisterProfile', {
+      registrationData: {
         name: data.name,
         email: data.email,
         password: data.password,
-      });
-      Alert.alert('Success', 'Account created! Please log in.', [
-        { text: 'OK', onPress: () => navigation.navigate('Login') },
-      ]);
-    } catch (error: unknown) {
-      const message =
-        error instanceof Error ? error.message : 'Registration failed';
-      Alert.alert('Registration Failed', message);
-    }
+      },
+    });
   };
 
   return (
@@ -161,9 +150,8 @@ const RegisterScreen: React.FC<Props> = ({ navigation }) => {
 
           {/* Button */}
           <AppButton
-            title="Create Account"
+            title="Next"
             onPress={handleSubmit(onSubmit)}
-            loading={isLoading}
             style={styles.button}
           />
 

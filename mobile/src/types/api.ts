@@ -21,14 +21,25 @@ export interface LoginResponseData {
 export interface RegisterRequest {
   name: string;
   email: string;
+  phone: string;
   password: string;
+  dob: string;
+  gender: 'MALE' | 'FEMALE' | 'OTHER';
+  currentWeight: number;
+  targetWeight: number;
+  height: number;
+  activityLevel: 'SEDENTARY' | 'LIGHT_ACTIVE' | 'ACTIVE' | 'VERY_ACTIVE';
+  goalType: 'LOSE' | 'MAINTAIN' | 'GAIN';
+  kgPerWeek: number;
 }
 
 export interface RegisterResponseData {
-  id: number;
-  name: string;
+  userId: number;
   email: string;
-  status: string;
+  phone: string;
+  goalCaloriesDaily: number;
+  goalCaloriesWeekly: number;
+  message: string;
 }
 
 export interface UserProfile {

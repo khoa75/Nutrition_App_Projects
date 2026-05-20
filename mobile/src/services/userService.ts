@@ -29,14 +29,30 @@ export interface GoalCaloriesRequestData {
 
 export const userService = {
   getUserProfile: async (): Promise<UserProfileData> => {
-    const response = await apiClient.get<ApiResponse<UserProfileData>>('v1/users/me');
+    const response = await apiClient.get<ApiResponse<UserProfileData>>('users/me');
     return response.data.data;
   },
 
   updateGoalCalories: async (data: GoalCaloriesRequestData): Promise<{ goalCalories: number }> => {
     const response = await apiClient.put<ApiResponse<{ goalCalories: number }>>(
-      'v1/users/me/goal-calories',
+      'users/me/goal-calories',
       data,
+    );
+    return response.data.data;
+  },
+
+  updateProfile: async (data: any): Promise<UserProfileData> => {
+    const response = await apiClient.put<ApiResponse<UserProfileData>>(
+      'users/me/profile',
+      data,
+    );
+    return response.data.data;
+  },
+
+  searchUsersByEmail: async (email: string): Promise<{ id: number; email: string }[]> => {
+    const response = await apiClient.get<ApiResponse<{ id: number; email: string }[]>>(
+      'users/profiles/search',
+      { params: { email } },
     );
     return response.data.data;
   },

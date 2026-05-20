@@ -74,11 +74,25 @@ This file tracks the prompts provided by the user during the development of the 
 | 2026-05-19 15:10 | hãy thực hiện theo kế hoạch
 | 2026-05-19 15:20 | sao ko dc [Image 1]
 | 2026-05-19 15:30 | [Image 1] [Image 2] ko dc
-| 2026-05-20 02:31 | Vào đọc giao diện của folder admin, Tôi muốn nó gọi các api của http://localhost:8080/api/admin/users/foods để lấy toàn bộ food, http://localhost:8080/api/admin/users/all để lấy toàn bộ user |
-| 2026-05-20 02:35 | Đồng ý, Api get all foods sẽ response về... còn api get all users... |
-| 2026-05-20 02:41 | mình truy cập vào giao diện như thế nào |
-| 2026-05-20 02:42 | bạn chạy cái frontend giúp tôi |
-| 2026-05-20 02:49 | Bổ sung thêm api thêm food và api update food |
-| 2026-05-20 02:58 | Bỏ giúp tôi cái button delete ở food |
+| 2026-05-19 18:00 | tại sao tôi lại bị lỗi network error khi register
+| 2026-05-19 18:10 | tôi vẫn bị báo network error
+| 2026-05-19 18:15 | tôi đang chạy trên app expo trên điện thoại android thật
+| 2026-05-19 18:20 | Metro waiting on exp://192.168.71.242:8081, tôi thử dùng wifi của điện thoại tôi
+| 2026-05-19 18:25 | Login thì tôi bị báo lỗi này Login Failed. Invalid value provided to SecureStore. Values must be strings; consider JSON-encoding your values if they are serializable.
+| 2026-05-19 18:30 | tạo cho tôi giao diện giống ảnh tôi gửi, sử dụng api theo document dưới đây, sau khi người dùng submit xong thì phải render ra data từ response lại cho người ta vào cái form và thông báo thành công, bấm chuyển vào trang dashboard GET api/users/me
+| 2026-05-19 18:40 | ERROR  [TypeError: Cannot read property 'toFixed' of null]
+| 2026-05-19 18:45 | chỉnh sửa lại cho tôi file register và profile screen, khi người dùng vào trang đăng ký nhập email, password, name rồi thì bấm next để qua trang profile nhập tiếp rồi bấm submit ở profile thì cả 2 form sẽ chạy api register này POST api/auth/register
+| 2026-05-19 19:00 | file ProfileScreen hồi nãy gọi là Healthy Information không cần đăng nhập cũng có thể điền, tsau đây mới là làm trang Profile, làm giống hình ảnh tôi gửi và dựa vào api này GET api/users/me
+| 2026-05-19 19:15 | tại sao tôi không lấy được thông tin profile, có thể là do cors, xem lại cho tôi
+| 2026-05-19 22:38 | tại sao khi tôi register xong thì chỉ thấy có email, name, password còn các thông tin còn lại sau khi bấm next thì không thấy lưu trong database, xem lại cho tôi là frontend có làm sai register không
+| 2026-05-19 22:48 | vẫn là api này PUT /api/users/me/profile cho người dùng edit profile, làm giao diện edit profile giống hình ảnh tôi gửi
+| 2026-05-19 23:06 | vẫn là api này PUT /api/users/me/goal-calories mà làm cho trang adjust goals, làm giao diện giống như hình tôi gửi
+| 2026-05-19 23:23 | trang Adjust Goal thêm cho tôi activity level nữa
+| 2026-05-19 23:28 | goal calories đã update trong adjust update rồi thì ra trang profile cái daily budget phải thay đổi theo, sao tôi vẫn không thấy thay đổi
+| 2026-05-19 23:37 | file adjust goal update bỏ cái tính calo suggested real time đi
+| 2026-05-20 00:37 | làm cho tôi giao diện trang FoodSearchScreen giống như hình ảnh tôi gửi và search bằng cách gọi api này POST /api/logs/preview-by-name
+| 2026-05-20 00:45 | phần search có cho người dùng nhập gram rồi search món đó theo gram
+| 2026-05-20 00:48 | gram input phải cho người dùng nhập rồi khi search thì truyền foodname và gram
+| 2026-05-20 01:10 | trường hợp mà nếu search không có food thì cho người dùng tạo food, làm trường hợp này giống như hình ảnh tôi gửi và gọi api POST /api/foods
 
 

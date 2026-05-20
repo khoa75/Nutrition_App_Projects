@@ -7,6 +7,7 @@ import com.example.backend.dto.request.UpdateLogGramRequest;
 import com.example.backend.dto.response.DailyCaloriesSummaryResponse;
 import com.example.backend.dto.response.LogNutritionPreviewResponse;
 import com.example.backend.dto.response.LogResponse;
+import com.example.backend.dto.response.PageResponse;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,4 +28,6 @@ public interface LogService {
     List<LogResponse> getLogsByDateRange(String email, LocalDate fromDate, LocalDate toDate);
 
     DailyCaloriesSummaryResponse getDailySummary(Long userId, LocalDate date);
+
+    PageResponse<LogResponse> getLogs(Long userId, LocalDate from, LocalDate to, int page, int size);
 }

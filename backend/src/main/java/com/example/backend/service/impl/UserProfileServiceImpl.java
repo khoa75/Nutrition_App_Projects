@@ -53,7 +53,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         return updateAndRecalculateProfile(email, request);
     }
 
-    private UserProfileResponse updateAndRecalculateProfile(String email, GoalCaloriesRequest request) {
+private UserProfileResponse updateAndRecalculateProfile(String email, GoalCaloriesRequest request) {
         Users user = usersRepository.findByEmail(email)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_FOUND));
         logger.info("Updating goal calories for userId={} email={}", user.getId(), user.getEmail());

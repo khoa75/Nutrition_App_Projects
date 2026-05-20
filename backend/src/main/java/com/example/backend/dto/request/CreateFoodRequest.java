@@ -1,5 +1,6 @@
 package com.example.backend.dto.request;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -18,15 +19,15 @@ public class CreateFoodRequest {
     private String name;
 
     @NotNull
-    @Positive
+    @Min(0)
     private BigDecimal protein;
 
     @NotNull
-    @Positive
+    @Min(0)
     private BigDecimal carbs;
 
     @NotNull
-    @Positive
+    @Min(0)
     private BigDecimal fats;
 
     @NotNull
