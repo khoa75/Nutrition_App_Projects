@@ -406,7 +406,7 @@ const DashboardScreen: React.FC<any> = ({ navigation }) => {
               <Text style={styles.sectionTitle}>Today's Meals</Text>
             </View>
 
-            {logs.length === 0 ? (
+            {!logs || logs.length === 0 ? (
               <Text style={styles.emptyText}>No meals logged today.</Text>
             ) : (
               logs.map((log) => (
@@ -433,7 +433,7 @@ const DashboardScreen: React.FC<any> = ({ navigation }) => {
             )}
 
             {/* Weekly Overview */}
-            {weeklyStats && weeklyStats.calories.length > 0 && (
+            {weeklyStats && weeklyStats.calories && weeklyStats.calories.length > 0 && (
               <LineChart
                 data={weeklyStats.calories}
                 goals={weeklyStats.goals}

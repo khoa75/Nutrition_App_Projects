@@ -73,10 +73,11 @@ export const logService = {
   },
 
   getWeeklyStatistics: async (userId: number, start: string): Promise<StatisticsResponseData> => {
-    const response = await apiClient.get<ApiResponse<StatisticsResponseData>>('statistic/weekly', {
+    const response = await apiClient.get<ApiResponse<{ message: string; data: StatisticsResponseData }>>('statistic/weekly', {
       params: { userId, start },
     });
-    return response.data.data;
+    // Backend returns ApiResponse<WeeklyStatisticsResponse> where WeeklyStatisticsResponse = { message, data: { labels, calories, goals } }
+    return response.data.data.data;
   },
 
   getMonthlyStatistics: async (
@@ -84,10 +85,11 @@ export const logService = {
     year: number,
     month: number
   ): Promise<StatisticsResponseData> => {
-    const response = await apiClient.get<ApiResponse<StatisticsResponseData>>('statistic/monthly', {
+    const response = await apiClient.get<ApiResponse<{ message: string; data: StatisticsResponseData }>>('statistic/monthly', {
       params: { userId, year, month },
     });
-    return response.data.data;
+    // Backend returns ApiResponse<MonthlyStatisticsResponse> where MonthlyStatisticsResponse = { message, data: { labels, calories, goals } }
+    return response.data.data.data;
   },
 
   updateLogGram: async (id: number, gram: number): Promise<LogResponseData> => {

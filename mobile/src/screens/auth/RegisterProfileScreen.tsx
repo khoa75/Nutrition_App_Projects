@@ -155,22 +155,10 @@ const RegisterProfileScreen: React.FC<Props> = ({ route, navigation }) => {
     }
   };
 
-  // Go to Dashboard: Log in in the background and transition
-  const handleGoToDashboard = async () => {
+  // Go to Login after successful registration
+  const handleGoToLogin = () => {
     setSuccessVisible(false);
-    setSubmitting(true);
-    try {
-      await login({
-        email: registrationData.email,
-        password: registrationData.password,
-      });
-    } catch (error: any) {
-      console.log('Background login error:', error);
-      Alert.alert('Login Failed', 'Account registered but login failed. Please log in manually.');
-      navigation.navigate('Login');
-    } finally {
-      setSubmitting(false);
-    }
+    navigation.navigate('Login');
   };
 
   return (
@@ -509,8 +497,8 @@ const RegisterProfileScreen: React.FC<Props> = ({ route, navigation }) => {
               </View>
             )} */}
 
-            <TouchableOpacity style={styles.successBtn} activeOpacity={0.8} onPress={handleGoToDashboard}>
-              <Text style={styles.successBtnText}>Go to Dashboard</Text>
+            <TouchableOpacity style={styles.successBtn} activeOpacity={0.8} onPress={handleGoToLogin}>
+              <Text style={styles.successBtnText}>Go to Login</Text>
             </TouchableOpacity>
           </View>
         </View>
