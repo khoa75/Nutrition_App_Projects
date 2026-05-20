@@ -5,11 +5,14 @@ import com.example.backend.admin.dto.response.AdminUserSummaryResponse;
 import com.example.backend.admin.entity.AuditLog;
 import com.example.backend.admin.repository.AuditLogRepository;
 import com.example.backend.admin.service.AdminUserService;
+import com.example.backend.dto.response.FoodResponse;
+import com.example.backend.entity.Foods;
 import com.example.backend.entity.Users;
 import com.example.backend.enums.ErrorCode;
 import com.example.backend.enums.UserStatus;
 import com.example.backend.enums.WeightGoal;
 import com.example.backend.exception.AppException;
+import com.example.backend.repository.FoodsRepository;
 import com.example.backend.repository.UsersRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.domain.Page;
@@ -28,10 +31,14 @@ import java.util.List;
 public class AdminUserServiceImpl implements AdminUserService {
 
     private final UsersRepository usersRepository;
+    private final FoodsRepository foodsRepository;
     private final AuditLogRepository auditLogRepository;
 
-    public AdminUserServiceImpl(UsersRepository usersRepository, AuditLogRepository auditLogRepository) {
+    public AdminUserServiceImpl(UsersRepository usersRepository,
+                                FoodsRepository foodsRepository,
+                                AuditLogRepository auditLogRepository) {
         this.usersRepository = usersRepository;
+        this.foodsRepository = foodsRepository;
         this.auditLogRepository = auditLogRepository;
     }
 
@@ -99,6 +106,18 @@ public class AdminUserServiceImpl implements AdminUserService {
         return response;
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<AdminUserSummaryResponse> getAllUsers() {
+        return usersRepository.findAll().stream().map(this::toSummary).toList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FoodResponse> getAllFoods() {
+        return foodsRepository.findAll().stream().map(this::toFoodResponse).toList();
+    }
+
     private AdminUserSummaryResponse toSummary(Users user) {
         AdminUserSummaryResponse response = new AdminUserSummaryResponse();
         response.setId(user.getId());
@@ -107,5 +126,17 @@ public class AdminUserServiceImpl implements AdminUserService {
         response.setStatus(user.getStatus());
         response.setGoalType(user.getGoalType());
         return response;
+    }
+
+    private FoodResponse toFoodResponse(Foods foods) {
+        return FoodResponse.builder()
+                .id(foods.getId())
+                .name(foods.getName())
+                .protein(foods.getProtein())
+                .carbs(foods.getCarbs())
+                .fats(foods.getFats())
+                .caloriesPer100g(foods.getCaloriesPer100g())
+                .userId(foods.getUser() != null ? foods.getUser().getId() : null)
+                .build();
     }
 }

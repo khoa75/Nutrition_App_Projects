@@ -4,6 +4,7 @@ import com.example.backend.admin.repository.AuditLogRepository;
 import com.example.backend.admin.service.impl.AdminUserServiceImpl;
 import com.example.backend.entity.Users;
 import com.example.backend.enums.UserStatus;
+import com.example.backend.repository.FoodsRepository;
 import com.example.backend.repository.UsersRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,9 @@ class AdminUserServiceImplTest {
 
     @Mock
     private UsersRepository usersRepository;
+
+    @Mock
+    private FoodsRepository foodsRepository;
 
     @Mock
     private AuditLogRepository auditLogRepository;

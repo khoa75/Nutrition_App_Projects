@@ -5,6 +5,7 @@ import com.example.backend.admin.dto.response.AdminUserStatusUpdateResponse;
 import com.example.backend.admin.dto.response.AdminUserSummaryResponse;
 import com.example.backend.admin.service.AdminUserService;
 import com.example.backend.dto.response.ApiResponse;
+import com.example.backend.dto.response.FoodResponse;
 import com.example.backend.enums.UserStatus;
 import com.example.backend.enums.WeightGoal;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +13,8 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin/users")
@@ -33,6 +36,22 @@ public class AdminUserController {
         return ApiResponse.<Page<AdminUserSummaryResponse>>builder()
                 .message("Get admin users successfully")
                 .data(adminUserService.getUsers(search, status, goal, page, size))
+                .build();
+    }
+
+    @GetMapping("/all")
+    public ApiResponse<List<AdminUserSummaryResponse>> getAllUsers() {
+        return ApiResponse.<List<AdminUserSummaryResponse>>builder()
+                .message("Get all users successfully")
+                .data(adminUserService.getAllUsers())
+                .build();
+    }
+
+    @GetMapping("/foods")
+    public ApiResponse<List<FoodResponse>> getAllFoods() {
+        return ApiResponse.<List<FoodResponse>>builder()
+                .message("Get all foods successfully")
+                .data(adminUserService.getAllFoods())
                 .build();
     }
 

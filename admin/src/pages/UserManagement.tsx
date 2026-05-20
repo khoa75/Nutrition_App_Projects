@@ -1,197 +1,171 @@
-import React from 'react';
-import { Card, Table, Typography, Space, Button, Tag, Input, Select } from 'antd';
-import { SearchOutlined, UserAddOutlined, EditOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Typography, Input, Button, Table, Tag, Switch, Space, Radio, message, Avatar } from 'antd';
+import { PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import CreateUserModal from '../components/CreateUserModal';
+import { adminUserService, AdminUserSummary } from '../services/adminUserService';
 
 const { Title, Text } = Typography;
-const { Search } = Input;
-const { Option } = Select;
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  gender: string;
-  age: number;
-  bmi: number;
-  status: string;
-  goal: string;
-}
 
 const UserManagement: React.FC = () => {
-  const [users, setUsers] = useState<User[]>([
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      gender: 'Male',
-      age: 28,
-      bmi: 22.5,
-      status: 'Active',
-      goal: 'Lose Weight',
-    },
-    {
-      id: 2,
-      name: 'Jane Smith',
-      email: 'jane.smith@example.com',
-      gender: 'Female',
-      age: 32,
-      bmi: 24.1,
-      status: 'Active',
-      goal: 'Maintain',
-    },
-    {
-      id: 3,
-      name: 'Bob Johnson',
-      email: 'bob.johnson@example.com',
-      gender: 'Male',
-      age: 45,
-      bmi: 28.3,
-      status: 'Locked',
-      goal: 'Gain Weight',
-    },
-  ]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [users, setUsers] = useState<AdminUserSummary[]>([]);
+  const [filteredUsers, setFilteredUsers] = useState<AdminUserSummary[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'locked'>('all');
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    try {
+      const data = await adminUserService.getAllUsers();
+      setUsers(data);
+    } catch (err: any) {
+      message.error(err.message || 'Failed to fetch users');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    let filtered = [...users];
+    
+    // Status Filter
+    if (statusFilter === 'active') {
+      filtered = filtered.filter(u => u.status === 'ACTIVE');
+    } else if (statusFilter === 'locked') {
+      filtered = filtered.filter(u => u.status === 'LOCK');
+    }
+
+    // Search Text Filter
+    if (searchText.trim() !== '') {
+      const query = searchText.toLowerCase();
+      filtered = filtered.filter(u => 
+        u.name.toLowerCase().includes(query) || 
+        u.email.toLowerCase().includes(query)
+      );
+    }
+
+    setFilteredUsers(filtered);
+  }, [users, searchText, statusFilter]);
+
+  const handleToggleStatus = async (userId: number, currentStatus: 'ACTIVE' | 'LOCK') => {
+    const action = currentStatus === 'ACTIVE' ? 'LOCK' : 'UNLOCK';
+    try {
+      await adminUserService.updateUserStatus(userId, action);
+      message.success(`User status updated to ${action === 'LOCK' ? 'LOCKED' : 'ACTIVE'} successfully!`);
+      fetchUsers();
+    } catch (err: any) {
+      message.error(err.message || 'Failed to update user status');
+    }
+  };
 
   const columns = [
     {
-      title: 'User',
-      dataIndex: 'name',
+      title: 'USER',
       key: 'name',
-      render: (name: string, record: User) => (
-        <Space>
-          <div style={{ width: 32, height: 32, borderRadius: '50%', background: '#f0f0f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            {name.charAt(0)}
-          </div>
-          <div>
-            <div style={{ fontWeight: 500 }}>{name}</div>
-            <div style={{ fontSize: 12, color: '#666' }}>{record.email}</div>
-          </div>
-        </Space>
+      render: (record: AdminUserSummary) => (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <Avatar 
+            src={`https://i.pravatar.cc/150?img=${(record.id % 70) + 1}`} 
+            alt={record.name} 
+            style={{ marginRight: 12 }} 
+          />
+          <span style={{ fontWeight: 500 }}>{record.name}</span>
+        </div>
       ),
     },
     {
-      title: 'Gender',
-      dataIndex: 'gender',
-      key: 'gender',
+      title: 'EMAIL',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'GOAL TYPE',
+      dataIndex: 'goalType',
+      key: 'goalType',
+      render: (goalType: string) => goalType ? <Tag color="purple">{goalType}</Tag> : <Text type="secondary">-</Text>,
     },
     {
-      title: 'BMI',
-      dataIndex: 'bmi',
-      key: 'bmi',
-      render: (bmi: number) => (
-        <Tag color={bmi < 18.5 ? 'blue' : bmi < 25 ? 'green' : bmi < 30 ? 'orange' : 'red'}>
-          {bmi.toFixed(1)}
-        </Tag>
-      ),
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
+      title: 'STATUS',
       key: 'status',
-      render: (status: string) => (
-        <Tag color={status === 'Active' ? 'green' : 'red'}>
-          {status}
-        </Tag>
-      ),
+      dataIndex: 'status',
+      render: (status: 'ACTIVE' | 'LOCK') => {
+        const isActive = status === 'ACTIVE';
+        const color = isActive ? 'success' : 'error';
+        const label = isActive ? 'Active' : 'Locked';
+        return (
+          <Tag color={color} style={{ borderRadius: '12px', padding: '2px 10px', border: 'none', backgroundColor: isActive ? '#e6f4ea' : '#fce8e6', color: isActive ? '#1e8e3e' : '#d93025' }}>
+            <span style={{ display: 'inline-block', width: 6, height: 6, borderRadius: '50%', backgroundColor: isActive ? '#1e8e3e' : '#d93025', marginRight: 6 }}></span>
+            {label}
+          </Tag>
+        );
+      },
     },
     {
-      title: 'Goal',
-      dataIndex: 'goal',
-      key: 'goal',
-    },
-    {
-      title: 'Actions',
+      title: 'ACTIONS',
       key: 'actions',
-      render: (_, record: User) => (
-        <Space>
-          <Button
-            type="text"
-            icon={<EditOutlined />}
-            size="small"
-            onClick={() => console.log('Edit user:', record.id)}
-          >
-            Edit
-          </Button>
-          <Button
-            type="text"
-            icon={record.status === 'Active' ? <LockOutlined /> : <UnlockOutlined />}
-            size="small"
-            danger={record.status === 'Active'}
-            onClick={() => console.log('Toggle user status:', record.id)}
-          >
-            {record.status === 'Active' ? 'Lock' : 'Unlock'}
-          </Button>
-        </Space>
+      render: (_: any, record: AdminUserSummary) => (
+        <Switch 
+          checked={record.status === 'ACTIVE'} 
+          onChange={() => handleToggleStatus(record.id, record.status)}
+          style={{ backgroundColor: record.status === 'ACTIVE' ? '#4cd964' : '#d9d9d9' }} 
+        />
       ),
     },
   ];
 
   return (
     <div>
-      <Title level={2}>User Management</Title>
-      <Text type="secondary">
-        Manage user accounts, view user information, and control access permissions.
-      </Text>
-
-      <Card
-        style={{ marginTop: 24 }}
-        extra={
-          <Button
-            type="primary"
-            icon={<UserAddOutlined />}
-            onClick={() => console.log('Create new user')}
+      <Title level={2} style={{ marginTop: 0, marginBottom: '24px', fontWeight: 700 }}>User Management</Title>
+      
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+        <Input 
+          prefix={<SearchOutlined style={{ color: '#bfbfbf' }} />} 
+          placeholder="Search by Email/Name..." 
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          style={{ width: 300, borderRadius: '6px' }} 
+        />
+        
+        <Space>
+          <Radio.Group 
+            value={statusFilter} 
+            onChange={(e) => setStatusFilter(e.target.value)} 
+            buttonStyle="solid"
           >
+            <Radio.Button value="all">All</Radio.Button>
+            <Radio.Button value="active">Active</Radio.Button>
+            <Radio.Button value="locked">Locked</Radio.Button>
+          </Radio.Group>
+          
+          <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalVisible(true)} style={{ backgroundColor: '#34459b', borderRadius: '6px' }}>
             Create User
           </Button>
-        }
-      >
-        <Space style={{ marginBottom: 16 }} direction="vertical" size="middle" style={{ display: 'flex' }}>
-          <Space>
-            <Search
-              placeholder="Search by email or name"
-              style={{ width: 300 }}
-              prefix={<SearchOutlined />}
-            />
-            <Select
-              placeholder="Filter by status"
-              style={{ width: 150 }}
-              allowClear
-            >
-              <Option value="Active">Active</Option>
-              <Option value="Locked">Locked</Option>
-            </Select>
-            <Select
-              placeholder="Filter by goal"
-              style={{ width: 150 }}
-              allowClear
-            >
-              <Option value="Lose Weight">Lose Weight</Option>
-              <Option value="Gain Weight">Gain Weight</Option>
-              <Option value="Maintain">Maintain</Option>
-            </Select>
-          </Space>
         </Space>
+      </div>
 
-        <Table
-          columns={columns}
-          dataSource={users}
-          rowKey="id"
-          pagination={{
-            total: users.length,
-            pageSize: 10,
-            showSizeChanger: true,
-            showQuickJumper: true,
-            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} users`,
-          }}
+      <Table 
+        columns={columns} 
+        dataSource={filteredUsers} 
+        rowKey="id"
+        loading={loading}
+        pagination={{ pageSize: 10 }}
+        style={{ border: '1px solid #f0f0f0', borderRadius: '8px' }}
+      />
+
+      {isModalVisible && (
+        <CreateUserModal 
+          visible={isModalVisible} 
+          onClose={() => setIsModalVisible(false)} 
+          onSuccess={fetchUsers}
         />
-      </Card>
+      )}
     </div>
   );
 };
 
-export default UserManagement;
+export default UserManagement;

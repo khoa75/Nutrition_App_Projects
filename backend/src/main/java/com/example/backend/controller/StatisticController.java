@@ -1,5 +1,7 @@
 package com.example.backend.controller;
 
+import com.example.backend.dto.response.ApiResponse;
+import com.example.backend.dto.response.DailyCaloriePlanResponse;
 import com.example.backend.dto.response.MonthlyStatisticsResponse;
 import com.example.backend.dto.response.WeeklyStatisticsResponse;
 import com.example.backend.service.impl.StatisticsService;
@@ -20,21 +22,28 @@ public class StatisticController {
     private StatisticsService statisticsService;
 
     @GetMapping("/weekly")
-    public ResponseEntity<WeeklyStatisticsResponse> getWeeklyStatistics(
+    public ApiResponse<WeeklyStatisticsResponse> getWeeklyStatistics(
             @RequestParam("userId") Long userId,
             @RequestParam("start") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start) {
 
         WeeklyStatisticsResponse response = statisticsService.getWeeklyStatistics(userId, start);
-        return ResponseEntity.ok(response);
+
+        return ApiResponse.<WeeklyStatisticsResponse>builder()
+                .message("Weekly statistic")
+                .data(response)
+                .build();
     }
 
     @GetMapping("/monthly")
-    public ResponseEntity<MonthlyStatisticsResponse> getMonthlyStatistics(
+    public  ApiResponse<MonthlyStatisticsResponse> getMonthlyStatistics(
             @RequestParam("userId") Long userId,
             @RequestParam("year") int year,
             @RequestParam("month") int month) {
 
         MonthlyStatisticsResponse response = statisticsService.getMonthlyStatistics(userId, year, month);
-        return ResponseEntity.ok(response);
+        return ApiResponse.<MonthlyStatisticsResponse>builder()
+                .message("Monthly statistic")
+                .data(response)
+                .build();
     }
 }

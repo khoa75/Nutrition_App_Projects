@@ -1,12 +1,10 @@
-import React from 'react';
-import { Card, Table, Typography, Space, Button, Tag, Input, Select, Modal, Form } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Card, Table, Typography, Space, Button, Tag, Input, Select, Modal, Form, Row, Col, message } from 'antd';
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { adminUserService } from '../services/adminUserService';
 
 const { Title, Text } = Typography;
-const { Search } = Input;
 const { Option } = Select;
-const { TextArea } = Input;
 
 interface Food {
   id: number;
@@ -20,42 +18,57 @@ interface Food {
 }
 
 const FoodManagement: React.FC = () => {
-  const [foods, setFoods] = useState<Food[]>([
-    {
-      id: 1,
-      name: 'Phở Bò',
-      type: 'Soup',
-      calories: 215,
-      protein: 11,
-      carbs: 25,
-      fats: 7,
-      status: 'Active',
-    },
-    {
-      id: 2,
-      name: 'Cơm Tấm',
-      type: 'Main',
-      calories: 330,
-      protein: 12,
-      carbs: 45,
-      fats: 8,
-      status: 'Active',
-    },
-    {
-      id: 3,
-      name: 'Bún Chả',
-      type: 'Grilled',
-      calories: 280,
-      protein: 15,
-      carbs: 22,
-      fats: 12,
-      status: 'Active',
-    },
-  ]);
+  const [foods, setFoods] = useState<Food[]>([]);
+  const [filteredFoods, setFilteredFoods] = useState<Food[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState('');
+  const [typeFilter, setTypeFilter] = useState<string | undefined>(undefined);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [editingFood, setEditingFood] = useState<Food | null>(null);
   const [form] = Form.useForm();
+
+  const fetchFoods = async () => {
+    setLoading(true);
+    try {
+      const data = await adminUserService.getAllFoods();
+      const mapped = data.map((f: any) => ({
+        id: f.id,
+        name: f.name,
+        type: f.userId === null ? 'System' : 'User Added',
+        calories: Number(f.caloriesPer100g),
+        protein: Number(f.protein),
+        carbs: Number(f.carbs),
+        fats: Number(f.fats),
+        status: 'Active',
+      }));
+      setFoods(mapped);
+    } catch (err: any) {
+      message.error(err.message || 'Failed to fetch foods');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchFoods();
+  }, []);
+
+  useEffect(() => {
+    let filtered = [...foods];
+    
+    if (searchText.trim() !== '') {
+      filtered = filtered.filter(f => 
+        f.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+    }
+
+    if (typeFilter) {
+      filtered = filtered.filter(f => f.type === typeFilter);
+    }
+
+    setFilteredFoods(filtered);
+  }, [foods, searchText, typeFilter]);
 
   const columns = [
     {
@@ -71,11 +84,11 @@ const FoodManagement: React.FC = () => {
       dataIndex: 'type',
       key: 'type',
       render: (type: string) => (
-        <Tag color="blue">{type}</Tag>
+        <Tag color={type === 'System' ? 'blue' : 'orange'}>{type}</Tag>
       ),
     },
     {
-      title: 'Calories',
+      title: 'Calories (per 100g)',
       dataIndex: 'calories',
       key: 'calories',
       render: (calories: number) => (
@@ -85,11 +98,11 @@ const FoodManagement: React.FC = () => {
     {
       title: 'Macros',
       key: 'macros',
-      render: (_, record: Food) => (
+      render: (_: any, record: Food) => (
         <Space>
-          <Text>P: {record.g}g</Text>
-          <Text>C: {record.carbs}g</Text>
-          <Text>F: {record.fats}g</Text>
+          <Text>P: <Text strong style={{ color: '#52c41a' }}>{record.protein}g</Text></Text>
+          <Text>C: <Text strong style={{ color: '#1890ff' }}>{record.carbs}g</Text></Text>
+          <Text>F: <Text strong style={{ color: '#fa8c16' }}>{record.fats}g</Text></Text>
         </Space>
       ),
     },
@@ -106,29 +119,19 @@ const FoodManagement: React.FC = () => {
     {
       title: 'Actions',
       key: 'actions',
-      render: (_, record: Food) => (
-        <Space>
-          <Button
-            type="text"
-            icon={<EditOutlined />}
-            size="small"
-            onClick={() => handleEdit(record)}
-          >
-            Edit
-          </Button>
-          <Button
-            type="text"
-            icon={<DeleteOutlined />}
-            size="small"
-            danger
-            onClick={() => handleDelete(record.id)}
-          >
-            Delete
-          </Button>
-        </Space>
+      render: (_: any, record: Food) => (
+        <Button
+          type="text"
+          icon={<EditOutlined />}
+          size="small"
+          onClick={() => handleEdit(record)}
+        >
+          Edit
+        </Button>
       ),
     },
   ];
+
 
   const handleEdit = (food: Food) => {
     setEditingFood(food);
@@ -142,6 +145,7 @@ const FoodManagement: React.FC = () => {
       content: 'Are you sure you want to delete this food item?',
       onOk: () => {
         setFoods(foods.filter(food => food.id !== id));
+        message.success('Food item deleted locally.');
       },
     });
   };
@@ -149,29 +153,39 @@ const FoodManagement: React.FC = () => {
   const handleModalOk = () => {
     form
       .validateFields()
-      .then(values => {
-        if (editingFood) {
-          // Update existing food
-          setFoods(foods.map(food => 
-            food.id === editingFood.id ? { ...food, ...values } : food
-          ));
-        } else {
-          // Add new food
-          const newFood: Food = {
-            id: Math.max(...foods.map(f => f.id)) + 1,
-            ...values,
-            status: 'Active',
-          };
-          setFoods([...foods, newFood]);
+      .then(async values => {
+        const requestBody = {
+          name: values.name,
+          protein: Number(values.protein),
+          carbs: Number(values.carbs),
+          fats: Number(values.fats),
+          caloriesPer100g: Number(values.calories),
+          userId: null
+        };
+
+        setLoading(true);
+        try {
+          if (editingFood) {
+            await adminUserService.updateFood(editingFood.id, requestBody);
+            message.success('Food updated successfully!');
+          } else {
+            await adminUserService.createFood(requestBody);
+            message.success('Food added successfully!');
+          }
+          setIsModalVisible(false);
+          form.resetFields();
+          setEditingFood(null);
+          fetchFoods();
+        } catch (err: any) {
+          message.error(err.message || 'Failed to save food');
+          setLoading(false);
         }
-        setIsModalVisible(false);
-        form.resetFields();
-        setEditingFood(null);
       })
       .catch(info => {
         console.log('Validate Failed:', info);
       });
   };
+
 
   const handleModalCancel = () => {
     setIsModalVisible(false);
@@ -193,40 +207,41 @@ const FoodManagement: React.FC = () => {
             type="primary"
             icon={<PlusOutlined />}
             onClick={() => setIsModalVisible(true)}
+            style={{ backgroundColor: '#34459b', borderRadius: '6px' }}
           >
             Add New Food
           </Button>
         }
       >
-        <Space style={{ marginBottom: 16 }} direction="vertical" size="middle" style={{ display: 'flex' }}>
+        <Space direction="vertical" size="middle" style={{ display: 'flex', marginBottom: 16 }}>
           <Space>
-            <Search
+            <Input
               placeholder="Search by food name..."
-              style={{ width: 300 }}
+              style={{ width: 300, borderRadius: '6px' }}
               prefix={<SearchOutlined />}
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
             />
             <Select
               placeholder="Filter by type"
-              style={{ width: 150 }}
+              style={{ width: 180 }}
               allowClear
+              value={typeFilter}
+              onChange={(val) => setTypeFilter(val)}
             >
-              <Option value="Soup">Soup</Option>
-              <Option value="Main">Main</Option>
-              <Option value="Grilled">Grilled</Option>
-              <Option value="Fried">Fried</Option>
-              <Option value="Vegetarian">Vegetarian</Option>
-              <Option value="Snack">Snack</Option>
-              <Option value="Drink">Drink</Option>
+              <Option value="System">System</Option>
+              <Option value="User Added">User Added</Option>
             </Select>
           </Space>
         </Space>
 
         <Table
           columns={columns}
-          dataSource={foods}
+          dataSource={filteredFoods}
           rowKey="id"
+          loading={loading}
           pagination={{
-            total: foods.length,
+            total: filteredFoods.length,
             pageSize: 10,
             showSizeChanger: true,
             showQuickJumper: true,
@@ -260,13 +275,8 @@ const FoodManagement: React.FC = () => {
             rules={[{ required: true, message: 'Please select food type' }]}
           >
             <Select placeholder="Select food type">
-              <Option value="Soup">Soup</Option>
-              <Option value="Main">Main</Option>
-              <Option value="Grilled">Grilled</Option>
-              <Option value="Fried">Fried</Option>
-              <Option value="Vegetarian">Vegetarian</Option>
-              <Option value="Snack">Snack</Option>
-              <Option value="Drink">Drink</Option>
+              <Option value="System">System</Option>
+              <Option value="User Added">User Added</Option>
             </Select>
           </Form.Item>
 
@@ -313,4 +323,4 @@ const FoodManagement: React.FC = () => {
   );
 };
 
-export default FoodManagement;
+export default FoodManagement;
